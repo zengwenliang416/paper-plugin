@@ -1,0 +1,13 @@
+.DS_Store
+._*
+node_modules/
+.env
+.env.*
+!.env.example
+.cache/
+.tmp/
+tmp/
+dist/
+build/
+coverage/
+*.log

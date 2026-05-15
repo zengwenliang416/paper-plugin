@@ -1,0 +1,36 @@
+{
+  "name": "paper-plugin",
+  "version": "0.1.0",
+  "description": "Codex plugin for paper reading, research notes, and academic writing workflows.",
+  "author": {
+    "name": "Local Developer"
+  },
+  "license": "MIT",
+  "keywords": [
+    "paper",
+    "research",
+    "academic-writing",
+    "codex",
+    "skills"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Paper Plugin",
+    "shortDescription": "Paper reading and academic writing workflows",
+    "longDescription": "A local Codex plugin for working with academic papers, extracting evidence, drafting literature notes, and reviewing manuscript structure.",
+    "developerName": "Local Developer",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Summarize this paper and extract key claims.",
+      "Review a manuscript for evidence gaps.",
+      "Build literature notes for this topic."
+    ],
+    "brandColor": "#2563EB",
+    "screenshots": []
+  }
+}
