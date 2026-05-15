@@ -1,6 +1,6 @@
-# nature-response test rubric
+# paper-response test rubric
 
-Use this rubric to manually evaluate `nature-response` outputs against the Markdown fixtures.
+Use this rubric to manually evaluate `paper-response` outputs against the Markdown fixtures.
 
 ## Completeness
 

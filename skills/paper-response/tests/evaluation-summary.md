@@ -1,6 +1,6 @@
 # Evaluation summary
 
-`nature-response` is evaluated with synthetic Markdown fixtures. These tests are not executable
+`paper-response` is evaluated with synthetic Markdown fixtures. These tests are not executable
 unit tests; they are behavior contracts for manual and agent review.
 
 ## Status rationale

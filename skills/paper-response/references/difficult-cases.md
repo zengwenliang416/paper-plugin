@@ -125,7 +125,7 @@ Route separately when:
 Default action:
 
 ```text
-This appears to be an appeal-like case rather than a revision response. `nature-response`
+This appears to be an appeal-like case rather than a revision response. `paper-response`
 can identify the disputed points, but a full appeal letter should be handled as a separate task
 with journal-specific appeal rules.
 ```
