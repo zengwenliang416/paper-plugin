@@ -1,10 +1,8 @@
 ---
 name: paper-paper2ppt
-description: Use when the user needs a paper-to-presentation workflow with source-grounded slide structure and figure-aware narration.
+description: Use when the user needs to convert an academic paper into a presentation or journal-club slide workflow.
 ---
 
-# Paper Paper2ppt
+# Paper to PPT
 
-This package currently owns paper-to-slide outline transfer, talk-track staging, and figure-to-slide placement notes.
-During migration, keep temporary logic constrained to package-local assets, scripts, and examples.
-It does not yet own raw paper parsing, manuscript polishing, or standalone chart-production responsibilities.
+Use package-local references and assets to convert paper content into a slide-oriented outline and deck workflow.
