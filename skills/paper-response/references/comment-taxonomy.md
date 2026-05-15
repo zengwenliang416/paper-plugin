@@ -61,7 +61,7 @@ Default strategy:
 
 - Use `ACCEPT_TEXT`, `CLARIFY_EXISTING`, `AUTHOR_INPUT_NEEDED`, or `BLOCKING`.
 - Request repository, accession, DOI, license, access route, or restriction reason.
-- Coordinate with `nature-data` if the user asks for full data-availability wording.
+- Coordinate with `paper-data` if the user asks for full data-availability wording.
 
 ### Citation / positioning
 
