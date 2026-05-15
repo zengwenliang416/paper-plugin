@@ -1,8 +1,8 @@
-import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { dirname, join, normalize } from "node:path";
+import { getPluginPaths, listSkillDirectories } from "./_plugin-paths.mjs";
 
-const root = process.cwd();
-const skillsDir = join(root, "skills");
+const { rootDir: root, skillsDir } = getPluginPaths();
 const files = ["README.md"];
 let checked = 0;
 let failed = false;
@@ -49,12 +49,8 @@ function resolveTarget(file, target) {
 }
 
 if (existsSync(skillsDir)) {
-  for (const name of readdirSync(skillsDir).sort()) {
-    const dir = join(skillsDir, name);
-    if (!statSync(dir).isDirectory()) {
-      continue;
-    }
-    files.push(`skills/${name}/README.md`, `skills/${name}/SKILL.md`);
+  for (const { relativeDir } of listSkillDirectories(root)) {
+    files.push(`${relativeDir}/README.md`, `${relativeDir}/SKILL.md`);
   }
 }
 

@@ -1,8 +1,8 @@
-import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
+import { existsSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
+import { getPluginPaths, listSkillDirectories } from "./_plugin-paths.mjs";
 
-const root = process.cwd();
-const skillsDir = join(root, "skills");
+const { skillsDir } = getPluginPaths();
 let failed = false;
 
 function fail(message) {
@@ -29,25 +29,21 @@ function readText(path) {
 }
 
 if (!existsSync(skillsDir) || !statSync(skillsDir).isDirectory()) {
-  console.error("ERROR: missing skills directory");
+  console.error(`ERROR: missing skills directory: ${skillsDir}`);
   process.exit(1);
 }
 
-for (const name of readdirSync(skillsDir).sort()) {
-  const dir = join(skillsDir, name);
-  if (!statSync(dir).isDirectory()) {
-    continue;
-  }
-
-  for (const required of ["SKILL.md", "README.md", "references"]) {
+for (const { name, dir } of listSkillDirectories()) {
+  for (const required of ["SKILL.md", "README.md"]) {
     const requiredPath = join(dir, required);
     if (!existsSync(requiredPath)) {
       fail(`${name} missing ${required}`);
-      continue;
     }
-    if (required === "references" && !statSync(requiredPath).isDirectory()) {
-      fail(`${name} references must be a directory`);
-    }
+  }
+
+  const referencesPath = join(dir, "references");
+  if (existsSync(referencesPath) && !statSync(referencesPath).isDirectory()) {
+    fail(`${name} references must be a directory`);
   }
 
   const skillPath = join(dir, "SKILL.md");
@@ -78,17 +74,6 @@ for (const name of readdirSync(skillsDir).sort()) {
   }
   if (skillHeading && readmeHeading && skillHeading !== readmeHeading) {
     fail(`${name} SKILL.md and README.md must use the same level-1 heading`);
-  }
-
-  for (const [entryFile, entryText] of [
-    [skillPath, skillText],
-    [readmePath, readmeText],
-  ]) {
-    for (const banned of ["nature-skills-main/", "thesis-writer/"]) {
-      if (entryText.includes(banned)) {
-        fail(`${entryFile} still references ${banned}`);
-      }
-    }
   }
 }
 

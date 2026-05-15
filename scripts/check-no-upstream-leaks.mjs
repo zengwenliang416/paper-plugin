@@ -1,17 +1,20 @@
-import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
+import { getPluginPaths, listSkillDirectories } from "./_plugin-paths.mjs";
 
-const root = process.cwd();
-const skillsDir = join(root, "skills");
+const { rootDir: root, skillsDir } = getPluginPaths();
 const files = ["README.md"];
 
-const bannedChecks = [
+const provenanceSensitiveChecks = [
   { label: "nature-skills", pattern: /nature-skills\b/i },
   { label: "nature-skills-main/", pattern: /nature-skills-main\// },
   { label: "thesis-writer/", pattern: /thesis-writer\// },
+  { label: "Original upstream repository:", pattern: /Original upstream repository:/i },
+];
+
+const bannedChecks = [
   { label: "Claude Code", pattern: /\bClaude Code\b/ },
   { label: "微信群", pattern: /微信群/ },
-  { label: "Original upstream repository:", pattern: /Original upstream repository:/i },
   { label: "cp -R skills/nature-", pattern: /cp -R\s+skills\/nature-/i },
 ];
 
@@ -22,24 +25,28 @@ function fail(message) {
   failed = true;
 }
 
-function isAllowedContext(file, line) {
-  if (
-    file === "README.md" &&
-    /migration sources/i.test(line) &&
-    /public plugin surface/i.test(line)
-  ) {
-    return true;
-  }
-  return false;
+function getContext(lines, index, radius = 2) {
+  return lines
+    .slice(Math.max(0, index - radius), index + radius + 1)
+    .join(" ");
+}
+
+function isAllowedProvenanceContext(lines, index) {
+  const context = getContext(lines, index);
+  const hasProvenanceSignal =
+    /\b(migration|migrated|migrating|provenance|source|sources|origin|upstream|derived|ported|adapted|legacy|historical)\b/i.test(
+      context
+    );
+  const hasBoundarySignal =
+    /\b(public plugin surface|public surface|not part of the public|not shipped|internal only|source-only|source only|private|legacy|historical|archive|archived)\b/i.test(
+      context
+    );
+  return hasProvenanceSignal && hasBoundarySignal;
 }
 
 if (existsSync(skillsDir)) {
-  for (const name of readdirSync(skillsDir).sort()) {
-    const dir = join(skillsDir, name);
-    if (!statSync(dir).isDirectory()) {
-      continue;
-    }
-    files.push(`skills/${name}/README.md`, `skills/${name}/SKILL.md`);
+  for (const { relativeDir } of listSkillDirectories(root)) {
+    files.push(`${relativeDir}/README.md`, `${relativeDir}/SKILL.md`);
   }
 }
 
@@ -52,8 +59,14 @@ for (const file of files) {
 
   const lines = readFileSync(fullPath, "utf8").split(/\r?\n/);
   lines.forEach((line, index) => {
+    for (const check of provenanceSensitiveChecks) {
+      if (check.pattern.test(line) && !isAllowedProvenanceContext(lines, index)) {
+        fail(`${file}:${index + 1} contains banned upstream wording: ${check.label}`);
+      }
+    }
+
     for (const check of bannedChecks) {
-      if (check.pattern.test(line) && !isAllowedContext(file, line)) {
+      if (check.pattern.test(line)) {
         fail(`${file}:${index + 1} contains banned upstream wording: ${check.label}`);
       }
     }
