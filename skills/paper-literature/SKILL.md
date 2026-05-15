@@ -5,4 +5,6 @@ description: Use when the user needs evidence-traceable literature review, compa
 
 # Paper Literature
 
-This skill package is under migration. Use package-local references, scripts, and assets only.
+This package currently owns literature screening, comparison structure, and citation-organization scaffolding.
+During migration, keep shortlist rules and evidence templates inside this package boundary only.
+It does not yet own full paper annotation, manuscript authoring, figure design, or data extraction workflows.

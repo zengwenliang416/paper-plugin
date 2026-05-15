@@ -5,4 +5,6 @@ description: Use when the user needs a source-grounded bilingual academic paper 
 
 # Paper Reader
 
-This skill package is under migration. Use package-local references, scripts, and assets only.
+This package currently owns paper-reading intake, anchored bilingual notes, and figure-position cross-reference.
+During migration, keep evidence tied to package-local references and reader-specific examples only.
+It does not yet own literature synthesis, manuscript drafting, reviewer replies, or slide generation.

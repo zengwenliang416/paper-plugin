@@ -5,4 +5,6 @@ description: Use when the user needs paper data extraction, evidence tables, and
 
 # Paper Data
 
-This skill package is under migration. Use package-local references, scripts, and assets only.
+This package currently owns evidence-table extraction, reproducibility note scaffolds, and dataset-oriented checkpoints.
+During migration, keep parsing hints and temporary analysis helpers inside package-local scripts and examples.
+It does not yet own manuscript prose, reviewer-response rhetoric, or figure-layout decisions.

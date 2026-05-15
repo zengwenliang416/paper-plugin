@@ -5,4 +5,6 @@ description: Use when the user needs figure planning, caption drafting, and pape
 
 # Paper Figure
 
-This skill package is under migration. Use package-local references, scripts, and assets only.
+This package currently owns figure planning, caption scaffolds, and manuscript-adjacent placement guidance.
+During migration, use only package-local visual references and figure-specific assets as temporary authority.
+It does not yet own slide-deck assembly, data-table normalization, or literature comparison outputs.
