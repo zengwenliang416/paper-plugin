@@ -32,6 +32,8 @@
       "Find supporting references for these claims and export usable citations."
     ],
     "brandColor": "#2563EB",
+    "composerIcon": "./assets/icon.png",
+    "logo": "./assets/logo.png",
     "screenshots": []
   }
 }
