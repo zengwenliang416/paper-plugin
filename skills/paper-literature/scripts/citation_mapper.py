@@ -21,139 +21,28 @@ from pathlib import Path
 from typing import Any, Callable
 from urllib.parse import quote, urlencode
 from urllib.request import Request, urlopen
-from xml.sax.saxutils import escape as xml_escape
-from xml.sax.saxutils import quoteattr
+
+from export_formats import (
+    DEFAULT_EXPORT_FORMAT,
+    EXPORT_FORMAT_CHOICES,
+    ZOTERO_RDF_NS,
+    build_enw_record,
+    build_ris_record,
+    build_zotero_rdf_article,
+    build_zotero_rdf_journal,
+    export_filename,
+    export_label,
+    infer_export_format,
+    normalize_export_format,
+    write_export,
+)
+from journal_scope import in_scope, journal_family
 
 
 CROSSREF_API = "https://api.crossref.org/works"
-USER_AGENT = "codex-nature-citation/1.0 (mailto:unknown@example.com)"
-EXPORT_FORMAT_CHOICES = ("enw", "ris", "zotero-rdf", "rdf")
-DEFAULT_EXPORT_FORMAT = "enw"
-ZOTERO_RDF_NS = {
-    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    "z": "http://www.zotero.org/namespaces/export#",
-    "dcterms": "http://purl.org/dc/terms/",
-    "bib": "http://purl.org/net/biblio#",
-    "foaf": "http://xmlns.com/foaf/0.1/",
-    "dc": "http://purl.org/dc/elements/1.1/",
-    "prism": "http://prismstandard.org/namespaces/1.2/basic/",
-}
-
-
-NATURE_EXACT = {
-    "Nature",
-    "Nature Biotechnology",
-    "Nature Cancer",
-    "Nature Cardiovascular Research",
-    "Nature Cell Biology",
-    "Nature Chemical Biology",
-    "Nature Chemistry",
-    "Nature Climate Change",
-    "Nature Communications",
-    "Nature Computational Science",
-    "Nature Ecology & Evolution",
-    "Nature Electronics",
-    "Nature Energy",
-    "Nature Food",
-    "Nature Genetics",
-    "Nature Geoscience",
-    "Nature Human Behaviour",
-    "Nature Immunology",
-    "Nature Machine Intelligence",
-    "Nature Materials",
-    "Nature Medicine",
-    "Nature Metabolism",
-    "Nature Methods",
-    "Nature Microbiology",
-    "Nature Nanotechnology",
-    "Nature Neuroscience",
-    "Nature Photonics",
-    "Nature Physics",
-    "Nature Plants",
-    "Nature Protocols",
-    "Nature Reviews Cancer",
-    "Nature Reviews Cardiology",
-    "Nature Reviews Chemistry",
-    "Nature Reviews Clinical Oncology",
-    "Nature Reviews Drug Discovery",
-    "Nature Reviews Earth & Environment",
-    "Nature Reviews Endocrinology",
-    "Nature Reviews Gastroenterology & Hepatology",
-    "Nature Reviews Genetics",
-    "Nature Reviews Immunology",
-    "Nature Reviews Materials",
-    "Nature Reviews Microbiology",
-    "Nature Reviews Molecular Cell Biology",
-    "Nature Reviews Nephrology",
-    "Nature Reviews Neurology",
-    "Nature Reviews Neuroscience",
-    "Nature Reviews Physics",
-    "Nature Reviews Psychology",
-    "Nature Reviews Rheumatology",
-    "Nature Structural & Molecular Biology",
-    "Scientific Reports",
-}
-
-
-SCIENCE_EXACT = {
-    "Science",
-    "Science Advances",
-    "Science Immunology",
-    "Science Robotics",
-    "Science Signaling",
-    "Science Translational Medicine",
-}
-
-
-CELL_EXACT = {
-    "Cell",
-    "Cancer Cell",
-    "Cell Chemical Biology",
-    "Cell Genomics",
-    "Cell Host & Microbe",
-    "Cell Metabolism",
-    "Cell Reports",
-    "Cell Reports Medicine",
-    "Cell Reports Methods",
-    "Cell Reports Physical Science",
-    "Cell Stem Cell",
-    "Cell Systems",
-    "Chem",
-    "Current Biology",
-    "Developmental Cell",
-    "Immunity",
-    "Joule",
-    "Med",
-    "Molecular Cell",
-    "Neuron",
-    "One Earth",
-    "Patterns",
-    "Structure",
-    "The Innovation",
-}
-
-
-CELL_TRENDS_EXACT = {
-    "Trends in Biochemical Sciences",
-    "Trends in Biotechnology",
-    "Trends in Cancer",
-    "Trends in Cell Biology",
-    "Trends in Chemistry",
-    "Trends in Cognitive Sciences",
-    "Trends in Ecology & Evolution",
-    "Trends in Endocrinology & Metabolism",
-    "Trends in Genetics",
-    "Trends in Immunology",
-    "Trends in Microbiology",
-    "Trends in Molecular Medicine",
-    "Trends in Neurosciences",
-    "Trends in Parasitology",
-    "Trends in Pharmacological Sciences",
-    "Trends in Plant Science",
-}
-
-
-FLAGSHIP = {"Nature", "Science", "Cell"}
+PACKAGE_NAME = "paper-literature/1.0"
+PACKAGE_MAILTO = "paper-literature@example.com"
+USER_AGENT = f"{PACKAGE_NAME} (mailto:{PACKAGE_MAILTO})"
 
 
 @dataclass
@@ -280,36 +169,6 @@ def slugify(value: str) -> str:
     slug = re.sub(r"[^a-z0-9]+", "-", (value or "").lower()).strip("-")
     return slug or "item"
 
-
-def normalize_export_format(value: str | None) -> str:
-    if not value:
-        return DEFAULT_EXPORT_FORMAT
-    if value == "rdf":
-        return "zotero-rdf"
-    return value
-
-
-def infer_export_format(output_path: Path | None) -> str:
-    if output_path is None:
-        return DEFAULT_EXPORT_FORMAT
-    suffix = output_path.suffix.lower()
-    if suffix == ".ris":
-        return "ris"
-    if suffix == ".rdf":
-        return "zotero-rdf"
-    if suffix == ".enw":
-        return "enw"
-    return DEFAULT_EXPORT_FORMAT
-
-
-def export_filename(export_format: str, base: str = "references") -> str:
-    if export_format == "ris":
-        return f"{base}.ris"
-    if export_format == "zotero-rdf":
-        return f"{base}.rdf"
-    return f"{base}.enw"
-
-
 def slug_from_text(text: str, max_words: int = 6) -> str:
     """Derive a filename slug from the first meaningful words of manuscript text."""
     text = clean_text(text)
@@ -323,15 +182,6 @@ def slug_from_text(text: str, max_words: int = 6) -> str:
     content = [w for w in words if w.lower() not in stopwords]
     slug = "-".join(w.lower() for w in content[:max_words])
     return slug or "references"
-
-
-def export_label(export_format: str) -> str:
-    if export_format == "ris":
-        return "RIS"
-    if export_format == "zotero-rdf":
-        return "Zotero RDF"
-    return "ENW"
-
 
 def make_partial_path(path: Path) -> Path:
     return path.with_name(f"{path.stem}.partial{path.suffix}")
@@ -374,25 +224,6 @@ def limit_segments(segments: list[Segment], max_segments: int) -> tuple[list[Seg
         return segments[:max_segments], len(segments) - max_segments
     return segments, 0
 
-
-def zotero_date_value(item: Candidate) -> str:
-    if item.y1:
-        return item.y1.replace("/", "-")
-    return item.year
-
-
-def split_author_parts(name: str) -> tuple[str, str]:
-    if "," in name:
-        family, given = name.split(",", 1)
-        return family.strip(), given.strip()
-    parts = [part for part in name.split() if part]
-    if not parts:
-        return "", ""
-    if len(parts) == 1:
-        return parts[0], ""
-    return parts[-1], " ".join(parts[:-1])
-
-
 def build_journal_resource(item: Candidate) -> str:
     parts: list[str] = []
     if item.issn:
@@ -414,35 +245,6 @@ def build_zotero_citation_key(item: Candidate) -> str:
     title_part = "".join(word.capitalize() for word in title_words) or "Item"
     year = item.year or "n.d."
     return f"{first_author}{title_part}{year}"
-
-
-def journal_family(journal: str) -> str | None:
-    journal = normalize_title(journal)
-    if not journal:
-        return None
-    if journal in NATURE_EXACT or journal.startswith("Nature ") or journal.startswith("npj "):
-        return "Nature Portfolio"
-    if journal in SCIENCE_EXACT:
-        return "Science family"
-    if journal in CELL_EXACT or journal in CELL_TRENDS_EXACT:
-        return "Cell Press"
-    return None
-
-
-def in_scope(journal: str, scope: str) -> bool:
-    journal = normalize_title(journal)
-    if not journal:
-        return False
-    if scope == "flagship":
-        return journal in FLAGSHIP
-    family = journal_family(journal)
-    if scope == "nature":
-        return family == "Nature Portfolio"
-    if scope == "science":
-        return family == "Science family"
-    if scope == "cell":
-        return family == "Cell Press"
-    return family in {"Nature Portfolio", "Science family", "Cell Press"}
 
 
 def first(values: list[Any] | None, default: str = "") -> str:
@@ -499,11 +301,6 @@ def clean_text(text: str) -> str:
     text = re.sub(r"<[^>]+>", " ", text or "")
     text = re.sub(r"\s+", " ", text)
     return text.strip()
-
-
-def ris_escape(text: str) -> str:
-    return clean_text(text).replace("\n", " ").replace("\r", " ")
-
 
 def split_sentences(text: str) -> list[str]:
     text = re.sub(r"\s+", " ", text.strip())
@@ -623,7 +420,9 @@ def candidate_from_crossref(item: dict[str, Any], source_query: str) -> Candidat
 
 
 def crossref_headers(mailto: str | None = None) -> dict[str, str]:
-    return {"User-Agent": USER_AGENT if not mailto else f"codex-nature-citation/1.0 (mailto:{mailto})"}
+    if not mailto or mailto == PACKAGE_MAILTO:
+        return {"User-Agent": USER_AGENT}
+    return {"User-Agent": f"{PACKAGE_NAME} (mailto:{mailto})"}
 
 
 def fetch_crossref(query: str, rows: int, mailto: str | None = None, from_year: int | None = None, to_year: int | None = None, retries: int = 2) -> list[dict[str, Any]]:
@@ -676,158 +475,6 @@ def dedupe(candidates: list[Candidate]) -> list[Candidate]:
         seen.add(candidate.key)
         output.append(candidate)
     return output
-
-
-def build_ris_record(item: Candidate) -> str:
-    lines: list[str] = []
-    lines.append("TY  - JOUR")
-    if item.title:
-        lines.append(f"TI  - {ris_escape(item.title)}")
-    for author in item.authors:
-        lines.append(f"AU  - {ris_escape(author)}")
-    if item.journal:
-        lines.append(f"T2  - {ris_escape(item.journal)}")
-        lines.append(f"JO  - {ris_escape(item.journal)}")
-    if item.year:
-        lines.append(f"PY  - {ris_escape(item.year)}")
-    if item.y1:
-        lines.append(f"Y1  - {ris_escape(item.y1)}")
-    if item.volume:
-        lines.append(f"VL  - {ris_escape(item.volume)}")
-    if item.issue:
-        lines.append(f"IS  - {ris_escape(item.issue)}")
-    if item.start_page:
-        lines.append(f"SP  - {ris_escape(item.start_page)}")
-    if item.end_page:
-        lines.append(f"EP  - {ris_escape(item.end_page)}")
-    if item.doi:
-        lines.append(f"DO  - {ris_escape(item.doi)}")
-    if item.doi_url:
-        lines.append(f"UR  - {ris_escape(item.doi_url)}")
-    if item.issn:
-        lines.append(f"SN  - {ris_escape(item.issn)}")
-    lines.append("N1  - Metadata-only candidate. Inspect abstract or publisher page before citing as support.")
-    lines.append("ER  -")
-    return "\n".join(lines)
-
-
-def write_ris(candidates: list[Candidate], path: Path) -> None:
-    lines: list[str] = []
-    for item in candidates:
-        lines.append(build_ris_record(item))
-        lines.append("")
-    path.write_text("\n".join(lines), encoding="utf-8")
-
-
-def build_enw_record(item: Candidate) -> str:
-    lines: list[str] = []
-    lines.append("%0 Journal Article")
-    if item.title:
-        lines.append(f"%T {ris_escape(item.title)}")
-    for author in item.authors:
-        lines.append(f"%A {ris_escape(author)}")
-    if item.journal:
-        lines.append(f"%J {ris_escape(item.journal)}")
-    if item.volume:
-        lines.append(f"%V {ris_escape(item.volume)}")
-    if item.issue:
-        lines.append(f"%N {ris_escape(item.issue)}")
-    if item.start_page and item.end_page:
-        lines.append(f"%P {ris_escape(item.start_page)}-{ris_escape(item.end_page)}")
-    elif item.start_page:
-        lines.append(f"%P {ris_escape(item.start_page)}")
-    if item.year:
-        lines.append(f"%D {ris_escape(item.year)}")
-    if item.issn:
-        lines.append(f"%@ {ris_escape(item.issn)}")
-    if item.doi:
-        lines.append(f"%R {ris_escape(item.doi)}")
-    if item.doi_url:
-        lines.append(f"%U {ris_escape(item.doi_url)}")
-    return "\n".join(lines)
-
-
-def write_enw(candidates: list[Candidate], path: Path) -> None:
-    lines: list[str] = []
-    for item in candidates:
-        lines.append(build_enw_record(item))
-        lines.append("")
-    path.write_text("\n".join(lines), encoding="utf-8")
-
-
-def build_zotero_rdf_article(item: Candidate) -> str:
-    lines: list[str] = [f'    <bib:Article rdf:about={quoteattr(item.article_resource)}>']
-    lines.append("        <z:itemType>journalArticle</z:itemType>")
-    if item.journal:
-        lines.append(f'        <dcterms:isPartOf rdf:resource={quoteattr(item.journal_resource)}/>')
-    if item.authors:
-        lines.append("        <bib:authors>")
-        lines.append("            <rdf:Seq>")
-        for author in item.authors:
-            family, given = split_author_parts(author)
-            lines.append("                <rdf:li>")
-            lines.append("                    <foaf:Person>")
-            if family:
-                lines.append(f"                        <foaf:surname>{xml_escape(family)}</foaf:surname>")
-            if given:
-                lines.append(f"                        <foaf:givenName>{xml_escape(given)}</foaf:givenName>")
-            lines.append("                    </foaf:Person>")
-            lines.append("                </rdf:li>")
-        lines.append("            </rdf:Seq>")
-        lines.append("        </bib:authors>")
-    if item.title:
-        lines.append(f"        <dc:title>{xml_escape(item.title)}</dc:title>")
-    date_value = zotero_date_value(item)
-    if date_value:
-        lines.append(f"        <dc:date>{xml_escape(date_value)}</dc:date>")
-    lines.append("        <z:libraryCatalog>Crossref</z:libraryCatalog>")
-    if item.identifier_url:
-        lines.append("        <dc:identifier>")
-        lines.append("            <dcterms:URI>")
-        lines.append(f"                <rdf:value>{xml_escape(item.identifier_url)}</rdf:value>")
-        lines.append("            </dcterms:URI>")
-        lines.append("        </dc:identifier>")
-    if item.doi:
-        lines.append(f"        <dc:identifier>{xml_escape(f'DOI {item.doi}')}</dc:identifier>")
-    if item.page_range:
-        lines.append(f"        <bib:pages>{xml_escape(item.page_range)}</bib:pages>")
-    lines.append(f"        <z:citationKey>{xml_escape(item.zotero_citation_key)}</z:citationKey>")
-    lines.append("    </bib:Article>")
-    return "\n".join(lines)
-
-
-def build_zotero_rdf_journal(item: Candidate) -> str:
-    lines: list[str] = [f'    <bib:Journal rdf:about={quoteattr(item.journal_resource)}>']
-    if item.volume:
-        lines.append(f"        <prism:volume>{xml_escape(item.volume)}</prism:volume>")
-    if item.journal:
-        lines.append(f"        <dc:title>{xml_escape(item.journal)}</dc:title>")
-    if item.issue:
-        lines.append(f"        <prism:number>{xml_escape(item.issue)}</prism:number>")
-    if item.issn:
-        lines.append(f"        <dc:identifier>{xml_escape(f'ISSN {item.issn}')}</dc:identifier>")
-    lines.append("    </bib:Journal>")
-    return "\n".join(lines)
-
-
-def build_zotero_rdf_document(candidates: list[Candidate]) -> str:
-    root_open = [
-        "<rdf:RDF",
-        *(f' xmlns:{prefix}="{uri}"' for prefix, uri in ZOTERO_RDF_NS.items()),
-        ">",
-    ]
-    journal_map: dict[str, str] = {}
-    article_blocks: list[str] = []
-    for item in candidates:
-        article_blocks.append(build_zotero_rdf_article(item))
-        if item.journal and item.journal_resource not in journal_map:
-            journal_map[item.journal_resource] = build_zotero_rdf_journal(item)
-    sections = ["".join(root_open), *article_blocks, *journal_map.values(), "</rdf:RDF>"]
-    return "\n".join(section for section in sections if section)
-
-
-def write_zotero_rdf(candidates: list[Candidate], path: Path) -> None:
-    path.write_text(build_zotero_rdf_document(candidates), encoding="utf-8")
 
 
 def read_text_inputs(args: argparse.Namespace) -> str:
@@ -949,18 +596,12 @@ def summarize_mapping(mapping: list[dict[str, Any]], references: list[Candidate]
 
 
 def write_export_checkpoint(
-    outdir: Path,
     base_path: Path,
     export_format: str,
     references: list[Candidate],
 ) -> Path:
     partial_output = make_partial_path(base_path)
-    if export_format == "enw":
-        write_enw(references, partial_output)
-    elif export_format == "ris":
-        write_ris(references, partial_output)
-    else:
-        write_zotero_rdf(references, partial_output)
+    write_export(references, partial_output, export_format)
     return partial_output
 
 
@@ -1010,7 +651,7 @@ def process_segment_batches(
         mapping.extend(batch_mapping)
         references = dedupe([*references, *batch_references])
         errors.extend(batch_errors)
-        partial_output = write_export_checkpoint(outdir, base_path, args.format, references)
+        partial_output = write_export_checkpoint(base_path, args.format, references)
         print(
             f"  Batch {batch_index} done: {sum(len(entry['references']) for entry in batch_mapping)} candidates, "
             f"cumulative {len(references)} unique refs."
@@ -1977,12 +1618,7 @@ def main(argv: list[str]) -> int:
     references = dedupe([*all_references, *doi_candidates])[: args.max_candidates]
 
     # 最终导出
-    if args.format == "enw":
-        write_enw(references, output_path)
-    elif args.format == "ris":
-        write_ris(references, output_path)
-    else:
-        write_zotero_rdf(references, output_path)
+    write_export(references, output_path, args.format)
 
     if args.with_artifacts:
         artifact_base = outdir / name_base if name_base else outdir / "citation"

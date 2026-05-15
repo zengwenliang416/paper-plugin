@@ -221,7 +221,9 @@ function replaceCiteKey(bibtex: string, newKey: string): string {
 // Network helpers
 // ---------------------------------------------------------------------------
 
-const USER_AGENT = "thesis-writer/1.0 (mailto:thesis-writer@example.com)";
+const PACKAGE_NAME = "paper-literature/1.0";
+const PACKAGE_EMAIL = "paper-literature@example.com";
+const USER_AGENT = `${PACKAGE_NAME} (mailto:${PACKAGE_EMAIL})`;
 
 /**
  * Fetch BibTeX for a DOI from doi.org using content negotiation.
@@ -268,7 +270,7 @@ async function searchCrossRef(query: string, limit: number): Promise<CrossRefRes
   const url = new URL("https://api.crossref.org/works");
   url.searchParams.set("query", query);
   url.searchParams.set("rows", String(limit));
-  url.searchParams.set("mailto", "thesis-writer@example.com");
+  url.searchParams.set("mailto", PACKAGE_EMAIL);
 
   const resp = await fetch(url.toString(), {
     headers: { "User-Agent": USER_AGENT },
