@@ -1,7 +1,11 @@
-# Nature Figure Design Theory
+# Paper Figure Design Theory
 
-Derived from scripts in the [figures4papers](https://github.com/ChenLiu-1996/figures4papers) repository
-(published in *Nature Machine Intelligence* and top ML/bioinformatics venues).
+This reference distills figure heuristics from prior publication-facing practice,
+including the archived [figures4papers](https://github.com/ChenLiu-1996/figures4papers)
+materials and recent journal observations. In this package, the current source of
+truth is the paper-figure rule set, especially [figure-contract.md](figure-contract.md),
+[thesis-chart-table-rules.md](thesis-chart-table-rules.md), and the backend/runtime
+constraints documented alongside them.
 
 ---
 

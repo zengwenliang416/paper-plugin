@@ -1,4 +1,4 @@
-# QA Contract
+# Paper Figure QA Contract
 
 Use this before final delivery, before a revision package, and whenever the figure
 contains microscopy, blots, gels, clinical subgroup analysis, or statistical claims.

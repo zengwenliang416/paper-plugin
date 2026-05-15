@@ -1,8 +1,10 @@
-# Tutorials — Nature Figure Making
+# Tutorials — Paper Figure
 
 End-to-end walkthroughs for the most common publication figure types.
 All examples use helpers from [api.md](api.md) and patterns from [common-patterns.md](common-patterns.md).
-For real production scripts and output previews from figures4papers, open [demos.md](demos.md).
+Before adapting any scaffold here, align it with [figure-contract.md](figure-contract.md),
+[design-theory.md](design-theory.md), and [thesis-chart-table-rules.md](thesis-chart-table-rules.md).
+For archived figures4papers scripts and inspiration snapshots, open [demos.md](demos.md).
 
 ---
 

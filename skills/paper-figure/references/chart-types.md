@@ -1,4 +1,4 @@
-# Chart Types — Nature Figure Making
+# Chart Types — Paper Figure
 
 Specialized chart patterns beyond basic bars and trends.
 Each section includes the key code pattern extracted from production scripts.

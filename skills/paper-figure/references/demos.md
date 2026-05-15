@@ -1,28 +1,36 @@
-# figures4papers Demo Index
+# figures4papers Archive Index
 
 Use this file when a user asks for a `figures4papers` look, cites the older
-`scientific-figure-making` skill, or needs a concrete Python/matplotlib example
-instead of only abstract style rules.
+`scientific-figure-making` lineage, or needs a concrete Python/matplotlib
+starting point in addition to the package rules.
 
-The bundled examples live under `../assets/figures4papers/`. They are reference
-materials for the Python track only. Keep the normal `nature-figure` contract first:
-define the scientific claim, pick Python or R, and only then adapt a demo pattern.
+The bundled materials under `../assets/figures4papers/` are archival inspiration
+snapshots, not canonical paper-figure examples. Treat the scripts as historical
+patterns that must be adapted to the current package rules before reuse.
+
+Current source of truth:
+
+- [design-theory.md](design-theory.md) — typography, palette, composition, and journal-facing rationale
+- [figure-contract.md](figure-contract.md) — claim-first planning contract and panel logic
+- [thesis-chart-table-rules.md](thesis-chart-table-rules.md) — thesis/table/caption guardrails
+- [qa-contract.md](qa-contract.md) — delivery-time export and integrity checks
 
 ## How to use the demos
 
-1. Select the closest chart family from the table below.
-2. Read the listed `plot_*.py` files for layout, palette, axis, legend, and export
-   patterns.
-3. Reuse the pattern, not the demo data or manuscript-specific labels.
-4. Preserve editable SVG/PDF/TIFF export rules from `api.md`.
-5. Do not reveal local repository paths or internal asset filenames in user-facing
+1. Start with the current paper-figure rules listed above; do not begin from a demo script.
+2. Select the closest chart family from the table below.
+3. Read the listed `plot_*.py` files for layout and encoding ideas only.
+4. Rebuild fonts, export settings, dimensions, captions, and labels to satisfy the
+   current package rules and the target paper/thesis context.
+5. Reuse the pattern, not the demo data, manuscript-specific labels, or raw export setup.
+6. Do not reveal local repository paths or internal asset filenames in user-facing
    prose unless the user asks for an audit trail.
 
 ## Bundled project map
 
-| Project | Open when | Local examples |
+| Project | Open when | Archived materials |
 |---------|-----------|----------------|
-| `figure_ImmunoStruct` | Method comparison bars, ablation bars, large readable annotations | `../assets/figures4papers/figure_ImmunoStruct/plot_bars.py`, `raw_data.py`, `figures/*.png` |
+| `figure_ImmunoStruct` | Method comparison bars, ablation bars, large readable annotations | `../assets/figures4papers/figure_ImmunoStruct/plot_bars.py`, `raw_data.py` |
 | `figure_CellSpliceNet` | Compact comparison and ablation bars | `../assets/figures4papers/figure_CellSpliceNet/plot_comparison.py`, `plot_ablation.py` |
 | `figure_brainteaser` | Composition breakdown bars, category/subcategory comparisons, rewriting/self-correction panels | `../assets/figures4papers/figure_brainteaser/plot_*.py` |
 | `figure_VIGIL` | Radar/polar comparison and post-training trend lines | `../assets/figures4papers/figure_VIGIL/plot_comparison_radar.py`, `plot_posttraining.py` |
@@ -36,8 +44,8 @@ define the scientific claim, pick Python or R, and only then adapt a demo patter
 ## Pattern routing
 
 - Grouped bars: start with `figure_ImmunoStruct`, `figure_CellSpliceNet`, or
-  `figure_brainteaser`; then apply the tighter Nature export and font rules in
-  `api.md`.
+  `figure_brainteaser`; then rebuild with the current paper-figure contract,
+  font rules, and export requirements.
 - Radar/polar: start with `figure_VIGIL`; cross-check `chart-types.md` before
   implementing normalization, radial labels, and legend placement.
 - Trend/line: start with `figure_VIGIL` or `figure_ophthal_review`; use shared
@@ -51,13 +59,16 @@ define the scientific claim, pick Python or R, and only then adapt a demo patter
 
 The original `scientific-figure-making` skill focused on publication-ready
 matplotlib figures and the figures4papers house style. In this repository, that
-guidance is folded into `nature-figure`:
+history is preserved as archive material inside paper-figure rather than as the
+canonical compliance layer:
 
-- `api.md` contains the palette, helper signatures, and export conventions.
-- `common-patterns.md` expands the reusable layout patterns.
-- `design-theory.md` captures the typography, color, and composition rationale.
-- `tutorials.md` gives end-to-end scaffold examples.
-- This file preserves the real demo script map and bundled example assets.
+- `design-theory.md`, `figure-contract.md`, and `thesis-chart-table-rules.md`
+  are the rule-set entry points to consult first.
+- `api.md` contains helper signatures and export conventions to apply after the
+  figure contract is set.
+- `common-patterns.md`, `chart-types.md`, and `tutorials.md` provide reusable
+  scaffolds that still need project-specific adaptation.
+- This file preserves the archived demo script map and bundled inspiration assets.
 
 ## External source
 
