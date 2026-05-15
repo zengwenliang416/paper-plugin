@@ -1,5 +1,7 @@
 # Migration Notes
 
+This file currently records release-surface completion for the first migration phase only, not full repository migration completion.
+
 ## Release-surface checklist
 
 - [x] plugin manifest describes an academic paper full-stack plugin

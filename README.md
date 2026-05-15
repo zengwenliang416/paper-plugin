@@ -4,6 +4,8 @@ Codex plugin for the academic paper lifecycle: reading, manuscript writing, lite
 
 The default prompts highlight the primary entry points for the first migration phase, while the full public skill surface is listed below.
 
+The `thesis-writer/` and `nature-skills-main/` directories remain in the repository as migration sources and are not part of the public plugin surface.
+
 ## Public Skills
 
 - `paper-reader`
@@ -29,5 +31,5 @@ Additional validation scripts will be added in a later migration batch.
 - `.codex-plugin/plugin.json` - plugin manifest
 - `skills/` - public Codex skill packages
 - `docs/` - design, plans, migration notes
-- `scripts/` - plugin-level validation and inventory scripts
+- `scripts/` - current plugin validation tooling and future migration helpers
 - `assets/` - plugin-level visual assets
