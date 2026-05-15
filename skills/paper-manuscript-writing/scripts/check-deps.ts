@@ -1,6 +1,6 @@
 #!/usr/bin/env npx tsx
 /**
- * check-deps.ts — Dependency detection for thesis-writer scripts.
+ * check-deps.ts — Dependency detection for manuscript support scripts.
  * Checks pandoc, libreoffice, node_modules, pandoc-crossref availability.
  * Exports checkDeps() for use by other scripts.
  */
@@ -99,7 +99,7 @@ export function ensureDeps(required: string[] = ["pandoc"]): void {
 // CLI: run directly to see all dependency status
 if (process.argv[1] && process.argv[1].includes("check-deps")) {
   const { ok, results } = checkDeps([]);
-  console.log("Thesis Writer — Dependency Check\n");
+  console.log("Paper Manuscript Writing Support Tools — Dependency Check\n");
   for (const r of results) {
     const icon = r.available ? "✓" : "✗";
     const info = r.available ? r.version ?? "" : r.message ?? "not found";

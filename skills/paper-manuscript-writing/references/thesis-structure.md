@@ -251,5 +251,5 @@
 
 ### 转换命令
 ```bash
-npx tsx ~/.claude/skills/thesis-writer/scripts/export.ts <项目目录> -o "<output.docx>"
+npx tsx skills/paper-manuscript-writing/scripts/export.ts <项目目录> -o "<output.docx>"
 ```

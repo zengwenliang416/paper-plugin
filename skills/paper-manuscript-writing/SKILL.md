@@ -5,14 +5,15 @@ description: Use when the user needs academic manuscript drafting, restructuring
 
 # Paper Manuscript Writing
 
-Use this skill for manuscript creation and rewriting across English research papers and Chinese thesis-oriented writing.
+Use this skill for manuscript drafting, restructuring, polishing, and thesis-oriented writing guidance across English research papers and Chinese graduation theses.
 
 ## Core responsibilities
 
 - draft and restructure manuscript sections
 - polish and de-AI rewrite prose
-- support thesis-style chapter development
-- apply plagiarism-reduction and thesis quality-gate rules
+- guide thesis-style chapter development and quality-gate review
+- apply plagiarism-reduction and thesis writing rules
+- use the attached thesis engineering scripts only as support tooling for import/export/template/version workflows
 
 ## Open these resources as needed
 
@@ -22,3 +23,16 @@ Use this skill for manuscript creation and rewriting across English research pap
 - `references/plagiarism-strategy.md`
 - `references/thesis-structure.md`
 - `references/undergraduate-quality-gate.md`
+- `references/examples/index.md`
+
+## Package boundary
+
+Primary scope is manuscript writing work: drafting, restructuring, polishing, and thesis writing guidance.
+
+Attached scripts under `scripts/` support thesis engineering workflows such as project import/export, template parsing, dependency checks, and version tagging. They are bundled support tooling, not the package's main product surface.
+
+Out of scope for this package:
+
+- literature search, reading plans, and reference-management workflows
+- reviewer response drafting
+- presentation or defense deck generation

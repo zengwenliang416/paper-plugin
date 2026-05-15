@@ -8,11 +8,11 @@
  *   --citeproc + --csl (bibliography formatting)
  *   --metadata-file    (thesis.yaml metadata)
  */
-import { execSync } from "node:child_process";
+import { execFileSync, execSync } from "node:child_process";
 import {
-  existsSync, mkdirSync, readFileSync, writeFileSync, rmSync,
+  copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync, rmSync,
 } from "node:fs";
-import { basename, dirname, join, resolve, relative } from "node:path";
+import { dirname, join, resolve, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
 import YAML from "yaml";
@@ -44,7 +44,7 @@ if (values.help || positionals.length === 0) {
 
 Options:
   -o, --output         Output .docx path (default: output/thesis.docx)
-  -v, --version        Create version tag after export
+  -v, --version        Create version tag after export via scripts/version.ts
   --reference-doc      Custom reference.docx path
   --lua-filter         Custom Lua filter path
   --csl                Custom CSL citation style path
@@ -270,60 +270,30 @@ const sizeKb = Math.round(
 console.log(`\n✓ Exported: ${outputPath} (${sizeKb} KB)`);
 
 // ---------------------------------------------------------------------------
-// Step 7: Version tag (optional)
+// Step 7: Version tag (optional, delegated to version.ts)
 // ---------------------------------------------------------------------------
 
 if (values.version) {
   const versionTag = values.version;
-  const versionedPath = join(outDir, `thesis-${versionTag}.docx`);
+  const versionScript = join(__dirname, "version.ts");
+  const stagingDocx = join(outDir, ".latest-export.docx");
 
-  // Copy output to versioned filename
-  const buf = readFileSync(outputPath);
-  writeFileSync(versionedPath, buf);
+  // Keep version.ts as the single source of truth for version tagging.
+  copyFileSync(outputPath, stagingDocx);
 
-  // Update .thesis.json
-  const stateFile = join(projectDir, ".thesis.json");
-  let state = { versions: [] as any[], currentStage: 0, stageHistory: [] as any[] };
-  if (existsSync(stateFile)) {
-    state = JSON.parse(readFileSync(stateFile, "utf-8"));
-  }
-
-  // Get current git commit if in a repo
-  let commit = "";
   try {
-    commit = execSync("git rev-parse --short HEAD", {
-      cwd: projectDir,
-      stdio: "pipe",
-      encoding: "utf-8",
-    }).trim();
-  } catch {
-    // not a git repo
-  }
-
-  state.versions.push({
-    tag: versionTag,
-    date: new Date().toISOString(),
-    commit,
-    notes: "",
-    output: relative(projectDir, versionedPath),
-  });
-
-  writeFileSync(stateFile, JSON.stringify(state, null, 2), "utf-8");
-
-  // Create git tag if possible
-  if (commit) {
-    try {
-      execSync(`git tag "thesis/${versionTag}"`, {
+    execFileSync(
+      "npx",
+      ["tsx", versionScript, projectDir, "tag", versionTag],
+      {
         cwd: projectDir,
-        stdio: "pipe",
-      });
-      console.log(`  Git tag: thesis/${versionTag}`);
-    } catch {
-      // tag may already exist
-    }
+        stdio: "inherit",
+        timeout: 300_000,
+      }
+    );
+  } finally {
+    rmSync(stagingDocx, { force: true });
   }
-
-  console.log(`  Version: ${versionTag} → ${relative(projectDir, versionedPath)}`);
 }
 
 console.log("\nDone!");
