@@ -1,30 +1,32 @@
 # Paper Plugin
 
-Local Codex plugin for paper reading, research notes, and academic writing workflows.
+Codex plugin for the academic paper lifecycle: reading, manuscript writing, literature and citation workflows, reviewer responses, paper-to-PPT, figures, and data statements.
 
-## Structure
+## Public Skills
 
-- `.codex-plugin/plugin.json` - plugin manifest
-- `skills/` - Codex skills exposed by the plugin
-- `scripts/` - local development and validation scripts
-- `assets/` - optional icons, logos, and screenshots
+- `paper-reader`
+- `paper-manuscript-writing`
+- `paper-literature`
+- `paper-response`
+- `paper-paper2ppt`
+- `paper-figure`
+- `paper-data`
 
 ## Development
 
-Validate the plugin metadata and skill files:
+Validate the plugin and skill packages:
 
 ```bash
 npm run validate
+node scripts/validate-skills.mjs
+node scripts/check-links.mjs
+node scripts/check-no-upstream-leaks.mjs
 ```
 
-Add new skills under `skills/<skill-name>/SKILL.md`. Keep skill names lower-case
-kebab-case, and include `name` and `description` in the frontmatter.
+## Repository Layout
 
-## Next Steps
-
-1. Replace manifest author, repository, homepage, and branding metadata when
-   the plugin is ready to publish.
-2. Expand `skills/paper-assistant/SKILL.md` into the workflow you want Codex to
-   follow.
-3. Add icons or screenshots under `assets/` if this plugin will be shown in a
-   plugin marketplace UI.
+- `.codex-plugin/plugin.json` - plugin manifest
+- `skills/` - public Codex skill packages
+- `docs/` - design, plans, migration notes
+- `scripts/` - plugin-level validation and inventory scripts
+- `assets/` - plugin-level visual assets

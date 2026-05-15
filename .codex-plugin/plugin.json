@@ -1,7 +1,7 @@
 {
   "name": "paper-plugin",
   "version": "0.1.0",
-  "description": "Codex plugin for paper reading, research notes, and academic writing workflows.",
+  "description": "Codex plugin for academic paper reading, writing, citation, response, and figure workflows.",
   "author": {
     "name": "Local Developer"
   },
@@ -10,14 +10,15 @@
     "paper",
     "research",
     "academic-writing",
+    "citation",
     "codex",
     "skills"
   ],
   "skills": "./skills/",
   "interface": {
     "displayName": "Paper Plugin",
-    "shortDescription": "Paper reading and academic writing workflows",
-    "longDescription": "A local Codex plugin for working with academic papers, extracting evidence, drafting literature notes, and reviewing manuscript structure.",
+    "shortDescription": "Academic paper reading, writing, citation, response, and figure workflows",
+    "longDescription": "A multi-skill Codex plugin for reading papers, drafting manuscripts, finding citations, preparing rebuttals, generating paper-based presentations, building figures, and writing data statements.",
     "developerName": "Local Developer",
     "category": "Productivity",
     "capabilities": [
@@ -26,9 +27,9 @@
       "Write"
     ],
     "defaultPrompt": [
-      "Summarize this paper and extract key claims.",
-      "Review a manuscript for evidence gaps.",
-      "Build literature notes for this topic."
+      "Turn this paper into a source-grounded bilingual reader with figure anchors.",
+      "Draft or restructure this manuscript section and flag missing evidence.",
+      "Find supporting references for these claims and export usable citations."
     ],
     "brandColor": "#2563EB",
     "screenshots": []
