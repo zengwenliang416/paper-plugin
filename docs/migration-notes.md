@@ -1,6 +1,6 @@
 # Migration Notes
 
-This file currently records release-surface completion for the first migration phase only, not full repository migration completion.
+This file records the release audit and migration closure state of the plugin repository.
 
 ## Release-surface checklist
 
@@ -15,12 +15,13 @@ This file currently records release-surface completion for the first migration p
 - [x] no placeholder skill remains
 - [x] README is product-facing
 - [x] validators pass
-- [x] upstream source directories are intentionally retained as migration evidence and not part of the public plugin surface
+- [x] legacy source directories have been removed from the plugin repository
 
-## Source directory status
+## Source repository status
 
 The full public product surface lives under `skills/`.
 
-The `thesis-writer/` and `nature-skills-main/` directories remain in place as
-migration evidence and source directories only. They are intentionally retained
-for traceability at this stage and are not part of the public plugin surface.
+The plugin no longer keeps `thesis-writer/` or `nature-skills-main/` inside the
+repository root. Those source trees were used during migration and have now been
+removed so the repository contains only the plugin product surface and its
+supporting docs/tooling.
