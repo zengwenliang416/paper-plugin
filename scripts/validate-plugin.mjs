@@ -24,6 +24,23 @@ function assertString(object, key, label = key) {
   }
 }
 
+function assertStringArray(object, key, label = key, { maxLength } = {}) {
+  if (!Array.isArray(object[key])) {
+    fail(`${label} must be an array`);
+    return;
+  }
+
+  if (typeof maxLength === "number" && object[key].length > maxLength) {
+    fail(`${label} must contain at most ${maxLength} entries`);
+  }
+
+  for (const [index, value] of object[key].entries()) {
+    if (typeof value !== "string" || value.trim() === "") {
+      fail(`${label}[${index}] must be a non-empty string`);
+    }
+  }
+}
+
 if (!existsSync(manifestPath)) {
   fail("missing .codex-plugin/plugin.json");
 } else {
@@ -48,7 +65,13 @@ if (!existsSync(manifestPath)) {
   } else {
     assertString(manifest.interface, "displayName", "interface.displayName");
     assertString(manifest.interface, "shortDescription", "interface.shortDescription");
+    assertString(manifest.interface, "longDescription", "interface.longDescription");
     assertString(manifest.interface, "developerName", "interface.developerName");
+    assertString(manifest.interface, "category", "interface.category");
+    assertStringArray(manifest.interface, "capabilities", "interface.capabilities");
+    assertStringArray(manifest.interface, "defaultPrompt", "interface.defaultPrompt", {
+      maxLength: 3,
+    });
   }
 }
 
