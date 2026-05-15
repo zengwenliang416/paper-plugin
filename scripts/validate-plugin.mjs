@@ -1,8 +1,9 @@
-import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
+import { existsSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
+import { getPluginPaths, listSkillDirectories } from "./_plugin-paths.mjs";
 
 const root = process.cwd();
-const manifestPath = join(root, ".codex-plugin", "plugin.json");
+const { manifestPath, skillsDir } = getPluginPaths(root);
 
 function fail(message) {
   console.error(`ERROR: ${message}`);
@@ -54,10 +55,13 @@ if (!existsSync(manifestPath)) {
   }
 
   if (manifest.skills) {
-    const skillDir = join(root, manifest.skills.replace(/^\.\//, ""));
-    if (!existsSync(skillDir) || !statSync(skillDir).isDirectory()) {
+    if (!existsSync(skillsDir)) {
       fail(`skills path does not exist: ${manifest.skills}`);
+    } else if (!statSync(skillsDir).isDirectory()) {
+      fail(`skills path is not a directory: ${manifest.skills}`);
     }
+  } else if (existsSync(skillsDir) && !statSync(skillsDir).isDirectory()) {
+    fail(`default skills path is not a directory: ${skillsDir}`);
   }
 
   if (!manifest.interface || typeof manifest.interface !== "object") {
@@ -75,12 +79,11 @@ if (!existsSync(manifestPath)) {
   }
 }
 
-const skillsDir = join(root, "skills");
 if (existsSync(skillsDir)) {
-  for (const name of readdirSync(skillsDir)) {
-    const skillPath = join(skillsDir, name, "SKILL.md");
+  for (const { dir, relativeDir } of listSkillDirectories(root)) {
+    const skillPath = join(dir, "SKILL.md");
     if (!existsSync(skillPath)) {
-      fail(`missing SKILL.md for skills/${name}`);
+      fail(`missing SKILL.md for ${relativeDir}`);
       continue;
     }
     const text = readFileSync(skillPath, "utf8");
