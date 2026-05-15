@@ -1,10 +1,14 @@
 ---
 name: paper-figure
-description: Use when the user needs figure planning, caption drafting, and paper-aligned visual placement support.
+description: Use when the user needs academic figures, publication plots, chart QA, or thesis-oriented chart and table conventions.
 ---
 
 # Paper Figure
 
-This package currently owns figure planning, caption scaffolds, and manuscript-adjacent placement guidance.
-During migration, use only package-local visual references and figure-specific assets as temporary authority.
-It does not yet own slide-deck assembly, data-table normalization, or literature comparison outputs.
+Use this skill for scientific figure production and thesis-oriented chart/table quality rules.
+
+## Open these resources as needed
+
+- `references/design-theory.md`
+- `references/figure-contract.md`
+- `references/thesis-chart-table-rules.md`
