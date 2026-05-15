@@ -1,10 +1,22 @@
 ---
 name: paper-literature
-description: Use when the user needs evidence-traceable literature review, comparison, and citation organization support.
+description: Use when the user needs literature search, citation verification, claim-to-reference mapping, reference export, or thesis and journal citation workflows.
 ---
 
 # Paper Literature
 
-This package currently owns literature screening, comparison structure, and citation-organization scaffolding.
-During migration, keep shortlist rules and evidence templates inside this package boundary only.
-It does not yet own full paper annotation, manuscript authoring, figure design, or data extraction workflows.
+Use this skill for literature search, citation verification, reference export, and claim-support mapping.
+
+## Core responsibilities
+
+- search literature across supported academic sources
+- verify candidate references against specific claims
+- export usable citation files
+- support Chinese thesis citation rules and high-impact manuscript citation workflows
+
+## Open these resources as needed
+
+- `references/source-tiers.md`
+- `references/search-strategy.md`
+- `references/gbt7714.md`
+- `references/citation-rules.md`
