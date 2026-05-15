@@ -2,6 +2,8 @@
 
 Codex plugin for the academic paper lifecycle: reading, manuscript writing, literature and citation workflows, reviewer responses, paper-to-PPT, figures, and data statements.
 
+The default prompts highlight the primary entry points for the first migration phase, while the full public skill surface is listed below.
+
 ## Public Skills
 
 - `paper-reader`
@@ -18,10 +20,9 @@ Validate the plugin and skill packages:
 
 ```bash
 npm run validate
-node scripts/validate-skills.mjs
-node scripts/check-links.mjs
-node scripts/check-no-upstream-leaks.mjs
 ```
+
+Additional validation scripts will be added in a later migration batch.
 
 ## Repository Layout
 
