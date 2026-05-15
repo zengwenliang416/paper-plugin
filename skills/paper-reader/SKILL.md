@@ -14,6 +14,14 @@ Use this skill to transform a paper PDF, article page, or extracted paper text i
 - place figures and tables near the relevant discussion
 - answer follow-up questions from the built source map
 
+## Out of scope for this package
+
+- literature synthesis across multiple papers
+- citation export workflows
+- manuscript drafting
+- reviewer response drafting
+- slide generation
+
 ## Open these resources as needed
 
 - `references/grounding-rules.md`

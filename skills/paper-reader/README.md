@@ -10,6 +10,8 @@ Creates bilingual, source-grounded reading artifacts for academic papers.
 
 ## It does not do
 
-- manuscript drafting
+- literature synthesis
 - citation export workflows
+- manuscript drafting
 - reviewer response drafting
+- slide generation

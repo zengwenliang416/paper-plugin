@@ -14,7 +14,7 @@ Produce these files when possible:
 
 When the source is a full paper, include all pages or all extractable sections in the reader. Do not limit the bundle to selected pages, a teaser excerpt, or the abstract unless the user explicitly requests a preview.
 
-`paper.md` is the primary deliverable. It must expose paragraph-level bilingual alignment:
+`paper.md` is the canonical bilingual text body and the single authoritative store for paragraph-level original/Chinese content. It must expose paragraph-level bilingual alignment:
 
 ```markdown
 <a id="S001"></a>
@@ -29,7 +29,7 @@ For source material that cannot be extracted or translated confidently, keep the
 
 ## `source_map.json`
 
-Keep a stable source map so follow-up questions can cite the same anchors.
+Keep a stable source map so follow-up questions can cite the same anchors. `source_map.json` is an index and anchor artifact, not a second authoritative full-text store. It may carry anchor metadata, placement data, confidence, refs, and optional short excerpts, but the canonical bilingual body lives only in `paper.md`.
 
 ```json
 {
@@ -46,8 +46,8 @@ Keep a stable source map so follow-up questions can cite the same anchors.
       "page": 1,
       "type": "heading|paragraph|caption|table|table_row|note",
       "order": 1,
-      "original_text": "",
-      "translation": "",
+      "paper_md_anchor": "S001",
+      "excerpt": "",
       "bbox": [0, 0, 0, 0],
       "confidence": "high|medium|low",
       "refs": ["F001", "T001"],
@@ -72,6 +72,22 @@ Keep a stable source map so follow-up questions can cite the same anchors.
       "alt_text": ""
     }
   ],
+  "tables": [
+    {
+      "id": "T001",
+      "page": 5,
+      "caption_id": "C004",
+      "table_label": "Table 1",
+      "table_title": "",
+      "image_path": "",
+      "data_path": "",
+      "bbox": [0, 0, 0, 0],
+      "placement_hint": "near_first_mention",
+      "placed_after": "S020",
+      "refs": ["S020", "S021"],
+      "notes": ""
+    }
+  ],
   "glossary": [
     {
       "term": "",
@@ -93,6 +109,8 @@ The Markdown reader should support:
 - English captions and Chinese caption translations
 - page navigation for full papers
 - terminology notes and uncertainty notes
+
+The canonical bilingual wording must live here. Do not treat `source_map.json` as a duplicate full-text body.
 
 ## `reader.html`
 
@@ -138,6 +156,21 @@ Do not add a question area unless explicitly requested.
 ```
 
 Every image/table asset must have a corresponding card in `paper.md`. Every card must identify the source caption and placement block.
+
+## Table metadata expectations
+
+Model tables explicitly in `tables[]`, parallel to `figures[]`. Each table entry should identify:
+
+- stable table ID such as `T001`
+- source page
+- caption source block such as `C004`
+- display label such as `Table 1`
+- optional short title
+- extracted asset path or structured data path when available
+- crop or table-region bounding box
+- placement target in prose such as `placed_after`
+- related discussion refs
+- optional notes about approximation, OCR quality, or reconstruction limits
 
 ## Citation format in the page
 
