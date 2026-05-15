@@ -3,20 +3,11 @@ import { join } from "node:path";
 import { getPluginPaths, listSkillDirectories } from "./_plugin-paths.mjs";
 
 const root = process.cwd();
-const { manifestPath, skillsDir } = getPluginPaths(root);
+const { manifest, manifestError, manifestPath, skillsDir } = getPluginPaths(root);
 
 function fail(message) {
   console.error(`ERROR: ${message}`);
   process.exitCode = 1;
-}
-
-function readJson(path) {
-  try {
-    return JSON.parse(readFileSync(path, "utf8"));
-  } catch (error) {
-    fail(`${path} is not valid JSON: ${error.message}`);
-    return {};
-  }
 }
 
 function assertString(object, key, label = key) {
@@ -44,8 +35,9 @@ function assertStringArray(object, key, label = key, { maxLength } = {}) {
 
 if (!existsSync(manifestPath)) {
   fail("missing .codex-plugin/plugin.json");
+} else if (manifestError) {
+  fail(manifestError.message);
 } else {
-  const manifest = readJson(manifestPath);
   assertString(manifest, "name");
   assertString(manifest, "version");
   assertString(manifest, "description");

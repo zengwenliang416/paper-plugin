@@ -1,13 +1,27 @@
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 
+function readPluginManifest(manifestPath) {
+  if (!existsSync(manifestPath)) {
+    return { manifest: null, manifestError: null };
+  }
+
+  try {
+    return {
+      manifest: JSON.parse(readFileSync(manifestPath, "utf8")),
+      manifestError: null,
+    };
+  } catch (error) {
+    return {
+      manifest: null,
+      manifestError: new Error(`${manifestPath} is not valid JSON: ${error.message}`),
+    };
+  }
+}
+
 export function getPluginPaths(rootDir = process.cwd()) {
   const manifestPath = join(rootDir, ".codex-plugin", "plugin.json");
-  let manifest = null;
-
-  if (existsSync(manifestPath)) {
-    manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
-  }
+  const { manifest, manifestError } = readPluginManifest(manifestPath);
 
   const configuredSkills =
     typeof manifest?.skills === "string" && manifest.skills.trim()
@@ -18,6 +32,7 @@ export function getPluginPaths(rootDir = process.cwd()) {
     rootDir,
     manifestPath,
     manifest,
+    manifestError,
     skillsDir: resolve(rootDir, configuredSkills),
   };
 }
