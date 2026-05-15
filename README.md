@@ -24,7 +24,7 @@ Validate the plugin and skill packages:
 npm run validate
 ```
 
-Additional validation scripts will be added in a later migration batch.
+Additional release-audit commands are tracked in [docs/migration-notes.md](docs/migration-notes.md).
 
 ## Repository Layout
 
