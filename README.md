@@ -24,8 +24,28 @@ npm run validate
 
 Additional release-audit commands are tracked in [docs/migration-notes.md](docs/migration-notes.md).
 
+## Install From GitHub
+
+This repository also exposes a single-plugin marketplace manifest so Codex can add it directly from GitHub.
+
+Example commands:
+
+```bash
+codex plugin marketplace add zengwenliang416/paper-plugin
+```
+
+or
+
+```bash
+codex plugin marketplace add https://github.com/zengwenliang416/paper-plugin.git
+```
+
+After Codex adds the marketplace, open the plugin directory, choose `Paper Plugin Marketplace`, and install `paper-plugin`.
+
 ## Repository Layout
 
+- `.agents/plugins/marketplace.json` - Codex marketplace manifest for Git-backed installation
+- `.claude-plugin/marketplace.json` - legacy-compatible marketplace manifest
 - `.codex-plugin/plugin.json` - plugin manifest
 - `skills/` - public Codex skill packages
 - `docs/` - design, plans, migration notes
