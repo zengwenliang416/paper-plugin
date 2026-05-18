@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl" version="1.0" class="in-text" default-locale="zh-CN">
+  <info>
+    <title>GB/T 7714 Numeric Minimal</title>
+    <id>https://github.com/zengwenliang416/paper-plugin/styles/gbt7714-numeric-minimal</id>
+    <link href="https://github.com/zengwenliang416/paper-plugin" rel="self"/>
+    <author>
+      <name>paper-plugin</name>
+    </author>
+    <category citation-format="numeric"/>
+    <category field="generic-base"/>
+    <updated>2026-05-18T00:00:00+00:00</updated>
+    <rights license="https://creativecommons.org/licenses/by-sa/3.0/">This minimal style is provided for local thesis draft exports.</rights>
+  </info>
+  <macro name="author">
+    <names variable="author">
+      <name delimiter=", " initialize-with=". "/>
+      <substitute>
+        <names variable="editor"/>
+        <text variable="title"/>
+      </substitute>
+    </names>
+  </macro>
+  <macro name="issued-year">
+    <date variable="issued">
+      <date-part name="year"/>
+    </date>
+  </macro>
+  <macro name="access">
+    <group delimiter=". ">
+      <text variable="DOI" prefix="DOI: "/>
+      <text variable="URL"/>
+    </group>
+  </macro>
+  <citation collapse="citation-number">
+    <sort>
+      <key variable="citation-number"/>
+    </sort>
+    <layout prefix="[" suffix="]" delimiter=",">
+      <text variable="citation-number"/>
+    </layout>
+  </citation>
+  <bibliography entry-spacing="0" line-spacing="1" second-field-align="flush">
+    <layout suffix=".">
+      <text variable="citation-number" prefix="[" suffix="]"/>
+      <group delimiter=". ">
+        <text macro="author"/>
+        <text variable="title"/>
+        <text variable="container-title"/>
+      </group>
+      <group prefix=", " delimiter=", ">
+        <text macro="issued-year"/>
+        <text variable="volume"/>
+        <text variable="issue" prefix="(" suffix=")"/>
+        <text variable="page"/>
+      </group>
+      <text macro="access" prefix=". "/>
+    </layout>
+  </bibliography>
+</style>

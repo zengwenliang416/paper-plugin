@@ -1,7 +1,7 @@
 {
   "name": "paper-plugin",
   "version": "0.1.0",
-  "description": "Codex plugin for academic paper reading, writing, citation, response, and figure workflows.",
+  "description": "Codex plugin for academic paper reading, writing, citation, response, figure, data, and DOCX repair workflows.",
   "author": {
     "name": "Local Developer"
   },
@@ -11,14 +11,16 @@
     "research",
     "academic-writing",
     "citation",
+    "docx",
+    "word",
     "codex",
     "skills"
   ],
   "skills": "./skills/",
   "interface": {
     "displayName": "Paper Plugin",
-    "shortDescription": "Academic paper reading, writing, citation, response, and figure workflows",
-    "longDescription": "A multi-skill Codex plugin for reading papers, drafting manuscripts, finding citations, preparing rebuttals, generating paper-based presentations, building figures, and writing data statements.",
+    "shortDescription": "Academic paper reading, writing, citation, DOCX repair, response, and figure workflows",
+    "longDescription": "A multi-skill Codex plugin for reading papers, drafting manuscripts, finding citations, preparing rebuttals, generating paper-based presentations, building figures, writing data statements, and repairing delivered DOCX files.",
     "developerName": "Local Developer",
     "category": "Productivity",
     "capabilities": [

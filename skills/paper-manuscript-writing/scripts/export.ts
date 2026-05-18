@@ -35,6 +35,7 @@ const { values, positionals } = parseArgs({
     csl: { type: "string" },
     "no-citeproc": { type: "boolean" },
     "no-toc": { type: "boolean" },
+    "no-postprocess": { type: "boolean" },
     help: { type: "boolean", short: "h" },
   },
 });
@@ -50,6 +51,7 @@ Options:
   --csl                Custom CSL citation style path
   --no-citeproc        Skip bibliography processing
   --no-toc             Skip table of contents
+  --no-postprocess     Skip generic Chinese thesis DOCX post-processing
   -h, --help           Show help`);
   process.exit(0);
 }
@@ -117,6 +119,7 @@ for (const filename of chapterFiles) {
 }
 
 const combinedMd = parts.join("\n\n");
+const hasTocMarker = /<!--\s*toc\s*-->/.test(combinedMd);
 
 // ---------------------------------------------------------------------------
 // Step 3: Write temporary files
@@ -130,16 +133,16 @@ writeFileSync(combinedPath, combinedMd, "utf-8");
 
 // Write metadata file for pandoc (Lua filter reads these)
 const metaYaml: Record<string, unknown> = {
-  title: config.title || "",
-  author: config.author || "",
-  school: config.school || "",
-  department: config.department || "",
-  major: config.major || "",
-  advisor: config.advisor || "",
-  advisorTitle: config.advisorTitle || "",
-  studentId: config.studentId || "",
-  date: config.date || "",
-  subtitle: config.subtitle || "硕士学位论文",
+  thesisTitle: config.title || "",
+  thesisAuthor: config.author || "",
+  thesisSchool: config.school || "",
+  thesisDepartment: config.department || "",
+  thesisMajor: config.major || "",
+  thesisAdvisor: config.advisor || "",
+  thesisAdvisorTitle: config.advisorTitle || "",
+  thesisStudentId: config.studentId || "",
+  thesisDate: config.date || "",
+  thesisSubtitle: config.subtitle || "硕士学位论文",
 };
 
 // Add crossref config if present
@@ -237,8 +240,10 @@ if (!values["no-citeproc"] && hasBib) {
   console.log(`  Bibliography: ${relative(projectDir, bibFile)}`);
 }
 
-if (!values["no-toc"]) {
+if (!values["no-toc"] && !hasTocMarker) {
   cmd.push("--toc", "--toc-depth=3");
+} else if (hasTocMarker) {
+  console.log("  TOC: using <!-- toc --> marker from content");
 }
 
 // ---------------------------------------------------------------------------
@@ -268,6 +273,28 @@ const sizeKb = Math.round(
   readFileSync(outputPath).byteLength / 1024
 );
 console.log(`\n✓ Exported: ${outputPath} (${sizeKb} KB)`);
+
+// ---------------------------------------------------------------------------
+// Step 6.5: Generic Chinese thesis post-processing
+// ---------------------------------------------------------------------------
+
+if (!values["no-postprocess"]) {
+  const postprocessScript = join(__dirname, "postprocess-docx.ts");
+  if (existsSync(postprocessScript)) {
+    console.log("  Post-process: generic Chinese thesis DOCX styles");
+    execFileSync(
+      "npx",
+      ["tsx", postprocessScript, outputPath],
+      {
+        cwd: projectDir,
+        stdio: "inherit",
+        timeout: 300_000,
+      }
+    );
+  } else {
+    console.warn("  Warning: postprocess-docx.ts not found; skipping generic thesis styles");
+  }
+}
 
 // ---------------------------------------------------------------------------
 // Step 7: Version tag (optional, delegated to version.ts)

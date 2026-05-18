@@ -1,6 +1,6 @@
 # Paper Plugin
 
-Codex plugin for the academic paper lifecycle: reading, manuscript writing, literature and citation workflows, reviewer responses, paper-to-PPT, figures, and data statements.
+Codex plugin for the academic paper lifecycle: reading, manuscript writing, literature and citation workflows, reviewer responses, paper-to-PPT, figures, data statements, and DOCX repair.
 
 The default prompts highlight the primary entry points, while the full public skill surface is listed below.
 
@@ -13,6 +13,7 @@ The default prompts highlight the primary entry points, while the full public sk
 - `paper-paper2ppt`
 - `paper-figure`
 - `paper-data`
+- `paper-docx-repair`
 
 ## Development
 

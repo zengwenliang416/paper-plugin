@@ -10,6 +10,14 @@ function fail(message) {
   process.exitCode = 1;
 }
 
+function assertFile(path, label = path) {
+  if (!existsSync(path)) {
+    fail(`missing required file: ${label}`);
+  } else if (!statSync(path).isFile()) {
+    fail(`required path is not a file: ${label}`);
+  }
+}
+
 function assertString(object, key, label = key) {
   if (typeof object[key] !== "string" || object[key].trim() === "") {
     fail(`${label} must be a non-empty string`);
@@ -87,6 +95,70 @@ if (existsSync(skillsDir)) {
     }
     if (!/^description:\s*.+$/m.test(text)) {
       fail(`${skillPath} must include a description in frontmatter`);
+    }
+  }
+}
+
+const manuscriptSkillDir = join(skillsDir, "paper-manuscript-writing");
+if (existsSync(manuscriptSkillDir)) {
+  assertFile(
+    join(manuscriptSkillDir, "scripts", "export.ts"),
+    "paper-manuscript-writing/scripts/export.ts"
+  );
+  assertFile(
+    join(manuscriptSkillDir, "scripts", "postprocess-docx.ts"),
+    "paper-manuscript-writing/scripts/postprocess-docx.ts"
+  );
+  assertFile(
+    join(manuscriptSkillDir, "filters", "thesis.lua"),
+    "paper-manuscript-writing/filters/thesis.lua"
+  );
+  assertFile(
+    join(manuscriptSkillDir, "assets", "gbt7714-numeric.csl"),
+    "paper-manuscript-writing/assets/gbt7714-numeric.csl"
+  );
+  assertFile(
+    join(manuscriptSkillDir, "references", "design-thesis-workflow.md"),
+    "paper-manuscript-writing/references/design-thesis-workflow.md"
+  );
+
+  const packagePath = join(root, "package.json");
+  if (existsSync(packagePath)) {
+    const packageJson = JSON.parse(readFileSync(packagePath, "utf8"));
+    const deps = {
+      ...packageJson.dependencies,
+      ...packageJson.devDependencies,
+    };
+    for (const dep of ["jszip", "tsx", "yaml"]) {
+      if (!deps[dep]) {
+        fail(`package.json must declare ${dep}; manuscript scripts import it`);
+      }
+    }
+  }
+}
+
+const docxRepairSkillDir = join(skillsDir, "paper-docx-repair");
+if (existsSync(docxRepairSkillDir)) {
+  assertFile(
+    join(docxRepairSkillDir, "scripts", "repair-docx.ts"),
+    "paper-docx-repair/scripts/repair-docx.ts"
+  );
+  assertFile(
+    join(docxRepairSkillDir, "references", "ooxml-repair-rules.md"),
+    "paper-docx-repair/references/ooxml-repair-rules.md"
+  );
+
+  const packagePath = join(root, "package.json");
+  if (existsSync(packagePath)) {
+    const packageJson = JSON.parse(readFileSync(packagePath, "utf8"));
+    const deps = {
+      ...packageJson.dependencies,
+      ...packageJson.devDependencies,
+    };
+    for (const dep of ["jszip", "tsx"]) {
+      if (!deps[dep]) {
+        fail(`package.json must declare ${dep}; docx repair scripts import it`);
+      }
     }
   }
 }

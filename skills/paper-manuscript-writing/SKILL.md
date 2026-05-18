@@ -22,6 +22,7 @@ Use this skill for manuscript drafting, restructuring, polishing, and thesis-ori
 - `references/academic-humanizer-zh.md`
 - `references/plagiarism-strategy.md`
 - `references/thesis-structure.md`
+- `references/design-thesis-workflow.md`
 - `references/undergraduate-quality-gate.md`
 - `references/examples/index.md`
 
@@ -30,6 +31,14 @@ Use this skill for manuscript drafting, restructuring, polishing, and thesis-ori
 Primary scope is manuscript writing work: drafting, restructuring, polishing, and thesis writing guidance.
 
 Attached scripts under `scripts/` support thesis engineering workflows such as project import/export, template parsing, dependency checks, and version tagging. They are bundled support tooling, not the package's main product surface.
+
+For Chinese graduation-thesis DOCX delivery, prefer the bundled export path over raw Pandoc:
+
+```bash
+npx tsx scripts/export.ts <project-dir> -o <output.docx>
+```
+
+The exporter applies `filters/thesis.lua` and `scripts/postprocess-docx.ts` by default so a missing school template still produces a usable generic thesis layout. If an official school template exists, put it at `format/reference.docx` or pass `--reference-doc`.
 
 Out of scope for this package:
 
