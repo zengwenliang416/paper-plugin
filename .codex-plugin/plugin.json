@@ -1,7 +1,7 @@
 {
   "name": "paper-plugin",
   "version": "0.1.0",
-  "description": "Codex plugin for academic paper reading, writing, citation, response, figure, data, and DOCX repair workflows.",
+  "description": "Codex plugin for academic paper routing, reading, writing, citation, response, figure, data, and DOCX repair workflows.",
   "author": {
     "name": "Local Developer"
   },
@@ -19,8 +19,8 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Paper Plugin",
-    "shortDescription": "Academic paper reading, writing, citation, DOCX repair, response, and figure workflows",
-    "longDescription": "A multi-skill Codex plugin for reading papers, drafting manuscripts, finding citations, preparing rebuttals, generating paper-based presentations, building figures, writing data statements, and repairing delivered DOCX files.",
+    "shortDescription": "Academic paper routing, reading, writing, citation, DOCX repair, response, and figure workflows",
+    "longDescription": "A multi-skill Codex plugin for routing paper tasks, reading papers, drafting manuscripts, finding citations, preparing rebuttals, generating paper-based presentations, building figures, writing data statements, and repairing delivered DOCX files.",
     "developerName": "Local Developer",
     "category": "Productivity",
     "capabilities": [
@@ -29,9 +29,9 @@
       "Write"
     ],
     "defaultPrompt": [
-      "Turn this paper into a source-grounded bilingual reader with figure anchors.",
-      "Draft or restructure this manuscript section and flag missing evidence.",
-      "Find supporting references for these claims and export usable citations."
+      "Route this paper or thesis task to the correct workflow before editing files.",
+      "Inspect this thesis folder and split writing, DOCX, citation, figure, and delivery work.",
+      "Repair this academic deliverable using the correct Paper Plugin skill path."
     ],
     "brandColor": "#2563EB",
     "composerIcon": "./assets/icon.png",

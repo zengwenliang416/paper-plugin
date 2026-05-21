@@ -6,6 +6,7 @@ The default prompts highlight the primary entry points, while the full public sk
 
 ## Public Skills
 
+- `paper-workflow-router`
 - `paper-reader`
 - `paper-manuscript-writing`
 - `paper-literature`

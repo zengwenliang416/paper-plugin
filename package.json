@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "validate": "node scripts/validate-plugin.mjs"
+    "validate": "node scripts/validate-plugin.mjs && node skills/paper-workflow-router/scripts/validate-routing-contract.mjs",
+    "validate:router": "node skills/paper-workflow-router/scripts/validate-routing-contract.mjs"
   },
   "dependencies": {
     "jszip": "^3.10.1",

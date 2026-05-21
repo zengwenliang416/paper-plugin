@@ -1,0 +1,84 @@
+[
+  {
+    "name": "thesis folder intake",
+    "input": "帮我看看这个论文项目文件夹现在有什么，能不能开始写正文",
+    "primary": "paper-manuscript-writing",
+    "supporting": [],
+    "outOfScope": []
+  },
+  {
+    "name": "docx rendered layout",
+    "input": "Word 目录页码不对，三线表线也不符合，公式编号跑到下一行了",
+    "primary": "paper-docx-repair",
+    "supporting": [],
+    "outOfScope": []
+  },
+  {
+    "name": "reference authenticity and numbering",
+    "input": "检查参考文献是不是真的，正文 [1-3] 编号和文末要同步",
+    "primary": "paper-literature",
+    "supporting": [],
+    "outOfScope": []
+  },
+  {
+    "name": "visual evidence boundary",
+    "input": "这些系统运行截图不要 AI 生成，帮我整理图 5-1 到图 5-8 的证据来源",
+    "primary": "paper-figure",
+    "supporting": [],
+    "outOfScope": []
+  },
+  {
+    "name": "defense deck with video",
+    "input": "根据论文做答辩 PPT，要有视频页、讲稿和图片预留",
+    "primary": "paper-paper2ppt",
+    "supporting": [],
+    "outOfScope": []
+  },
+  {
+    "name": "mixed thesis and project delivery",
+    "input": "论文和源码一起交付，帮我分清楚论文、项目源码、运行手册和答辩材料",
+    "primary": "paper-workflow-router",
+    "supporting": [
+      "paper-manuscript-writing",
+      "paper-docx-repair",
+      "paper-paper2ppt"
+    ],
+    "outOfScope": [
+      "project-packaging"
+    ]
+  },
+  {
+    "name": "reviewer response",
+    "input": "审稿人说实验不充分，帮我写 response letter 并标出需要补的证据",
+    "primary": "paper-response",
+    "supporting": [
+      "paper-manuscript-writing"
+    ],
+    "outOfScope": []
+  },
+  {
+    "name": "data availability",
+    "input": "帮我写 Nature 风格的数据可用性声明和代码仓库说明",
+    "primary": "paper-data",
+    "supporting": [],
+    "outOfScope": []
+  },
+  {
+    "name": "paper reader",
+    "input": "把这篇 PDF 做成中英双语精读，保留图表和原文锚点",
+    "primary": "paper-reader",
+    "supporting": [],
+    "outOfScope": []
+  },
+  {
+    "name": "pure software bug",
+    "input": "修一下后端登录 bug，MySQL 也启动不起来",
+    "primary": "out-of-scope",
+    "supporting": [],
+    "outOfScope": [
+      "software-repair",
+      "environment-setup"
+    ]
+  }
+]
+
