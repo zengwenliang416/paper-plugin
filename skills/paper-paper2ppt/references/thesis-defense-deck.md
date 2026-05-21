@@ -50,3 +50,5 @@ Use real thesis images when available. If only a placeholder can be used, make t
 ## Output contract
 
 If this skill is not rendering a `.pptx`, state that the output is a slide plan or generation prompt. When a real deck is required, coordinate with a presentation-generation tool or package and keep the figure/video mapping as the handoff contract.
+
+For defenses with software, simulation, experiment, or operation demonstrations, also prepare the handoff described in `references/thesis-demo-video-handoff.md`: `visual_map`, `talk_track`, `demo_script`, missing assets, and fallback plan.

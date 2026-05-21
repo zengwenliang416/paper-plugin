@@ -11,3 +11,4 @@ Use package-local references and assets to convert paper content into a slide-or
 
 - `references/workflow-scope.md`
 - `references/thesis-defense-deck.md`
+- `references/thesis-demo-video-handoff.md`

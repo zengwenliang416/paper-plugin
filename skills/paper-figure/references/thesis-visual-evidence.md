@@ -8,6 +8,7 @@ Use this when thesis work involves figures, charts, tables, formulas, screenshot
 - AI-generated images may be used for concept illustrations, workflow sketches, or temporary placeholders only when they are labeled as such.
 - Do not use generated images as real experiment results, real screenshots, real hardware photos, measured diagrams, or proof that a system works.
 - A generated visual must not introduce unsupported hardware, software, metrics, labels, scene objects, or conclusions.
+- For multi-figure thesis repair, create a manifest using `references/visual-evidence-manifest.md` before deleting, replacing, or generating visuals.
 
 ## Prompt construction for generated visuals
 
@@ -35,3 +36,4 @@ If the thesis already has a relevant real figure, prefer reserving or improving 
 - For inserted images, confirm the target DOCX contains media files and that the body references the right figure numbers.
 - For screenshots or photos, preserve provenance in notes or filenames when possible.
 - When a user provides screenshot feedback, compare against the rendered DOCX/PDF page, not just the source Markdown.
+- Report which visuals are evidence, illustration, placeholder, missing, or unsupported.

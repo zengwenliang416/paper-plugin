@@ -13,3 +13,4 @@ Use this skill for scientific figure production and thesis-oriented chart/table 
 - `references/figure-contract.md`
 - `references/thesis-chart-table-rules.md`
 - `references/thesis-visual-evidence.md`
+- `references/visual-evidence-manifest.md`

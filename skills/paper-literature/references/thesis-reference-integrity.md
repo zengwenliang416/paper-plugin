@@ -18,6 +18,8 @@ Before editing references:
 3. Build a mapping from in-text citation order to bibliography entries.
 4. Identify high-number citations, missing bibliography targets, uncited references, duplicate entries, and references cited only in deleted text.
 
+For a full audit, follow `references/thesis-reference-audit.md` and keep a verification ledger for every bibliography entry.
+
 After editing references:
 
 - renumber in-text citations and bibliography together

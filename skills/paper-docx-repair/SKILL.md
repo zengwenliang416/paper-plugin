@@ -45,6 +45,7 @@ The script supports:
 
 - `references/ooxml-repair-rules.md`
 - `references/thesis-docx-layout-qa.md`
+- `references/thesis-layout-scan-contract.md`
 
 ## Boundaries
 

@@ -21,3 +21,4 @@ Use this skill for literature search, citation verification, reference export, a
 - `references/gbt7714.md`
 - `references/citation-rules.md`
 - `references/thesis-reference-integrity.md`
+- `references/thesis-reference-audit.md`
