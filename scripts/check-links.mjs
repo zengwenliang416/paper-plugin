@@ -22,7 +22,10 @@ function extractInlineCodePaths(text) {
       if (/^(https?:|mailto:|#)/.test(value)) {
         return false;
       }
-      return value.includes("/") || /\.(md|json|mjs|ts|py|sh)$/.test(value);
+      const localReference = value.replace(/^\.\//, "");
+      return /^(references|scripts|assets|filters|examples|skills|docs|\.codex-plugin)\//.test(
+        localReference,
+      ) || /^(README|SKILL)\.md$/.test(localReference);
     });
 }
 
