@@ -12,3 +12,4 @@ Use this skill for scientific figure production and thesis-oriented chart/table 
 - `references/design-theory.md`
 - `references/figure-contract.md`
 - `references/thesis-chart-table-rules.md`
+- `references/thesis-visual-evidence.md`

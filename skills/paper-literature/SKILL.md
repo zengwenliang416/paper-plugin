@@ -20,3 +20,4 @@ Use this skill for literature search, citation verification, reference export, a
 - `references/search-strategy.md`
 - `references/gbt7714.md`
 - `references/citation-rules.md`
+- `references/thesis-reference-integrity.md`

@@ -13,6 +13,7 @@ Use this skill for post-delivery DOCX engineering when the user already has a Wo
 - preserve the existing document by default: write a repaired copy or make an in-place backup first
 - repair generic Word structure issues, not discipline-specific content
 - validate `word/document.xml`, `word/styles.xml`, and `word/settings.xml` after repair
+- treat school norms, screenshots, and rendered output as layout evidence
 - render or preview the fixed DOCX when the environment has LibreOffice or another reliable renderer
 
 ## Default workflow
@@ -43,6 +44,7 @@ The script supports:
 ## Open this resource as needed
 
 - `references/ooxml-repair-rules.md`
+- `references/thesis-docx-layout-qa.md`
 
 ## Boundaries
 

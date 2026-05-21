@@ -10,6 +10,7 @@ Use this skill for manuscript drafting, restructuring, polishing, and thesis-ori
 ## Core responsibilities
 
 - draft and restructure manuscript sections
+- inspect thesis project materials before drafting
 - polish and de-AI rewrite prose
 - guide thesis-style chapter development and quality-gate review
 - apply plagiarism-reduction and thesis writing rules
@@ -22,6 +23,7 @@ Use this skill for manuscript drafting, restructuring, polishing, and thesis-ori
 - `references/academic-humanizer-zh.md`
 - `references/plagiarism-strategy.md`
 - `references/thesis-structure.md`
+- `references/thesis-project-intake.md`
 - `references/design-thesis-workflow.md`
 - `references/undergraduate-quality-gate.md`
 - `references/examples/index.md`
