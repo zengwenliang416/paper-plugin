@@ -24,6 +24,9 @@ Use this skill for manuscript drafting, restructuring, polishing, and thesis-ori
 - `references/plagiarism-strategy.md`
 - `references/thesis-structure.md`
 - `references/thesis-project-intake.md`
+- `references/thesis-claim-audit.md`
+- `references/aigc-report-rewrite.md`
+- `references/mixed-delivery-boundary.md`
 - `references/design-thesis-workflow.md`
 - `references/undergraduate-quality-gate.md`
 - `references/examples/index.md`

@@ -4,6 +4,8 @@ Use this when a thesis task starts from a local folder, existing drafts, task bo
 
 ## Intake before writing
 
+When the user says "先看看当前项目有什么", "根据当前材料写论文", "你先理解一下这个项目", or similar, treat the first response as intake-only. Do not draft full thesis prose until the project boundary, source hierarchy, draft state, and evidence gaps are known.
+
 1. Identify the project boundary. Check whether the folder already has `thesis.yaml`, `content/`, `assets/`, `output/`, `format/`, `.thesis.json`, or an existing export pipeline.
 2. Inventory local sources: task book, opening-report template, literature-review template, school specification, teacher-commented draft, sample thesis, code, data, screenshots, drawings, figures, videos, and prior outputs.
 3. Extract source text from PDF/DOC/DOCX before relying on filenames. Record extraction failures instead of guessing the contents.
@@ -11,6 +13,20 @@ Use this when a thesis task starts from a local folder, existing drafts, task bo
    - authority: user prompt, current title, task book, teacher comments, school template, real data, real code, real images
    - reusable scaffolding: sample thesis, older drafts, generic templates
    - weak material: unverified references, AI-looking task-book references, screenshots without source context
+
+## Draft status triage
+
+Before editing a thesis folder, classify the main draft:
+
+| Draft state | Signals | Safe action |
+| --- | --- | --- |
+| pure template | placeholders, empty headings, no project evidence | fill structure only after intake |
+| half draft | some chapters present, weak evidence, repeated generic prose | build gap table before expansion |
+| mixed draft | copied sample sections mixed with current project material | separate reusable structure from wrong content |
+| old draft | title, task book, or output differs from current user scope | use only after source-of-truth selection |
+| final candidate | complete DOCX/PDF exists and user asks for fixes | preserve source, repair narrowly, verify output |
+
+If multiple sources exist, name the editable source and the final deliverable source separately.
 
 ## Title and material mismatch
 
@@ -20,6 +36,25 @@ If the folder title, user-stated title, task book, sample thesis, opening report
 - reuse only structure, formatting, shared academic moves, and truly overlapping evidence
 - do not copy scenario wording, objects, metrics, experiment claims, or module names from mismatched samples
 - return a short "usable / not usable / needs rewrite" boundary before drafting
+
+## Sample and old-draft reuse boundary
+
+Samples and old drafts can provide:
+
+- chapter order
+- table shape
+- wording moves such as background, method, result, limitation
+- school-format examples
+
+Samples and old drafts must not provide:
+
+- current project facts
+- experiment values
+- screenshots or result claims
+- module names, device names, scene descriptions, or conclusions
+- reference authenticity
+
+When the user wants an opening report or literature review, first extract the local template fields, order, teacher comments, student/title metadata, check rules, and naming requirements.
 
 ## Evidence ledger
 
@@ -41,6 +76,9 @@ If support is missing, mark `[TODO]`, soften the claim, or write it as a plan/va
 - Generate Markdown as the editable source, then export to DOCX when delivery requires Word.
 - Avoid Markdown headings like `1.` or `2.` when the DOCX exporter may parse them as ordered lists; use full-width forms such as `（1）` when the template expects text headings.
 - When teacher comments are present, map each comment to the affected section and state whether it changes content, evidence, format, or figures.
+- When screenshot comments appear to reference another major, device, or project, mark them as possibly mismatched before applying them.
+- When content is too short, create a chapter gap table and expand only from verified code, screenshots, tests, data, calculations, drawings, or references.
+- When restructuring chapters, list the current structure, target structure, moved/deleted/new sections, and expected effects on figure, table, formula, citation, and export numbering.
 - After large text rewrites, re-check equations, figure/table references, citation numbering, and terminology consistency.
 
 ## Delivery notes
