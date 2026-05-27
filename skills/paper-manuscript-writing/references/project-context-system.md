@@ -24,7 +24,7 @@ Other skills may read this context and write their lane-specific ledgers:
 - literature: citation and reference verification ledgers
 - figure: visual evidence manifest
 - data: data availability and source-data provenance
-- DOCX repair: repair scans, backups, rendered-check reports
+- DOCX repair: repair scans, backups, page-PNG render QA reports, and final delivery verification rows
 - PPT: defense handoff, visual map, talk track, demo plan
 - response: reviewer action tracker
 
@@ -52,6 +52,7 @@ Minimum files:
     evidence.tsv
     figures.tsv
     citations.tsv
+    docx.tsv
   indexes/
     by-path.json
     by-hash.json
@@ -83,7 +84,17 @@ known.
 
 Context files are indexes and ledgers. They are not the evidence source. When a
 claim is important or contested, open the original file, source block, image,
-data, code, log, reference, DOCX XML, or rendered output.
+data, code, log, reference, DOCX XML, or rendered page PNGs.
+
+## DOCX final-delivery memory
+
+For Word delivery, `.paper-context/ledgers/docx.tsv` is the durable context
+bridge between manuscript export and DOCX repair. A final/archive version must
+record the exact output path, DOCX package validity, renderer, page count,
+checked PNG directory, reviewed pages, reviewer, timestamp, and notes.
+
+Do not mark a DOCX version as archive-ready from XML scans, Markdown source, or
+successful export alone.
 
 ## Session closeout
 

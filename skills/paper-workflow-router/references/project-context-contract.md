@@ -62,7 +62,7 @@ Load local rows and files relevant to the lane:
 - citation map rows
 - visual manifest rows
 - data/source rows
-- DOCX scan report
+- DOCX scan report and page-PNG render ledger row
 - related decisions and current issues
 
 ### L3 original evidence
@@ -83,7 +83,8 @@ Default mixed-lane order:
 4. `paper-figure`: verify visuals and media provenance.
 5. `paper-data`: verify source data and data availability when applicable.
 6. `paper-docx-repair`: export/repair/validate final DOCX after content and
-   evidence changes.
+   evidence changes, then render page PNGs and verify every page before final
+   delivery.
 7. `paper-paper2ppt`: consume locked thesis content and visual/data ledgers for
    defense handoff.
 8. `paper-response`: branch into reviewer-response actions and route back to
@@ -95,8 +96,8 @@ Default mixed-lane order:
   manuscript intake with context checkpointing.
 - "论文和源码一起交付" means router primary, manuscript/docx/ppt supporting, and
   project packaging out of paper-plugin scope by default.
-- "终稿", "归档", "最终交付" requires `pre-archive` validation before claiming
-  completion.
+- "终稿", "归档", "最终交付" requires DOCX page-PNG render QA and `pre-archive`
+  validation before claiming completion.
 - "导出 Word/DOCX" requires `pre-export` validation when `.paper-context/`
   exists.
 

@@ -38,6 +38,7 @@ This document describes the project-local context layer used by Paper Plugin.
     extracted-text/
     thumbnails/
     ooxml-scan/
+    docx-renders/
   private.json
 ```
 
@@ -62,8 +63,20 @@ This document describes the project-local context layer used by Paper Plugin.
 - `source_map.json`
 
 Context files store paths, hashes, status, and decisions. Original documents,
-data, code, screenshots, DOCX XML, and rendered output remain the authoritative
-evidence.
+data, code, screenshots, DOCX XML, and rendered page PNGs remain the
+authoritative evidence.
+
+## DOCX ledger
+
+`ledgers/docx.tsv` tracks final Word-file verification:
+
+```text
+output_path	package_valid	render_checked	status	renderer	page_count	png_dir	pdf_path	reviewed_pages	reviewer	checked_at	notes
+```
+
+Archive-ready rows must point at the latest DOCX, set `package_valid=yes`,
+`render_checked=yes`, `status=verified`, and include a `png_dir` with checked
+`page-<N>.png` images for all pages.
 
 ## Version files
 

@@ -1,7 +1,7 @@
 {
   "name": "paper-plugin",
   "version": "0.1.0",
-  "description": "Codex plugin for academic paper routing, reading, writing, citation, response, figure, data, and DOCX repair workflows.",
+  "description": "Codex plugin for academic paper routing, reading, writing, citation, response, figure, data, and strict DOCX render-QA workflows.",
   "author": {
     "name": "Local Developer"
   },
@@ -19,8 +19,8 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Paper Plugin",
-    "shortDescription": "Academic paper routing, reading, writing, citation, DOCX repair, response, and figure workflows",
-    "longDescription": "A multi-skill Codex plugin for routing paper tasks, reading papers, drafting manuscripts, finding citations, preparing rebuttals, generating paper-based presentations, building figures, writing data statements, and repairing delivered DOCX files.",
+    "shortDescription": "Academic paper routing, reading, writing, citation, DOCX render QA, response, and figure workflows",
+    "longDescription": "A multi-skill Codex plugin for routing paper tasks, reading papers, drafting manuscripts, finding citations, preparing rebuttals, generating paper-based presentations, building figures, writing data statements, and repairing or visually verifying delivered DOCX files.",
     "developerName": "Local Developer",
     "category": "Productivity",
     "capabilities": [
@@ -31,7 +31,7 @@
     "defaultPrompt": [
       "Route this paper or thesis task to the correct workflow before editing files.",
       "Inspect this thesis folder and split writing, DOCX, citation, figure, and delivery work.",
-      "Repair this academic deliverable using the correct Paper Plugin skill path."
+      "Repair this academic deliverable using the correct Paper Plugin skill path and verify final DOCX layout with rendered page PNGs."
     ],
     "brandColor": "#2563EB",
     "composerIcon": "./assets/icon.png",

@@ -17,7 +17,7 @@ Check real document artifacts, not only Markdown:
 - `word/settings.xml` for field refresh behavior
 - `word/header*.xml` and `word/footer*.xml` for headers, footers, and page numbering
 - `word/media/` and relationships for embedded images
-- rendered PDF or visual preview when spacing, pagination, or screenshot complaints are involved
+- page PNG renders for all final DOCX delivery claims
 
 ## Common thesis layout checks
 
@@ -34,6 +34,17 @@ Check real document artifacts, not only Markdown:
 - formulas and formula numbers stay on the same line when required
 - reference paragraphs use the requested first-line or hanging indent and match in-text citations
 
+## Required render loop
+
+For final DOCX delivery, follow `docx-render-qa-contract.md`:
+
+1. Render the latest DOCX with `scripts/render-docx.ts`.
+2. Inspect every generated `page-<N>.png`.
+3. Fix visual defects and re-render.
+4. Record a verified `.paper-context/ledgers/docx.tsv` row only after all page PNGs pass review.
+
+Do not replace this with a package-only scan, extracted text check, or "Pandoc succeeded" statement.
+
 ## Validation report
 
 After repair, report:
@@ -42,6 +53,6 @@ After repair, report:
 - backup path if an in-place edit was used
 - which XML parts or export scripts changed
 - counts for the checked objects when available, such as table indent issues, TOC mismatches, broken media, formula-number issues, or citation mismatches
-- whether ZIP integrity and PDF/render validation passed
+- whether ZIP integrity, page-PNG rendering, and full-page visual review passed
 
-Do not claim visual correctness if only XML syntax was checked.
+Do not claim visual correctness if only XML syntax, source Markdown, or DOCX package structure was checked.

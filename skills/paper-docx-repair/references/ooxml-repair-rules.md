@@ -11,7 +11,7 @@ These rules are for generic DOCX delivery fixes. They apply to theses, reports, 
 3. Back up before in-place edits.
 4. Apply the smallest OOXML patch that fixes the observed issue.
 5. Re-open the DOCX as a ZIP and re-scan the relevant XML.
-6. Render or visually inspect affected pages when layout is part of the complaint.
+6. Render page PNGs and inspect every page before any final delivery claim.
 
 ## Common Generic Fixes
 
@@ -35,7 +35,8 @@ These rules are for generic DOCX delivery fixes. They apply to theses, reports, 
 - section/page-number report identifies where numbering starts and which footer/header parts are linked.
 - `REF` field report shows all modified REF instructions contain `\* CHARFORMAT`.
 - TOC result paragraph report no longer contains unexpected `TOC10`-style levels for normal heading entries.
-- when layout changed, rendered PDF or visual preview was checked and the report says which pages were inspected.
+- when layout changed, page-PNG rendering was checked and the report says which pages were inspected.
+- for final delivery, `page-<N>.png` renders exist, every page was checked, and `.paper-context/ledgers/docx.tsv` records the verified render when context exists.
 
 ## When To Avoid Automatic Repair
 

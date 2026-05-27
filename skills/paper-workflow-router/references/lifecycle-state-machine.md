@@ -29,8 +29,8 @@ UNINITIALIZED
   selected editable source conflict.
 - Do not enter `SECTION_DRAFTING` without an outline and required evidence map.
 - Do not enter `EXPORT_CANDIDATE` when high-risk claims lack a claim ledger.
-- Do not enter `DOCX_VERIFIED` from XML-only checks; require rendered preview,
-  PDF conversion, or manual visible-page evidence.
+- Do not enter `DOCX_VERIFIED` from XML-only checks, PDF conversion alone, or
+  successful export alone; require checked page-PNG renders for every page.
 - Do not enter `DEFENSE_READY` while core visuals are placeholders.
 - Do not enter `ARCHIVED` without final outputs, checksums, validation report,
   version checkpoint, and known limitations.

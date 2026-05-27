@@ -23,7 +23,10 @@ Use a compact report with these fields:
 | --- | --- |
 | package_ok | DOCX ZIP opens and required parts exist |
 | xml_parts_checked | document, styles, settings, headers, footers, rels |
-| rendered_checked | none, LibreOffice PDF, Word/WPS visual, or screenshot comparison |
+| rendered_checked | none, page-PNG render, or explicit user-accepted manual exception |
+| render_png_dir | directory containing checked `page-<N>.png` files |
+| render_page_count | number of page PNGs produced by the latest render |
+| reviewed_pages | `all` or checked page count |
 | table_indent_issues | count of table paragraphs with direct first-line or hanging indent |
 | three_line_table_issues | count of tables with inner vertical/full grid borders when not allowed |
 | formula_number_issues | count of formula numbers detached from formula lines |
@@ -35,8 +38,7 @@ Use a compact report with these fields:
 
 - Existing formatted DOCX: patch OOXML narrowly, write a copy or backup, then rescan.
 - Markdown/export pipeline: fix reference DOCX, Lua filter, or postprocess script, then regenerate.
-- Screenshot complaint: compare against rendered DOCX/PDF page, not just source Markdown.
+- Screenshot complaint: compare against rendered DOCX page PNGs, not just source Markdown.
 - School-template complaint: parse the supplied template before approximating fonts, spacing, page sections, or table borders.
 
-Do not claim visual correctness unless a rendered output or user-visible page was checked.
-
+Do not claim visual correctness unless the latest DOCX was rendered to page PNGs and all pages were checked, or the user explicitly accepted a manual-preview exception.

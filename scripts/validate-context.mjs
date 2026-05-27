@@ -1,10 +1,12 @@
 import {
   cpSync,
   existsSync,
+  mkdirSync,
   mkdtempSync,
   rmSync,
   statSync,
   utimesSync,
+  writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
@@ -77,6 +79,21 @@ function makeOutputOlder(projectDir) {
   if (existsSync(content)) utimesSync(content, now, now);
 }
 
+function writeVerifiedDocxLedger(projectDir) {
+  const pngDir = join(projectDir, ".paper-context", "qa", "docx", "thesis");
+  mkdirSync(pngDir, { recursive: true });
+  writeFileSync(join(pngDir, "page-1.png"), "synthetic png fixture\n", "utf8");
+  writeFileSync(
+    join(projectDir, ".paper-context", "ledgers", "docx.tsv"),
+    [
+      "output_path\tpackage_valid\trender_checked\tstatus\trenderer\tpage_count\tpng_dir\tpdf_path\treviewed_pages\treviewer\tchecked_at\tnotes",
+      "output/thesis.docx\tyes\tyes\tverified\tfixture\t1\t.paper-context/qa/docx/thesis\t\tall\tvalidator\t2026-05-26T00:00:00.000Z\tsynthetic verified render",
+      "",
+    ].join("\n"),
+    "utf8"
+  );
+}
+
 function assertFinding(result, code, label) {
   if (!result?.findings?.some((finding) => finding.code === code)) {
     fail(`${label} expected finding code ${code}`);
@@ -102,6 +119,12 @@ if (smoke) {
     const result = parseJson(validate.stdout, "valid fixture validate");
     if (result?.status !== "passed") {
       fail(`valid fixture should pass pre-export, got ${result?.status}`);
+    }
+    writeVerifiedDocxLedger(smoke);
+    const archiveValidate = runContext(["validate", smoke, "--gate", "pre-archive"]);
+    const archiveResult = parseJson(archiveValidate.stdout, "valid fixture pre-archive validate");
+    if (archiveResult?.status !== "passed") {
+      fail(`valid fixture should pass pre-archive with verified DOCX render, got ${archiveResult?.status}`);
     }
   } finally {
     rmSync(smoke, { recursive: true, force: true });

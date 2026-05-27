@@ -144,8 +144,16 @@ if (existsSync(docxRepairSkillDir)) {
     "paper-docx-repair/scripts/repair-docx.ts"
   );
   assertFile(
+    join(docxRepairSkillDir, "scripts", "render-docx.ts"),
+    "paper-docx-repair/scripts/render-docx.ts"
+  );
+  assertFile(
     join(docxRepairSkillDir, "references", "ooxml-repair-rules.md"),
     "paper-docx-repair/references/ooxml-repair-rules.md"
+  );
+  assertFile(
+    join(docxRepairSkillDir, "references", "docx-render-qa-contract.md"),
+    "paper-docx-repair/references/docx-render-qa-contract.md"
   );
 
   const packagePath = join(root, "package.json");

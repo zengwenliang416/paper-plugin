@@ -1,6 +1,6 @@
 # Paper Plugin
 
-Codex plugin for the academic paper lifecycle: reading, manuscript writing, literature and citation workflows, reviewer responses, paper-to-PPT, figures, data statements, and DOCX repair.
+Codex plugin for the academic paper lifecycle: reading, manuscript writing, literature and citation workflows, reviewer responses, paper-to-PPT, figures, data statements, DOCX repair, and final DOCX render QA.
 
 The default prompts highlight the primary entry points, while the full public skill surface is listed below.
 
@@ -22,6 +22,12 @@ Validate the plugin and skill packages:
 
 ```bash
 npm run validate
+```
+
+Render a final DOCX for visual QA:
+
+```bash
+npm run docx:render -- <file.docx> --output-dir <render-dir>
 ```
 
 Additional release-audit commands are tracked in [docs/migration-notes.md](docs/migration-notes.md).

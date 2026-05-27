@@ -15,6 +15,7 @@
 - Added project context-system implementation plan, `.paper-context` contracts, semantic versioning guidance, lifecycle routing references, and manuscript context ownership guidance.
 - Added `context.ts` project context CLI with `init`, `load`, `update`, `validate`, and `snapshot` commands.
 - Added synthetic context fixtures and `validate:context` coverage for context shape, stale output, missing claim evidence, dangling citations, AI-image evidence, data provenance, DOCX render verification, and privacy gates.
+- Added a strict DOCX page-PNG render QA contract and `paper-docx-repair/scripts/render-docx.ts` for LibreOffice-backed DOCX visual verification.
 
 ### Changed
 
@@ -23,3 +24,4 @@
 - Extended `npm run validate` with a deterministic router contract test.
 - Extended `npm run validate` with deterministic project-context contract tests.
 - Connected manuscript import/export/version scripts to `.paper-context` initialization, pre-export validation, snapshots, and version checkpoints while preserving legacy projects without context.
+- Strengthened final DOCX archive gates so verified delivery requires package validity, rendered page PNGs, all-page review, and a traceable `ledgers/docx.tsv` row.

@@ -266,4 +266,4 @@
 npx tsx skills/paper-manuscript-writing/scripts/export.ts <项目目录> -o "<output.docx>"
 ```
 
-导出后必须检查真实 DOCX 结构：封面、目录域、页眉页脚、图片嵌入、图表题注、字体、行距和表格边框。不要只用 Markdown 或 Pandoc 成功退出作为格式通过依据。
+导出后必须检查真实 DOCX 结构：封面、目录域、页眉页脚、图片嵌入、图表题注、字体、行距和表格边框。不要只用 Markdown 或 Pandoc 成功退出作为格式通过依据。终稿交付前必须用 `paper-docx-repair/scripts/render-docx.ts` 渲染为 `page-<N>.png`，逐页检查；有 `.paper-context/` 时，把最终通过的渲染记录写入 `ledgers/docx.tsv`。

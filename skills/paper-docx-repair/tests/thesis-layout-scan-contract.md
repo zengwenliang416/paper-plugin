@@ -9,7 +9,7 @@ Given a thesis DOCX with table indentation, detached formula numbers, stale TOC 
 - choose existing-DOCX repair instead of Markdown re-export when the user says "就在这个 Word 上改"
 - write a repaired copy or backup before in-place mutation
 - rescan the changed XML parts after repair
-- render or visually inspect affected pages before claiming visual correctness
+- render the repaired DOCX to page PNGs and inspect every page before claiming visual correctness
+- record `png_dir`, `page_count`, `reviewed_pages`, and `status=verified` in `.paper-context/ledgers/docx.tsv` for final archive delivery
 
-The workflow fails this contract if it only reports "DOCX can open" or only checks Markdown source.
-
+The workflow fails this contract if it only reports "DOCX can open", only checks Markdown source, or records DOCX verification without checked page PNGs.

@@ -319,6 +319,7 @@ function ensureContextDirs(): void {
     join(contextDir, "cache", "extracted-text"),
     join(contextDir, "cache", "thumbnails"),
     join(contextDir, "cache", "ooxml-scan"),
+    join(contextDir, "cache", "docx-renders"),
   ]) {
     ensureDir(dir);
   }
@@ -397,7 +398,7 @@ function writeDefaultLedgers(): void {
     "ledgers/citations.tsv":
       "old_no\tnew_no\ttitle\tsource_type\tverification_source\tverification_status\tcitation_locations\taction\n",
     "ledgers/docx.tsv":
-      "output_path\tpackage_valid\trender_checked\tstatus\tnotes\n",
+      "output_path\tpackage_valid\trender_checked\tstatus\trenderer\tpage_count\tpng_dir\tpdf_path\treviewed_pages\treviewer\tchecked_at\tnotes\n",
     "ledgers/reviewer-comments.jsonl": "",
   };
   for (const [file, content] of Object.entries(files)) {
@@ -750,18 +751,27 @@ function validateDocxEvidence(findings: Finding[], gate: Gate): void {
   if (!out || !out.endsWith(".docx")) return;
   const rows = readTsv(join(contextDir, "ledgers", "docx.tsv"));
   const verified = rows.some((row) => {
-    const outputMatches = !row.output_path || resolve(projectDir, row.output_path) === out;
+    const outputMatches = Boolean(row.output_path) && resolve(projectDir, row.output_path) === out;
+    const packageValid = ["yes", "true", "valid"].includes((row.package_valid || "").toLowerCase());
     const renderChecked = ["yes", "true", "verified"].includes((row.render_checked || "").toLowerCase());
-    const statusOk = ["verified", "rendered", "manual_preview"].includes((row.status || "").toLowerCase());
-    return outputMatches && renderChecked && statusOk;
+    const statusOk = (row.status || "").toLowerCase() === "verified";
+    const pageCount = Number(row.page_count || 0);
+    const reviewedPages = (row.reviewed_pages || "").toLowerCase();
+    const allPagesReviewed = reviewedPages === "all" || Number(reviewedPages) >= pageCount;
+    const pngDir = row.png_dir ? resolve(projectDir, row.png_dir) : "";
+    const pngCount = pngDir && existsSync(pngDir) && statSync(pngDir).isDirectory()
+      ? readdirSync(pngDir).filter((name) => /^page-[0-9]+\.png$/i.test(name)).length
+      : 0;
+    const pngsExist = pageCount > 0 && pngCount >= pageCount;
+    return outputMatches && packageValid && renderChecked && statusOk && allPagesReviewed && pngsExist;
   });
   if (!verified) {
     addFinding(findings, {
       severity: "P0",
       code: "DOCX_RENDER_NOT_VERIFIED",
       target: rel(out),
-      message: "Archive gate requires rendered, PDF, or manual visible-page DOCX verification.",
-      required_action: "Add a verified row to .paper-context/ledgers/docx.tsv after checking rendered output.",
+      message: "Archive gate requires page-PNG DOCX render verification for the latest output.",
+      required_action: "Render the DOCX, inspect every page PNG, and add a verified row with png_dir/page_count/reviewed_pages to .paper-context/ledgers/docx.tsv.",
     });
   }
 }

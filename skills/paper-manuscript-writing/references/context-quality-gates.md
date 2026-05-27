@@ -9,7 +9,7 @@ The gate output should be structured and actionable.
 | --- | --- | --- |
 | `pre-write` | final-style drafting or expansion | source of truth unknown, chapter state unknown, high-risk claims have no ledger, code/data/image sources are not inventoried |
 | `pre-export` | final DOCX/PDF export | `[TODO]`, missing/contradictory claims, dangling citations, missing visual media, unsupported experiment data, privacy leak |
-| `pre-archive` | final tag or delivery package | export not verified, `.thesis.json` points to missing output, stale context, private or temporary files in delivery |
+| `pre-archive` | final tag or delivery package | latest DOCX lacks verified page-PNG render QA, `.thesis.json` points to missing output, stale context, private or temporary files in delivery |
 
 ## Finding format
 
@@ -30,7 +30,7 @@ The gate output should be structured and actionable.
 - citation and bibliography integrity
 - figure and media provenance
 - data availability and source data
-- DOCX package and rendered layout evidence
+- DOCX package validity, page-PNG render output, reviewed page count, and render ledger evidence
 - context freshness
 - privacy and local-path leakage
 - version pointer consistency

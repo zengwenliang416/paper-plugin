@@ -343,6 +343,16 @@ if (hasContext()) {
   runContext(["snapshot", projectDir, "--label", "export"]);
 }
 
+console.log(
+  [
+    "\nNext DOCX QA:",
+    `  npx tsx ${join(SKILL_ROOT, "..", "paper-docx-repair", "scripts", "render-docx.ts")} "${outputPath}" --output-dir "${join(outDir, "rendered-pages")}"`,
+    hasContext()
+      ? "  After inspecting every page PNG, rerun with --context-project and --mark-reviewed before archive delivery."
+      : "  Inspect every generated page PNG before final DOCX delivery.",
+  ].join("\n")
+);
+
 // ---------------------------------------------------------------------------
 // Step 7: Version tag (optional, delegated to version.ts)
 // ---------------------------------------------------------------------------

@@ -56,6 +56,14 @@ npx tsx scripts/export.ts <project-dir> -o <output.docx>
 
 The exporter applies `filters/thesis.lua` and `scripts/postprocess-docx.ts` by default so a missing school template still produces a usable generic thesis layout. If an official school template exists, put it at `format/reference.docx` or pass `--reference-doc`.
 
+After any final DOCX export, route the output through `paper-docx-repair` render QA before delivery:
+
+```bash
+npx tsx skills/paper-docx-repair/scripts/render-docx.ts <output.docx> --output-dir <render-dir>
+```
+
+For `.paper-context/` projects, archive delivery requires a verified `ledgers/docx.tsv` row with checked page PNGs.
+
 Out of scope for this package:
 
 - literature search, reading plans, and reference-management workflows

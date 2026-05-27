@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "context": "tsx skills/paper-manuscript-writing/scripts/context.ts",
+    "docx:render": "tsx skills/paper-docx-repair/scripts/render-docx.ts",
     "validate": "node scripts/validate-plugin.mjs && node scripts/validate-context.mjs && node skills/paper-workflow-router/scripts/validate-routing-contract.mjs",
     "validate:context": "node scripts/validate-context.mjs",
     "validate:router": "node skills/paper-workflow-router/scripts/validate-routing-contract.mjs"

@@ -42,6 +42,7 @@ npx tsx skills/paper-manuscript-writing/scripts/context.ts validate <project-dir
 - TODO and missing-evidence markers
 - citation/bibliography resolution
 - AI-generated or placeholder visuals incorrectly marked as evidence
+- latest DOCX missing verified page-PNG render QA for archive delivery
 - stale outputs
 - environment files, credentials, and local absolute paths
 - context version pointer consistency
