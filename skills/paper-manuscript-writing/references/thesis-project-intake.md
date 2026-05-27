@@ -14,6 +14,12 @@ When the user says "先看看当前项目有什么", "根据当前材料写论�
    - reusable scaffolding: sample thesis, older drafts, generic templates
    - weak material: unverified references, AI-looking task-book references, screenshots without source context
 
+For reusable project work, create or refresh `.paper-context/` with
+`scripts/context.ts`. Record material inventory in `registry/sources.json`,
+active/current/next versions in `versions.yaml`, and the continuation state in
+`CURRENT.md`. If `.paper-context/` is absent, intake may be performed manually,
+but do not claim the project has durable context until the context layer exists.
+
 ## Draft status triage
 
 Before editing a thesis folder, classify the main draft:
@@ -69,6 +75,11 @@ Before expanding chapters or strengthening claims, create or mentally maintain a
 | format requirement | school template, school specification, teacher comment, or rendered DOCX evidence |
 
 If support is missing, mark `[TODO]`, soften the claim, or write it as a plan/validation scope. Do not invent missing experiments, photos, code, data, or references.
+
+For `.paper-context/` projects, persist this ledger in
+`.paper-context/registry/claims.tsv` and link supporting materials through
+`.paper-context/ledgers/evidence.tsv`, `figures.tsv`, `citations.tsv`, or
+`data-availability.yaml` as appropriate.
 
 ## Drafting rules
 

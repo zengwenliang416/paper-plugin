@@ -7,6 +7,13 @@
     "outOfScope": []
   },
   {
+    "name": "context-only thesis continuation",
+    "input": "先梳理当前论文项目上下文，不写正文，告诉我当前版本和下一步",
+    "primary": "paper-manuscript-writing",
+    "supporting": [],
+    "outOfScope": []
+  },
+  {
     "name": "docx rendered layout",
     "input": "Word 目录页码不对，三线表线也不符合，公式编号跑到下一行了",
     "primary": "paper-docx-repair",
@@ -37,6 +44,19 @@
   {
     "name": "mixed thesis and project delivery",
     "input": "论文和源码一起交付，帮我分清楚论文、项目源码、运行手册和答辩材料",
+    "primary": "paper-workflow-router",
+    "supporting": [
+      "paper-manuscript-writing",
+      "paper-docx-repair",
+      "paper-paper2ppt"
+    ],
+    "outOfScope": [
+      "project-packaging"
+    ]
+  },
+  {
+    "name": "mixed delivery with context checkpoint",
+    "input": "论文、源码、运行截图和答辩材料一起交付，先分 lane 并建立上下文 checkpoint",
     "primary": "paper-workflow-router",
     "supporting": [
       "paper-manuscript-writing",
@@ -81,4 +101,3 @@
     ]
   }
 ]
-

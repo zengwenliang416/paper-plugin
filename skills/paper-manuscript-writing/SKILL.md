@@ -1,6 +1,6 @@
 ---
 name: paper-manuscript-writing
-description: Use when the user needs academic manuscript drafting, restructuring, polishing, de-AI rewriting, thesis-oriented writing support, or quality-gate review.
+description: Use when the user needs academic manuscript drafting, restructuring, polishing, de-AI rewriting, thesis-oriented writing support, quality-gate review, or source-of-truth intake for local thesis/project context before writing.
 ---
 
 # Paper Manuscript Writing
@@ -11,6 +11,7 @@ Use this skill for manuscript drafting, restructuring, polishing, and thesis-ori
 
 - draft and restructure manuscript sections
 - inspect thesis project materials before drafting
+- own project context intake, `.paper-context/` updates, source hierarchy, version pointers, and claim ledgers for thesis/project writing work
 - polish and de-AI rewrite prose
 - guide thesis-style chapter development and quality-gate review
 - apply plagiarism-reduction and thesis writing rules
@@ -25,6 +26,9 @@ Use this skill for manuscript drafting, restructuring, polishing, and thesis-ori
 - `references/thesis-structure.md`
 - `references/thesis-project-intake.md`
 - `references/thesis-claim-audit.md`
+- `references/project-context-system.md`
+- `references/project-versioning.md`
+- `references/context-quality-gates.md`
 - `references/aigc-report-rewrite.md`
 - `references/mixed-delivery-boundary.md`
 - `references/design-thesis-workflow.md`
@@ -36,6 +40,13 @@ Use this skill for manuscript drafting, restructuring, polishing, and thesis-ori
 Primary scope is manuscript writing work: drafting, restructuring, polishing, and thesis writing guidance.
 
 Attached scripts under `scripts/` support thesis engineering workflows such as project import/export, template parsing, dependency checks, and version tagging. They are bundled support tooling, not the package's main product surface.
+
+For project-level thesis work, prefer the context manager before large drafting:
+
+```bash
+npx tsx scripts/context.ts init <project-dir>
+npx tsx scripts/context.ts validate <project-dir> --gate pre-write
+```
 
 For Chinese graduation-thesis DOCX delivery, prefer the bundled export path over raw Pandoc:
 
