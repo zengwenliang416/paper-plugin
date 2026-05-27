@@ -4,7 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "validate": "node scripts/validate-plugin.mjs && node skills/paper-workflow-router/scripts/validate-routing-contract.mjs",
+    "context": "tsx skills/paper-manuscript-writing/scripts/context.ts",
+    "validate": "node scripts/validate-plugin.mjs && node scripts/validate-context.mjs && node skills/paper-workflow-router/scripts/validate-routing-contract.mjs",
+    "validate:context": "node scripts/validate-context.mjs",
     "validate:router": "node skills/paper-workflow-router/scripts/validate-routing-contract.mjs"
   },
   "dependencies": {

@@ -1,0 +1,8 @@
+title: Synthetic Context Fixture
+author: Test Author
+school: Test School
+language: zh-CN
+citationStyle: gbt7714-numeric
+chapters:
+  - ch01.md
+  - references.md

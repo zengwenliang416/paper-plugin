@@ -12,7 +12,7 @@
  *   npx tsx scripts/version.ts <project-dir> list
  *   npx tsx scripts/version.ts <project-dir> export "draft-1"
  */
-import { execSync } from "node:child_process";
+import { execFileSync, execSync } from "node:child_process";
 import {
   copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync,
   statSync, writeFileSync,
@@ -178,6 +178,26 @@ function findLatestDocx(): string | null {
   return files.length > 0 ? files[0].path : null;
 }
 
+function runContextSnapshot(label: string): void {
+  const contextDir = join(projectDir, ".paper-context");
+  const contextScript = join(dirname(fileURLToPath(import.meta.url)), "context.ts");
+  if (!existsSync(contextDir) || !existsSync(contextScript)) return;
+  try {
+    execFileSync("npx", ["tsx", contextScript, "update", projectDir], {
+      cwd: projectDir,
+      stdio: "inherit",
+      timeout: 120_000,
+    });
+    execFileSync("npx", ["tsx", contextScript, "snapshot", projectDir, "--label", label], {
+      cwd: projectDir,
+      stdio: "inherit",
+      timeout: 120_000,
+    });
+  } catch (err: any) {
+    console.warn(`Warning: context version snapshot failed: ${err.message}`);
+  }
+}
+
 // ---------------------------------------------------------------------------
 // Command: tag
 // ---------------------------------------------------------------------------
@@ -252,6 +272,8 @@ function cmdTag(): void {
       }
     }
   }
+
+  runContextSnapshot(`version-${tagName}`);
 
   console.log(`\nVersion "${tagName}" created.`);
 }

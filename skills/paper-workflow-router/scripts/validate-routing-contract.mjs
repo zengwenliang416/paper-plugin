@@ -37,7 +37,7 @@ const rules = [
   },
   {
     skill: "paper-manuscript-writing",
-    re: /(论文项目|正文|开题|综述|降重|aigc|润色|质量闸门|材料|文件夹|写作|改写|初稿|终稿)/i,
+    re: /(论文项目|正文|开题|综述|降重|aigc|润色|质量闸门|材料|文件夹|写作|改写|初稿|终稿|上下文|当前版本|继续.*论文|claim ledger|evidence ledger|source-of-truth|checkpoint)/i,
   },
 ];
 
@@ -54,7 +54,7 @@ function classify(input) {
     }
   }
 
-  if (/(论文.*源码|源码.*论文|一起交付|项目源码|运行手册|答辩材料)/i.test(input)) {
+  if (/(论文.*源码|源码.*论文|一起交付|项目源码|运行手册|答辩材料|运行截图.*答辩材料)/i.test(input)) {
     return {
       primary: "paper-workflow-router",
       supporting: [

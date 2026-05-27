@@ -24,6 +24,12 @@ Create a ledger before editing high-risk claims.
 | status | verified, partial, missing, contradictory, or out of scope |
 | edit action | keep, rewrite, soften, delete, or mark TODO |
 
+For projects with `.paper-context/`, persist high-risk claim rows in
+`.paper-context/registry/claims.tsv` and supporting evidence rows in
+`.paper-context/ledgers/evidence.tsv`. A high-risk claim should not be promoted
+to final wording unless the ledger status is `supported`, `verified`,
+`content_verified`, `reproduction_verified`, or `figure_source_verified`.
+
 ## Evidence standards
 
 - Code and UI claims need source files, screenshots, test notes, route/API behavior, database state, or operation logs.
@@ -48,4 +54,3 @@ Report these statuses separately:
 - `evidence_verified`: high-risk claims have supporting sources
 - `format_verified`: DOCX/PDF layout checks passed
 - `todo_remaining`: missing evidence, missing assets, or unverified claims still exist
-

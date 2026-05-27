@@ -25,3 +25,13 @@ The plugin no longer keeps `thesis-writer/` or `nature-skills-main/` inside the
 repository root. Those source trees were used during migration and have now been
 removed so the repository contains only the plugin product surface and its
 supporting docs/tooling.
+
+## Project context migration
+
+Existing `thesis.yaml + content/ + assets/ + output/ + .thesis.json` projects
+can adopt `.paper-context/` non-destructively. The context layer records source
+paths, hashes, ledgers, version pointers, and validation state without replacing
+the existing manuscript/export workflow.
+
+Rollback remains simple: delete `.paper-context/` and continue using the old
+project structure.
