@@ -36,6 +36,9 @@ const { values, positionals } = parseArgs({
     "no-citeproc": { type: "boolean" },
     "no-toc": { type: "boolean" },
     "no-postprocess": { type: "boolean" },
+    "skip-context-validation": { type: "boolean" },
+    "context-force": { type: "boolean" },
+    "context-reason": { type: "string" },
     help: { type: "boolean", short: "h" },
   },
 });
@@ -52,6 +55,10 @@ Options:
   --no-citeproc        Skip bibliography processing
   --no-toc             Skip table of contents
   --no-postprocess     Skip generic Chinese thesis DOCX post-processing
+  --skip-context-validation
+                       Skip .paper-context pre-export gate
+  --context-force      Force .paper-context P0 gate with --context-reason
+  --context-reason     Reason for forced context gate override
   -h, --help           Show help`);
   process.exit(0);
 }
@@ -63,6 +70,28 @@ const projectDir = resolve(positionals[0]);
 if (!existsSync(projectDir)) {
   console.error(`Error: project directory not found: ${projectDir}`);
   process.exit(1);
+}
+
+function hasContext(): boolean {
+  return existsSync(join(projectDir, ".paper-context"));
+}
+
+function runContext(args: string[], options: { required?: boolean } = {}): void {
+  const contextScript = join(__dirname, "context.ts");
+  if (!existsSync(contextScript) || !hasContext()) return;
+  try {
+    execFileSync("npx", ["tsx", contextScript, ...args], {
+      cwd: projectDir,
+      stdio: "inherit",
+      timeout: 120_000,
+    });
+  } catch (err: any) {
+    if (options.required) {
+      console.error(`Context gate failed: ${err.message}`);
+      process.exit(1);
+    }
+    console.warn(`  Warning: context update failed: ${err.message}`);
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -191,6 +220,19 @@ const hasBib = existsSync(bibFile) &&
   readFileSync(bibFile, "utf-8").trim().split("\n").length > 2;
 
 // ---------------------------------------------------------------------------
+// Step 4.5: Project context gate (if adopted)
+// ---------------------------------------------------------------------------
+
+if (hasContext() && !values["skip-context-validation"]) {
+  const contextArgs = ["validate", projectDir, "--gate", "pre-export"];
+  if (values["context-force"]) {
+    contextArgs.push("--force");
+    if (values["context-reason"]) contextArgs.push("--reason", values["context-reason"]);
+  }
+  runContext(contextArgs, { required: true });
+}
+
+// ---------------------------------------------------------------------------
 // Step 5: Build pandoc command
 // ---------------------------------------------------------------------------
 
@@ -294,6 +336,11 @@ if (!values["no-postprocess"]) {
   } else {
     console.warn("  Warning: postprocess-docx.ts not found; skipping generic thesis styles");
   }
+}
+
+if (hasContext()) {
+  runContext(["update", projectDir]);
+  runContext(["snapshot", projectDir, "--label", "export"]);
 }
 
 // ---------------------------------------------------------------------------

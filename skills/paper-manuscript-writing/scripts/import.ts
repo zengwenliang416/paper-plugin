@@ -8,7 +8,7 @@
  *   - Extracts cover page metadata → thesis.yaml
  *   - Creates project directory structure
  */
-import { execSync } from "node:child_process";
+import { execFileSync, execSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, writeFileSync, rmSync } from "node:fs";
 import { basename, dirname, extname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -397,6 +397,24 @@ async function main() {
       "utf-8"
     );
     console.log(`  → .thesis.json`);
+  }
+
+  const contextScript = join(__dirname, "context.ts");
+  if (existsSync(contextScript)) {
+    try {
+      execFileSync("npx", ["tsx", contextScript, "init", outputDir], {
+        cwd: outputDir,
+        stdio: "inherit",
+        timeout: 120_000,
+      });
+      execFileSync("npx", ["tsx", contextScript, "snapshot", outputDir, "--label", "import"], {
+        cwd: outputDir,
+        stdio: "inherit",
+        timeout: 120_000,
+      });
+    } catch (err: any) {
+      console.warn(`  Warning: context initialization failed: ${err.message}`);
+    }
   }
 
   // Clean up temporary files
