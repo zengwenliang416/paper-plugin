@@ -101,10 +101,10 @@ function fileUri(path: string): string {
   return `file://${path.replace(/ /g, "%20")}`;
 }
 
-function isExecutableCandidate(command: string): boolean {
+function isExecutableCandidate(command: string, versionArgs = ["--version"]): boolean {
   if (command.includes("/") && !existsSync(command)) return false;
   try {
-    execFileSync(command, ["--version"], {
+    execFileSync(command, versionArgs, {
       stdio: ["ignore", "ignore", "ignore"],
       timeout: 10_000,
     });
@@ -114,9 +114,9 @@ function isExecutableCandidate(command: string): boolean {
   }
 }
 
-function findCommand(candidates: Array<string | undefined>): string | null {
+function findCommand(candidates: Array<string | undefined>, versionArgs = ["--version"]): string | null {
   for (const candidate of candidates.filter(Boolean) as string[]) {
-    if (isExecutableCandidate(candidate)) return candidate;
+    if (isExecutableCandidate(candidate, versionArgs)) return candidate;
   }
   return null;
 }
@@ -135,11 +135,11 @@ function findLibreOffice(): string {
 }
 
 function findPdfRasterizer(): { command: string; kind: "pdftoppm" | "magick" | "convert" } {
-  const pdftoppm = findCommand(["pdftoppm"]);
+  const pdftoppm = findCommand(["pdftoppm"], ["-v"]);
   if (pdftoppm) return { command: pdftoppm, kind: "pdftoppm" };
-  const magick = findCommand(["magick"]);
+  const magick = findCommand(["magick"], ["-version"]);
   if (magick) return { command: magick, kind: "magick" };
-  const convert = findCommand(["convert"]);
+  const convert = findCommand(["convert"], ["-version"]);
   if (convert) return { command: convert, kind: "convert" };
   throw new Error("No PDF-to-PNG renderer found. Install poppler (pdftoppm) or ImageMagick.");
 }
@@ -197,7 +197,7 @@ function convertDocxToPdf(loCommand: string, tempRoot: string): string {
     "--nofirststartwizard",
     "--nodefault",
     "--nolockcheck",
-    `--env:UserInstallation=${fileUri(loProfile)}`,
+    `-env:UserInstallation=${fileUri(loProfile)}`,
     "--convert-to",
     "pdf",
     "--outdir",
