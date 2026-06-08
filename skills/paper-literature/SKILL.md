@@ -11,6 +11,7 @@ Use this skill for literature search, citation verification, reference export, a
 
 - search literature across supported academic sources
 - verify candidate references against specific claims
+- run batch authenticity verification of a bibliography against CrossRef/OpenAlex (`scripts/verify-refs.ts`)
 - export usable citation files
 - support Chinese thesis citation rules and high-impact manuscript citation workflows
 
@@ -22,3 +23,4 @@ Use this skill for literature search, citation verification, reference export, a
 - `references/citation-rules.md`
 - `references/thesis-reference-integrity.md`
 - `references/thesis-reference-audit.md`
+- `references/citation-verification-contract.md`
