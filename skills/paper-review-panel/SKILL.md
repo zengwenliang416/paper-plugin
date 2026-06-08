@@ -38,6 +38,10 @@ npx tsx skills/paper-review-panel/scripts/review.ts <project-dir> --file content
 
 It calls each reviewer concurrently and prints a GateDecision (`pass` / `revise` / `block`). This is **one round** — deciding whether to revise (via `paper-manuscript-writing`) and re-run is the caller's job. See `references/review-run-contract.md`.
 
+## Multi-round re-review
+
+`review.ts` runs one round. For 评 → 改 → 再评, loop it: run a round → if `pass` stop; if `revise`/`block`, hand the findings to `paper-manuscript-writing` to revise (human may check), then re-run with `--gate round-2`. Stop at `pass`, at `verdict.max_rounds`, or on `error`. The loop **never auto-rewrites** the manuscript — see `references/review-loop.md`.
+
 ## Config contract
 
 `.paper-context/review-panel.yaml` has four layers — `endpoints` / `lenses` / `panel` / `verdict`. See `references/review-panel-contract.md` for the full schema, field rules, validation codes, and security rules (plaintext keys are rejected).
@@ -59,3 +63,4 @@ It calls each reviewer concurrently and prints a GateDecision (`pass` / `revise`
 - `references/default-panel.md` — the built-in default panel and required environment variables.
 - `references/review-lenses/` — prompt templates per perspective (`rigor`, `citation`, `completeness`).
 - `references/review-run-contract.md` — how a review run calls endpoints, parses responses, and aggregates verdicts.
+- `references/review-loop.md` — orchestration for multi-round 评→改→再评 with stop conditions.
