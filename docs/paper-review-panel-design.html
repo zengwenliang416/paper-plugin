@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paper Review Panel · 多模型多视角审核 · 设计稿</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root { --primary:#0f766e; }
+    body{font-family:'Inter','Noto Sans SC',system-ui,-apple-system,sans-serif;}
+    .card{box-shadow:0 10px 15px -3px rgb(0 0 0/.04),0 4px 6px -4px rgb(0 0 0/.04);}
+    pre{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;}
+    .lane{background:linear-gradient(to right,#0f766e,#134e4b);}
+    .chip{font-size:.7rem;padding:2px 9px;border-radius:9999px;font-weight:700;white-space:nowrap;}
+    .yaml-key{color:#5eead4;} .yaml-cmt{color:#94a3b8;font-style:italic;} .yaml-val{color:#fde68a;}
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+<div class="max-w-[1180px] mx-auto px-4 py-8">
+
+  <!-- Header -->
+  <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
+    <div class="flex items-center gap-x-3">
+      <div class="w-12 h-12 bg-teal-800 rounded-2xl flex items-center justify-center shadow-inner">
+        <i class="fa-solid fa-users-viewfinder text-white text-2xl"></i>
+      </div>
+      <div>
+        <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-slate-900">Paper Review Panel</h1>
+        <p class="text-lg text-teal-700 font-semibold">多模型 × 多视角审核 — 配置初始化 Skill 设计稿</p>
+      </div>
+    </div>
+    <div class="flex flex-col items-start md:items-end gap-1 text-sm">
+      <span class="chip bg-amber-100 text-amber-800">Status: Draft · 待确认</span>
+      <span class="font-mono text-xs text-slate-500">2026-06-08 · skills/paper-review-panel</span>
+    </div>
+  </div>
+
+  <!-- 概览 3 卡 -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
+    <div class="card bg-white border border-slate-200 rounded-2xl p-4">
+      <div class="text-xs font-semibold tracking-widest text-teal-600 mb-1">这一步做什么</div>
+      <p class="text-sm text-slate-600 leading-snug">一个配置初始化 skill：让用户<b>选择是否启用</b>多模型多视角审核；启用则配置一个<b>评审面板矩阵</b>（模型端点 × 评审视角）。</p>
+    </div>
+    <div class="card bg-white border border-slate-200 rounded-2xl p-4">
+      <div class="text-xs font-semibold tracking-widest text-teal-600 mb-1">范围边界</div>
+      <p class="text-sm text-slate-600 leading-snug"><b>只做配置与初始化</b>。实际评审执行、重审循环、orchestrator 编排、router 改造 — 均为<b>非目标</b>，后续再做。</p>
+    </div>
+    <div class="card bg-white border border-slate-200 rounded-2xl p-4">
+      <div class="text-xs font-semibold tracking-widest text-teal-600 mb-1">目标</div>
+      <p class="text-sm text-slate-600 leading-snug">吸收竞品（Imbad / ARIS）<b>多模型 + 多视角评审</b>优势，先把承载它的<b>配置契约</b>立稳。</p>
+    </div>
+  </div>
+
+  <!-- 实测结果 -->
+  <div class="card bg-white border border-slate-200 rounded-2xl p-5 mb-6">
+    <h2 class="font-semibold text-lg mb-3 flex items-center gap-2"><i class="fa-solid fa-flask-vial text-teal-600"></i> 端点实测（2026-06-08，已跑通）</h2>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead><tr class="text-left text-slate-500 border-b border-slate-200">
+          <th class="py-2 pr-3">端点</th><th class="py-2 pr-3">模型</th><th class="py-2 pr-3">连通/中文</th><th class="py-2 pr-3">多轮会话</th><th class="py-2">实测注意点</th>
+        </tr></thead>
+        <tbody>
+          <tr class="border-b border-slate-100">
+            <td class="py-2 pr-3 font-mono text-xs">api.minimaxi.com</td>
+            <td class="py-2 pr-3 font-semibold">MiniMax-M3</td>
+            <td class="py-2 pr-3"><span class="chip bg-emerald-100 text-emerald-700">✓ 正常</span></td>
+            <td class="py-2 pr-3"><span class="chip bg-emerald-100 text-emerald-700">✓ 记得上下文</span></td>
+            <td class="py-2 text-slate-600 text-xs">标准 Anthropic 结构，省心</td>
+          </tr>
+          <tr>
+            <td class="py-2 pr-3 font-mono text-xs">token-plan-cn.xiaomimimo.com</td>
+            <td class="py-2 pr-3 font-semibold">mimo-v2.5-pro</td>
+            <td class="py-2 pr-3"><span class="chip bg-emerald-100 text-emerald-700">✓ 正常</span></td>
+            <td class="py-2 pr-3"><span class="chip bg-emerald-100 text-emerald-700">✓ 记得上下文</span></td>
+            <td class="py-2 text-amber-700 text-xs">需大 max_tokens（思考长）；输出结构非标准 → 解析要容错</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="text-xs text-slate-500 mt-3">结论：多模型 ✓、多视角 ✓、多轮重审 ✓ — “评 → 改 → 再评”在模型层已验证可行。</p>
+  </div>
+
+  <!-- 配置契约 -->
+  <div class="card bg-white border border-slate-200 rounded-2xl p-5 mb-6">
+    <h2 class="font-semibold text-lg mb-1 flex items-center gap-2"><i class="fa-solid fa-file-code text-teal-600"></i> 配置契约 <code class="text-sm bg-slate-100 px-2 py-0.5 rounded">.paper-context/review-panel.yaml</code></h2>
+    <p class="text-sm text-slate-500 mb-3">四层结构：① 端点池 → ② 视角库 → ③ 评审矩阵 → ④ 裁决规则</p>
+    <pre class="bg-slate-900 text-slate-100 rounded-xl p-4 text-xs leading-relaxed overflow-x-auto"><span class="yaml-key">enabled</span>: <span class="yaml-val">true</span>            <span class="yaml-cmt"># 总开关：false → 退化为默认单模型单次评审，插件行为不变</span>
+
+<span class="yaml-cmt"># ① 模型端点池（密钥只写环境变量名，绝不写明文）</span>
+<span class="yaml-key">endpoints</span>:
+  <span class="yaml-key">minimax</span>:
+    <span class="yaml-key">base_url</span>: https://api.minimaxi.com/anthropic
+    <span class="yaml-key">model</span>: MiniMax-M3
+    <span class="yaml-key">auth_env</span>: MINIMAX_KEY      <span class="yaml-cmt"># 真密钥放环境变量，配置只记名字</span>
+    <span class="yaml-key">max_tokens</span>: <span class="yaml-val">800</span>
+    <span class="yaml-key">output</span>: standard
+  <span class="yaml-key">mimo</span>:
+    <span class="yaml-key">base_url</span>: https://token-plan-cn.xiaomimimo.com/anthropic
+    <span class="yaml-key">model</span>: mimo-v2.5-pro
+    <span class="yaml-key">auth_env</span>: MIMO_KEY
+    <span class="yaml-key">max_tokens</span>: <span class="yaml-val">1500</span>          <span class="yaml-cmt"># 实测：MiMo 思考长，token 要给大</span>
+    <span class="yaml-key">output</span>: thinking-first    <span class="yaml-cmt"># 实测：结构非标准，解析走容错</span>
+
+<span class="yaml-cmt"># ② 视角库（prompt 模板放 references/review-lenses/）</span>
+<span class="yaml-key">lenses</span>:
+  <span class="yaml-key">rigor</span>:        逻辑严谨 / 夸大表述
+  <span class="yaml-key">citation</span>:     引用真实 / 数据支撑
+  <span class="yaml-key">completeness</span>: 结构完整 / 格式
+
+<span class="yaml-cmt"># ③ 评审矩阵：哪个模型 × 哪个视角 = 一个评审员</span>
+<span class="yaml-key">panel</span>:
+  - { endpoint: minimax, lens: rigor,        weight: <span class="yaml-val">2</span>, veto: <span class="yaml-val">false</span> }
+  - { endpoint: mimo,    lens: citation,     weight: <span class="yaml-val">1</span>, veto: <span class="yaml-val">true</span>  }   <span class="yaml-cmt"># 引用硬伤→一票打回</span>
+  - { endpoint: minimax, lens: completeness, weight: <span class="yaml-val">1</span>, veto: <span class="yaml-val">false</span> }
+
+<span class="yaml-cmt"># ④ 裁决规则</span>
+<span class="yaml-key">verdict</span>:
+  <span class="yaml-key">rule</span>: weighted        <span class="yaml-cmt"># 加权投票</span>
+  <span class="yaml-key">max_rounds</span>: <span class="yaml-val">2</span>         <span class="yaml-cmt"># 最多再评 2 轮</span></pre>
+  </div>
+
+  <!-- 评审矩阵表格 -->
+  <div class="card bg-white border border-slate-200 rounded-2xl p-5 mb-6">
+    <h2 class="font-semibold text-lg mb-3 flex items-center gap-2"><i class="fa-solid fa-table-cells-large text-teal-600"></i> 评审面板（默认矩阵）</h2>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead><tr class="lane text-white text-left">
+          <th class="py-2 px-3 rounded-l-lg">评审员</th><th class="py-2 px-3">模型（端点）</th><th class="py-2 px-3">视角</th><th class="py-2 px-3 text-center">权重</th><th class="py-2 px-3 rounded-r-lg text-center">否决权</th>
+        </tr></thead>
+        <tbody>
+          <tr class="border-b border-slate-100">
+            <td class="py-3 px-3 font-mono text-xs text-slate-500">R1</td>
+            <td class="py-3 px-3 font-semibold">MiniMax-M3</td>
+            <td class="py-3 px-3">逻辑严谨 / 夸大表述</td>
+            <td class="py-3 px-3 text-center"><span class="chip bg-teal-100 text-teal-800">2</span></td>
+            <td class="py-3 px-3 text-center text-slate-300">—</td>
+          </tr>
+          <tr class="border-b border-slate-100 bg-rose-50/40">
+            <td class="py-3 px-3 font-mono text-xs text-slate-500">R2</td>
+            <td class="py-3 px-3 font-semibold">mimo-v2.5-pro</td>
+            <td class="py-3 px-3">引用真实 / 数据支撑</td>
+            <td class="py-3 px-3 text-center"><span class="chip bg-slate-100 text-slate-700">1</span></td>
+            <td class="py-3 px-3 text-center"><span class="chip bg-rose-100 text-rose-700">✓ 一票打回</span></td>
+          </tr>
+          <tr>
+            <td class="py-3 px-3 font-mono text-xs text-slate-500">R3</td>
+            <td class="py-3 px-3 font-semibold">MiniMax-M3</td>
+            <td class="py-3 px-3">结构完整 / 格式</td>
+            <td class="py-3 px-3 text-center"><span class="chip bg-slate-100 text-slate-700">1</span></td>
+            <td class="py-3 px-3 text-center text-slate-300">—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="text-xs text-slate-500 mt-3"><i class="fa-solid fa-circle-info"></i> 只有一个模型也能用：panel 多条复用同一 endpoint、不同 lens，即“单模型多视角”。</p>
+  </div>
+
+  <!-- 初始化流程 -->
+  <div class="card bg-white border border-slate-200 rounded-2xl p-5 mb-6">
+    <h2 class="font-semibold text-lg mb-4 flex items-center gap-2"><i class="fa-solid fa-diagram-project text-teal-600"></i> 初始化流程</h2>
+    <div class="flex flex-col gap-2 text-sm">
+      <div class="flex items-center gap-3"><span class="w-7 h-7 shrink-0 rounded-full bg-teal-700 text-white flex items-center justify-center text-xs font-bold">1</span><span>问：<b>启用多模型多视角审核吗？</b> → 否：写 <code class="bg-slate-100 px-1 rounded">enabled: false</code> 结束</span></div>
+      <div class="flex items-center gap-3"><span class="w-7 h-7 shrink-0 rounded-full bg-teal-700 text-white flex items-center justify-center text-xs font-bold">2</span><span>是 → 选 <b>一键默认</b>（套用上表）或 <b>手动</b>（加端点 → 选视角 → 配矩阵 → 裁决）</span></div>
+      <div class="flex items-center gap-3"><span class="w-7 h-7 shrink-0 rounded-full bg-teal-700 text-white flex items-center justify-center text-xs font-bold">3</span><span>写 <code class="bg-slate-100 px-1 rounded">.paper-context/review-panel.yaml</code></span></div>
+      <div class="flex items-center gap-3"><span class="w-7 h-7 shrink-0 rounded-full bg-teal-700 text-white flex items-center justify-center text-xs font-bold">4</span><span>校验：schema + 环境变量是否存在（警告）+ <b class="text-rose-600">明文密钥 → 硬失败</b></span></div>
+      <div class="flex items-center gap-3"><span class="w-7 h-7 shrink-0 rounded-full bg-teal-700 text-white flex items-center justify-center text-xs font-bold">5</span><span>可选：对每个端点发最小请求做连通性自检</span></div>
+    </div>
+  </div>
+
+  <!-- 文件结构 + 决策 -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+    <div class="card bg-white border border-slate-200 rounded-2xl p-5">
+      <h2 class="font-semibold text-base mb-3 flex items-center gap-2"><i class="fa-solid fa-folder-tree text-teal-600"></i> 文件结构</h2>
+      <pre class="bg-slate-900 text-slate-100 rounded-xl p-4 text-xs leading-relaxed overflow-x-auto">skills/paper-review-panel/
+├─ SKILL.md          <span class="yaml-cmt"># name=paper-review-panel</span>
+├─ README.md         <span class="yaml-cmt"># H1 与 SKILL.md 一致</span>
+├─ references/
+│  ├─ review-panel-contract.md
+│  ├─ default-panel.md
+│  └─ review-lenses/
+│     ├─ rigor.md
+│     ├─ citation.md
+│     └─ completeness.md
+├─ scripts/
+│  ├─ init-review-panel.ts
+│  └─ validate-review-panel.ts
+└─ tests/
+   ├─ review-panel-cases.json
+   └─ validate-review-panel-contract.mjs</pre>
+    </div>
+    <div class="card bg-white border border-slate-200 rounded-2xl p-5">
+      <h2 class="font-semibold text-base mb-3 flex items-center gap-2"><i class="fa-solid fa-shield-halved text-teal-600"></i> 关键决策与边界</h2>
+      <ul class="text-sm space-y-2 text-slate-600">
+        <li class="flex gap-2"><span class="text-teal-600">▸</span> <span><b>混合式</b>：代码持契约/调度/聚合，LLM 做语义评审</span></li>
+        <li class="flex gap-2"><span class="text-teal-600">▸</span> <span><b>人在环路优先</b>：插件不持密钥，你用不同 profile 提供评审；自动调 API 为后续扩展</span></li>
+        <li class="flex gap-2"><span class="text-teal-600">▸</span> <span><b>密钥安全</b>：只存环境变量名，明文密钥直接判失败</span></li>
+        <li class="flex gap-2"><span class="text-teal-600">▸</span> <span><b>向后兼容</b>：<code class="bg-slate-100 px-1 rounded">enabled:false</code> 时插件零行为变化</span></li>
+        <li class="flex gap-2"><span class="text-teal-600">▸</span> <span><b>不动 router</b>：context owner 仍是 paper-manuscript-writing</span></li>
+        <li class="flex gap-2"><span class="text-teal-600">▸</span> <span><b>可插拔后端</b>：in-session / profile-进程 / 跨厂商，契约预留</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="text-center text-xs text-slate-400 mt-8">
+    自包含设计稿 · 对应 <code>docs/superpowers/specs/2026-06-08-paper-review-panel-config.md</code> · 可直接浏览器打开
+  </div>
+
+</div>
+</body>
+</html>
