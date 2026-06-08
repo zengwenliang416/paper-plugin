@@ -1,0 +1,56 @@
+[
+  {
+    "name": "verified-by-doi",
+    "expectStatus": "verified",
+    "entry": { "key": "vaswani2017", "title": "Attention Is All You Need", "year": "2017", "firstAuthor": "vaswani", "doi": "10.5555/3295222.3295349" },
+    "evidence": { "doi_checked": true, "doi_resolved": true, "doi_title": "Attention is all you need", "candidates": [] }
+  },
+  {
+    "name": "suspicious-doi-unresolved",
+    "expectStatus": "suspicious",
+    "entry": { "key": "fake2020", "title": "Some Paper", "year": "2020", "firstAuthor": "x", "doi": "10.0000/nonexistent-doi" },
+    "evidence": { "doi_checked": true, "doi_resolved": false, "candidates": [] }
+  },
+  {
+    "name": "mismatch-doi-title",
+    "expectStatus": "mismatch",
+    "entry": { "key": "he2016", "title": "Deep Residual Learning for Image Recognition", "year": "2016", "firstAuthor": "he", "doi": "10.1109/cvpr.2016.90" },
+    "evidence": { "doi_checked": true, "doi_resolved": true, "doi_title": "A totally different paper about feline behaviour", "candidates": [] }
+  },
+  {
+    "name": "verified-by-title",
+    "expectStatus": "verified",
+    "entry": { "key": "devlin2018", "title": "BERT Pre-training of Deep Bidirectional Transformers", "year": "2018", "firstAuthor": "devlin", "doi": "" },
+    "evidence": { "candidates": [ { "title": "BERT: Pre-training of Deep Bidirectional Transformers", "year": "2018", "firstAuthor": "devlin", "source": "openalex" } ] }
+  },
+  {
+    "name": "verified-multi-candidate-year",
+    "expectStatus": "verified",
+    "entry": { "key": "vaswani2017", "title": "Attention Is All You Need", "year": "2017", "firstAuthor": "vaswani", "doi": "" },
+    "evidence": { "candidates": [ { "title": "Attention Is All You Need", "year": "2025", "firstAuthor": "x", "source": "crossref" }, { "title": "Attention is all you need", "year": "2017", "firstAuthor": "vaswani", "source": "openalex" } ] }
+  },
+  {
+    "name": "verified-title-exact-year-differs",
+    "expectStatus": "verified",
+    "entry": { "key": "goodfellow2099", "title": "Generative Adversarial Networks", "year": "2099", "firstAuthor": "goodfellow", "doi": "" },
+    "evidence": { "candidates": [ { "title": "Generative Adversarial Networks", "year": "2014", "firstAuthor": "goodfellow", "source": "crossref" } ] }
+  },
+  {
+    "name": "not-found-hallucinated",
+    "expectStatus": "not_found",
+    "entry": { "key": "ghost2021", "title": "Quantum Blockchain Neural Synthesis for Telepathic Compilers", "year": "2021", "firstAuthor": "nobody", "doi": "" },
+    "evidence": { "candidates": [] }
+  },
+  {
+    "name": "suspicious-no-title-match",
+    "expectStatus": "suspicious",
+    "entry": { "key": "x2020", "title": "My Very Specific Unique Title On Topic XYZ", "year": "2020", "firstAuthor": "x", "doi": "" },
+    "evidence": { "candidates": [ { "title": "A Completely Unrelated Paper About Migratory Birds", "year": "2019", "firstAuthor": "y", "source": "crossref" } ] }
+  },
+  {
+    "name": "manual-needed-network-fail",
+    "expectStatus": "manual_needed",
+    "entry": { "key": "z2020", "title": "Something", "year": "2020", "firstAuthor": "z", "doi": "" },
+    "evidence": { "candidates": [], "error": "title lookups failed" }
+  }
+]
