@@ -1,0 +1,57 @@
+[
+  {
+    "name": "all-pass",
+    "expectResult": "pass",
+    "verdicts": [
+      { "endpoint": "a", "lens": "rigor", "weight": 2, "veto": false, "decision": "pass" },
+      { "endpoint": "b", "lens": "citation", "weight": 1, "veto": true, "decision": "pass" }
+    ]
+  },
+  {
+    "name": "veto-block",
+    "expectResult": "block",
+    "verdicts": [
+      { "endpoint": "a", "lens": "rigor", "weight": 5, "veto": false, "decision": "pass" },
+      { "endpoint": "b", "lens": "citation", "weight": 1, "veto": true, "decision": "block" }
+    ]
+  },
+  {
+    "name": "majority-block",
+    "expectResult": "block",
+    "verdicts": [
+      { "endpoint": "a", "lens": "rigor", "weight": 3, "veto": false, "decision": "block" },
+      { "endpoint": "b", "lens": "completeness", "weight": 1, "veto": false, "decision": "pass" }
+    ]
+  },
+  {
+    "name": "minority-block-becomes-revise",
+    "expectResult": "revise",
+    "verdicts": [
+      { "endpoint": "a", "lens": "rigor", "weight": 3, "veto": false, "decision": "pass" },
+      { "endpoint": "b", "lens": "citation", "weight": 1, "veto": false, "decision": "block" }
+    ]
+  },
+  {
+    "name": "some-revise",
+    "expectResult": "revise",
+    "verdicts": [
+      { "endpoint": "a", "lens": "rigor", "weight": 1, "veto": false, "decision": "pass" },
+      { "endpoint": "b", "lens": "completeness", "weight": 1, "veto": false, "decision": "revise" }
+    ]
+  },
+  {
+    "name": "error-ignored-then-pass",
+    "expectResult": "pass",
+    "verdicts": [
+      { "endpoint": "a", "lens": "rigor", "weight": 1, "veto": false, "decision": "pass" },
+      { "endpoint": "b", "lens": "citation", "weight": 1, "veto": true, "decision": "error", "error": "HTTP 500" }
+    ]
+  },
+  {
+    "name": "all-error",
+    "expectResult": "error",
+    "verdicts": [
+      { "endpoint": "a", "lens": "rigor", "weight": 1, "veto": false, "decision": "error", "error": "timeout" }
+    ]
+  }
+]

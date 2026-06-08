@@ -6,13 +6,15 @@
   "scripts": {
     "context": "tsx skills/paper-manuscript-writing/scripts/context.ts",
     "docx:render": "tsx skills/paper-docx-repair/scripts/render-docx.ts",
-    "validate": "node scripts/validate-plugin.mjs && node scripts/validate-context.mjs && node skills/paper-workflow-router/scripts/validate-routing-contract.mjs",
+    "validate": "node scripts/validate-plugin.mjs && node scripts/validate-context.mjs && node skills/paper-workflow-router/scripts/validate-routing-contract.mjs && node skills/paper-review-panel/tests/validate-review-panel-contract.mjs && node skills/paper-review-panel/tests/review-aggregate-contract.mjs",
     "validate:context": "node scripts/validate-context.mjs",
-    "validate:router": "node skills/paper-workflow-router/scripts/validate-routing-contract.mjs"
+    "validate:router": "node skills/paper-workflow-router/scripts/validate-routing-contract.mjs",
+    "validate:review-panel": "node skills/paper-review-panel/tests/validate-review-panel-contract.mjs"
   },
   "dependencies": {
     "jszip": "^3.10.1",
     "tsx": "^4.20.6",
     "yaml": "^2.8.1"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
 }

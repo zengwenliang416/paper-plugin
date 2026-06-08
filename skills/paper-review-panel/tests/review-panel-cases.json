@@ -1,0 +1,79 @@
+[
+  {
+    "name": "minimal-valid",
+    "expectStatus": "passed",
+    "yaml": "enabled: true\nendpoints:\n  m1:\n    base_url: https://example.com/anthropic\n    model: test-model\n    auth_env: TEST_KEY\n    output: standard\nlenses:\n  rigor: 逻辑严谨\npanel:\n  - { endpoint: m1, lens: rigor }\nverdict:\n  rule: weighted\n"
+  },
+  {
+    "name": "enabled-not-boolean",
+    "expectStatus": "blocked",
+    "expectCode": "ENABLED_NOT_BOOLEAN",
+    "yaml": "enabled: maybe-later\nendpoints:\n  m1:\n    base_url: https://x/anthropic\n    model: m\n    auth_env: TEST_KEY\n"
+  },
+  {
+    "name": "endpoints-empty",
+    "expectStatus": "blocked",
+    "expectCode": "ENDPOINTS_EMPTY",
+    "yaml": "enabled: true\nendpoints: {}\nlenses:\n  rigor: x\npanel: []\nverdict:\n  rule: weighted\n"
+  },
+  {
+    "name": "endpoint-missing-field",
+    "expectStatus": "blocked",
+    "expectCode": "ENDPOINT_FIELD_MISSING",
+    "yaml": "enabled: true\nendpoints:\n  m1:\n    base_url: https://x/anthropic\n    model: m\nlenses:\n  rigor: x\npanel:\n  - { endpoint: m1, lens: rigor }\nverdict:\n  rule: weighted\n"
+  },
+  {
+    "name": "auth-env-invalid-name",
+    "expectStatus": "blocked",
+    "expectCode": "AUTH_ENV_INVALID_NAME",
+    "yaml": "enabled: true\nendpoints:\n  m1:\n    base_url: https://x/anthropic\n    model: m\n    auth_env: not-an-env-name\nlenses:\n  rigor: x\npanel:\n  - { endpoint: m1, lens: rigor }\nverdict:\n  rule: weighted\n"
+  },
+  {
+    "name": "secret-in-config",
+    "expectStatus": "blocked",
+    "expectCode": "SECRET_IN_CONFIG",
+    "yaml": "enabled: true\nendpoints:\n  m1:\n    base_url: https://x/anthropic\n    model: m\n    auth_env: API_KEY\n    token: sk-abcdefghij0123456789KLMNOP\nlenses:\n  rigor: x\npanel:\n  - { endpoint: m1, lens: rigor }\nverdict:\n  rule: weighted\n"
+  },
+  {
+    "name": "endpoint-output-invalid",
+    "expectStatus": "blocked",
+    "expectCode": "ENDPOINT_OUTPUT_INVALID",
+    "yaml": "enabled: true\nendpoints:\n  m1:\n    base_url: https://x/anthropic\n    model: m\n    auth_env: API_KEY\n    output: weird\nlenses:\n  rigor: x\npanel:\n  - { endpoint: m1, lens: rigor }\nverdict:\n  rule: weighted\n"
+  },
+  {
+    "name": "lenses-empty",
+    "expectStatus": "blocked",
+    "expectCode": "LENSES_EMPTY",
+    "yaml": "enabled: true\nendpoints:\n  m1:\n    base_url: https://x/anthropic\n    model: m\n    auth_env: API_KEY\nlenses: {}\npanel: []\nverdict:\n  rule: weighted\n"
+  },
+  {
+    "name": "panel-empty",
+    "expectStatus": "blocked",
+    "expectCode": "PANEL_EMPTY",
+    "yaml": "enabled: true\nendpoints:\n  m1:\n    base_url: https://x/anthropic\n    model: m\n    auth_env: API_KEY\nlenses:\n  rigor: x\npanel: []\nverdict:\n  rule: weighted\n"
+  },
+  {
+    "name": "panel-unknown-endpoint",
+    "expectStatus": "blocked",
+    "expectCode": "PANEL_UNKNOWN_ENDPOINT",
+    "yaml": "enabled: true\nendpoints:\n  m1:\n    base_url: https://x/anthropic\n    model: m\n    auth_env: API_KEY\nlenses:\n  rigor: x\npanel:\n  - { endpoint: ghost, lens: rigor }\nverdict:\n  rule: weighted\n"
+  },
+  {
+    "name": "panel-unknown-lens",
+    "expectStatus": "blocked",
+    "expectCode": "PANEL_UNKNOWN_LENS",
+    "yaml": "enabled: true\nendpoints:\n  m1:\n    base_url: https://x/anthropic\n    model: m\n    auth_env: API_KEY\nlenses:\n  rigor: x\npanel:\n  - { endpoint: m1, lens: ghost }\nverdict:\n  rule: weighted\n"
+  },
+  {
+    "name": "verdict-rule-invalid",
+    "expectStatus": "blocked",
+    "expectCode": "VERDICT_RULE_INVALID",
+    "yaml": "enabled: true\nendpoints:\n  m1:\n    base_url: https://x/anthropic\n    model: m\n    auth_env: API_KEY\nlenses:\n  rigor: x\npanel:\n  - { endpoint: m1, lens: rigor }\nverdict:\n  rule: majority\n"
+  },
+  {
+    "name": "invalid-yaml",
+    "expectStatus": "blocked",
+    "expectCode": "REVIEW_PANEL_INVALID_YAML",
+    "yaml": "enabled: true\nendpoints: [oops\n"
+  }
+]
