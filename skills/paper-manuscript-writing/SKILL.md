@@ -34,6 +34,7 @@ Use this skill for manuscript drafting, restructuring, polishing, and thesis-ori
 - `references/design-thesis-workflow.md`
 - `references/undergraduate-quality-gate.md`
 - `references/material-passport.md`
+- `references/experiment-records.md`
 - `references/examples/index.md`
 
 ## Package boundary
