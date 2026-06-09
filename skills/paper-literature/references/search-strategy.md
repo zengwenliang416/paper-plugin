@@ -60,3 +60,30 @@ Citation wording: [how to phrase the manuscript sentence if using this citation]
 - Search the opposite direction if the claim might be overconfident: `inhibits` vs `activates`,
   `resistance` vs `sensitivity`, `risk` vs `protective`.
 - Use recent limits for fast-moving areas, but remove them if no direct CNS/Nature-series paper appears.
+
+## Multi-source search (via MCP)
+
+`scripts/ref-search.ts` has built-in CrossRef + DBLP search. For wider coverage —
+arXiv, PubMed, bioRxiv/medRxiv, Semantic Scholar, Google Scholar, CORE, Europe PMC,
+etc. — attach an external multi-source MCP rather than re-implementing connectors.
+Recommended: **paper-search-mcp** (MIT; usable as an MCP server *or* a Claude Code
+skill/CLI), which exposes 20+ academic sources behind one search interface.
+
+- Use it for discovery breadth; pipe the merged results through `scripts/dedup.ts`
+  (`references/dedup-engine.md`) before ranking or presenting.
+- Verification of what you keep still goes through `scripts/verify-refs.ts` — an
+  external search result is a *candidate*, not a verified citation.
+
+## Finding missed key references
+
+To surface papers a keyword search misses (the ones a reviewer will name), add a
+citation/recommendation layer on top of the seed set:
+
+- **Semantic Scholar Recommendations API** — given seed paper(s), returns similar
+  work; good for answering "what am I not citing".
+- **Citation-network tools** (e.g. the open-source Local Citation Network, over
+  OpenAlex / Semantic Scholar / OpenCitations) — from seed articles, surface the
+  most relevant *Top Cited* and *Top Citing* papers not yet in your set.
+
+Treat every discovered paper as a candidate: dedup against the current set, then
+verify before citing. Discovery widens recall; it does not lower the citation bar.
