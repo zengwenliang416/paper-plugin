@@ -20,6 +20,7 @@ Use this skill for manuscript drafting, restructuring, polishing, and thesis-ori
 ## Open these resources as needed
 
 - `references/article-architecture.md`
+- `references/systems-ml-section-moves.md`
 - `references/academic-writing-rules.md`
 - `references/academic-humanizer-zh.md`
 - `references/plagiarism-strategy.md`
