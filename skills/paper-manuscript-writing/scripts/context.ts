@@ -691,6 +691,33 @@ function validateCitations(findings: Finding[], gate: Gate): void {
   }
 }
 
+function validateCitationVerification(findings: Finding[], gate: Gate): void {
+  if (gate !== "pre-archive") return;
+  const okStatuses = new Set([
+    "verified",
+    "partial",
+    "replaced",
+    "not_applicable",
+    "not-applicable",
+    "unavailable",
+  ]);
+  const rows = readTsv(join(contextDir, "ledgers", "citations.tsv"));
+  if (rows.length === 0) return;
+  const unverified = rows.filter(
+    (row) => !okStatuses.has((row.verification_status || "").toLowerCase().trim())
+  );
+  if (unverified.length > 0) {
+    addFinding(findings, {
+      severity: "P0",
+      code: "CITATION_NOT_VERIFIED",
+      target: "ledgers/citations.tsv",
+      message: `${unverified.length} citation(s) in the verification ledger are not verified (e.g. status "${unverified[0].verification_status || "empty"}").`,
+      required_action:
+        "Verify each reference (e.g. via paper-literature/verify-refs.ts) and set verification_status (verified/replaced/not_applicable) before archiving.",
+    });
+  }
+}
+
 function validateVisuals(findings: Finding[], gate: Gate): void {
   if (gate === "pre-write") return;
   const rows = readTsv(join(contextDir, "ledgers", "figures.tsv"));
@@ -1012,6 +1039,7 @@ function runValidation(gate: Gate): ValidationResult {
   validateClaimEvidence(findings, gate);
   validateTodo(findings, gate);
   validateCitations(findings, gate);
+  validateCitationVerification(findings, gate);
   validateVisuals(findings, gate);
   validateDataAvailability(findings, gate);
   validateDocxEvidence(findings, gate);

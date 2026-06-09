@@ -173,6 +173,20 @@ const cases = [
     gate: "pre-archive",
     code: "PRIVACY_ENV_FILE",
   },
+  {
+    fixture: "valid-project",
+    gate: "pre-archive",
+    code: "CITATION_NOT_VERIFIED",
+    beforeValidate: (project) => {
+      writeVerifiedDocxLedger(project);
+      writeFileSync(
+        join(project, ".paper-context", "ledgers", "citations.tsv"),
+        "old_no\tnew_no\ttitle\tsource_type\tverification_source\tverification_status\tcitation_locations\taction\n" +
+          "1\t1\tExample Paper\tjournal\t\tnot_found\tch01\tkeep\n",
+        "utf8"
+      );
+    },
+  },
 ];
 
 for (const testCase of cases) {
