@@ -36,3 +36,4 @@ Compile → rasterize → inspect every page. `scripts/render-latex.ts` turns a 
 - `references/venue-templates.md`
 - `references/compile-diagnostics.md`
 - `references/render-qa.md`
+- `references/overleaf-workflow.md`
