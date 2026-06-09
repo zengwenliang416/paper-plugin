@@ -91,6 +91,13 @@
     "outOfScope": []
   },
   {
+    "name": "research front-end synthesis",
+    "input": "帮我把这些文献做成系统综述，并分析研究空白",
+    "primary": "paper-research",
+    "supporting": [],
+    "outOfScope": []
+  },
+  {
     "name": "pure software bug",
     "input": "修一下后端登录 bug，MySQL 也启动不起来",
     "primary": "out-of-scope",

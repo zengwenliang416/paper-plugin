@@ -8,6 +8,10 @@ const cases = JSON.parse(readFileSync(casesPath, "utf8"));
 
 const rules = [
   {
+    skill: "paper-research",
+    re: /(选题|研究问题|研究空白|系统综述|research gap|gap analysis|systematic review|research question)/i,
+  },
+  {
     skill: "paper-reader",
     re: /(pdf|精读|双语|原文锚点|source anchor|图表.*原文|阅读)/i,
   },
