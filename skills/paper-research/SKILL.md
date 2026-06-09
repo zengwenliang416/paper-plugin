@@ -37,3 +37,4 @@ The synthesis is an LLM task (reading and generalizing across papers). The bundl
 - `references/systematic-review.md`
 - `references/gap-analysis.md`
 - `references/research-workflow.md`
+- `references/research-wiki.md`
