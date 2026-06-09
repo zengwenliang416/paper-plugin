@@ -11,6 +11,7 @@ Use this skill for the **LaTeX track**: export a manuscript to LaTeX for submiss
 
 - Export a draft to LaTeX for an IEEE/ACM/NeurIPS-style submission.
 - Diagnose a LaTeX build that fails or misbehaves.
+- Fit a draft to a venue's hard page limit without deleting evidence or weakening claims.
 
 ## A. Export (submission)
 
@@ -24,6 +25,10 @@ Reuse the existing **Pandoc** pipeline (Markdown → LaTeX); see `references/lat
 
 Compile → rasterize → inspect every page. `scripts/render-latex.ts` turns a `.tex` (or ready `.pdf`) into `page-<N>.png` for visual review — the LaTeX parallel to `paper-docx-repair`'s DOCX render QA. A build that compiles is not the same as one that *looks* right. Needs a local TeX + poppler/ImageMagick. See `references/render-qa.md`.
 
+## D. Page-limit compression
+
+CS/ML venues enforce a hard page limit (NeurIPS/ICML/CVPR/ACL …). `references/page-limit-compression.md` fits a draft to it **without** deleting evidence: relocate secondary content to the appendix, tighten figures/tables and prose density, and never game margins or font (a desk-reject risk). Section-level rhetoric itself stays in `paper-manuscript-writing` (`section-moves.md`, `published-article-patterns.md`); this is only the fit-to-limit step, and claim/citation integrity is re-checked after compressing.
+
 ## Boundary
 
 - Two tracks coexist: **DOCX = Chinese thesis** (manuscript / docx-repair), **LaTeX = English submission** (this skill). LaTeX never replaces DOCX.
@@ -36,4 +41,5 @@ Compile → rasterize → inspect every page. `scripts/render-latex.ts` turns a 
 - `references/venue-templates.md`
 - `references/compile-diagnostics.md`
 - `references/render-qa.md`
+- `references/page-limit-compression.md`
 - `references/overleaf-workflow.md`
