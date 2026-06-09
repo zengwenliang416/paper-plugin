@@ -52,6 +52,8 @@ For each `panel[]` row: load the lens prompt from `references/review-lenses/<len
 
 Exit code: `1` when `result` is `block`, else `0`. `--ledger` appends a compact row to `.paper-context/ledgers/review.jsonl` (no secrets, no raw text — only decisions).
 
+To read `result` as an editorial decision (Accept / Minor Revision / Major Revision / Reject), see `references/editorial-decision-standards.md`.
+
 ## Boundaries
 
 - Secrets are read from the environment at call time; never written to files, ledgers, or logs.
