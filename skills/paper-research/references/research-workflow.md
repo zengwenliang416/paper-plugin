@@ -21,3 +21,4 @@ Sequencing and handoffs for the research front-end.
 - Searching / verifying references = `paper-literature`.
 - Drafting prose (including related-work) = `paper-manuscript-writing`.
 - This skill only **frames** the research; it does not search, verify, or draft.
+- **Out of scope:** grant/funding proposals and experiment execution are separate genres. This skill frames the research question, review, and gap — not the funding pitch, and not an experiment-running platform (experiment *records* for reproducibility live in `paper-manuscript-writing/references/experiment-records.md`).
