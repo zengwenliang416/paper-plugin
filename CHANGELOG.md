@@ -2,8 +2,18 @@
 
 ## Unreleased
 
+## 0.2.0
+
 ### Added
 
+- Added a deterministic reviewer-response readiness gate (`paper-response/scripts/response-gate.ts`) that turns the soft QA checklist into an enforced check (ready_to_submit / draft_with_placeholders / needs_author_input / blocked).
+- Added source-locator output to citation verification (`paper-literature/scripts/verify-refs.ts`) for verified references (DOI / OpenAlex), emitted only for verified entries.
+- Added a deterministic literature deduplication script (`paper-literature/scripts/dedup.ts`) implementing the dedup-engine spec (DOI key, title+author Jaccard fallback, merge preference).
+- Added multi-source search and citation-discovery hooks, and registered `academic-search` (CNKI/discipline-aware) as the preferred external retriever alongside `paper-search-mcp`.
+- Added page-limit compression guidance (`paper-latex/references/page-limit-compression.md`) for the English-submission track.
+- Added systems/ML venue section moves (Design + Evaluation) alongside the IMRAD moves in `paper-manuscript-writing`.
+- Added an adversarial (devil's advocate) review lens and editorial decision standards to `paper-review-panel`.
+- Added a competitor feature-level diff record (`docs/competitor-feature-diff.md`).
 - Added thesis project intake guidance for material inventory, title/material mismatch handling, evidence ledgers, and safe thesis drafting.
 - Added thesis DOCX layout QA guidance for school-format checks, OOXML inspection, rendered-output validation, formulas, captions, page numbers, and three-line tables.
 - Added thesis reference-integrity guidance for source verification, bibliography edits, citation renumbering, and in-place DOCX reference repair.

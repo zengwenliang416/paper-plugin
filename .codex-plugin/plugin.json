@@ -1,6 +1,6 @@
 {
   "name": "paper-plugin",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Codex plugin for academic paper routing, reading, writing, citation, response, figure, data, and strict DOCX render-QA workflows.",
   "author": {
     "name": "Local Developer"
