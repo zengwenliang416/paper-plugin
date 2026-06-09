@@ -20,6 +20,10 @@ const rules = [
     re: /(docx|word|wps|目录|页码|三线表|公式编号|ooxml|渲染|封面|行距|页眉|页脚)/i,
   },
   {
+    skill: "paper-latex",
+    re: /(\blatex\b|\.tex\b|投稿模板|ieee|acm|neurips|编译错误|latex\s*编译|overfull|undefined control)/i,
+  },
+  {
     skill: "paper-literature",
     re: /(参考文献|文献.*真实|引用|doi|crossref|cnki|万方|gb\/t|7714|bibtex|ris|文末|\[\d|\[[\d,\-\s]+\])/i,
   },
