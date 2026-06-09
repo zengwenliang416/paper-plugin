@@ -55,3 +55,21 @@ export MIMO_KEY="…"
 - `MiniMax-M3`: standard Anthropic response structure; works directly.
 - `mimo-v2.5-pro`: needs larger `max_tokens` (long thinking) and emits a non-standard structure (thinking block first, empty signature) → `output: thinking-first`, parse defensively.
 - Both support Chinese and multi-turn conversation, so review → revise → re-review rounds are viable.
+
+## Optional lens: adversarial (devil's advocate)
+
+Beyond the three default lenses, `review-lenses/adversarial.md` adds a **devil's
+advocate** reviewer that only attacks — it surfaces the reject reasons a hostile
+reviewer would raise, instead of scoring balanced strengths/weaknesses. It is **not**
+in the default panel (one extra API call); enable it for a pre-submission stress test
+by adding the lens and a panel row:
+
+```yaml
+lenses:
+  adversarial: 魔鬼代言人 / 压力测试
+panel:
+  - { endpoint: mimo, lens: adversarial, weight: 1, veto: false }
+```
+
+Read the resulting verdict as an editorial decision via
+`references/editorial-decision-standards.md`.
