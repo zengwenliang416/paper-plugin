@@ -2,6 +2,7 @@
   {
     "name": "verified-by-doi",
     "expectStatus": "verified",
+    "expectLocator": "https://doi.org/10.5555/3295222.3295349",
     "entry": { "key": "vaswani2017", "title": "Attention Is All You Need", "year": "2017", "firstAuthor": "vaswani", "doi": "10.5555/3295222.3295349" },
     "evidence": { "doi_checked": true, "doi_resolved": true, "doi_title": "Attention is all you need", "candidates": [] }
   },
@@ -20,14 +21,16 @@
   {
     "name": "verified-by-title",
     "expectStatus": "verified",
+    "expectLocator": "https://openalex.org/W2963341956",
     "entry": { "key": "devlin2018", "title": "BERT Pre-training of Deep Bidirectional Transformers", "year": "2018", "firstAuthor": "devlin", "doi": "" },
-    "evidence": { "candidates": [ { "title": "BERT: Pre-training of Deep Bidirectional Transformers", "year": "2018", "firstAuthor": "devlin", "source": "openalex" } ] }
+    "evidence": { "candidates": [ { "title": "BERT: Pre-training of Deep Bidirectional Transformers", "year": "2018", "firstAuthor": "devlin", "source": "openalex", "url": "https://openalex.org/W2963341956" } ] }
   },
   {
     "name": "verified-multi-candidate-year",
     "expectStatus": "verified",
+    "expectLocator": "https://openalex.org/W2963403868",
     "entry": { "key": "vaswani2017", "title": "Attention Is All You Need", "year": "2017", "firstAuthor": "vaswani", "doi": "" },
-    "evidence": { "candidates": [ { "title": "Attention Is All You Need", "year": "2025", "firstAuthor": "x", "source": "crossref" }, { "title": "Attention is all you need", "year": "2017", "firstAuthor": "vaswani", "source": "openalex" } ] }
+    "evidence": { "candidates": [ { "title": "Attention Is All You Need", "year": "2025", "firstAuthor": "x", "source": "crossref" }, { "title": "Attention is all you need", "year": "2017", "firstAuthor": "vaswani", "source": "openalex", "url": "https://openalex.org/W2963403868" } ] }
   },
   {
     "name": "verified-title-exact-year-differs",

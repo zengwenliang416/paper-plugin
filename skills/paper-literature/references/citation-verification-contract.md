@@ -33,7 +33,8 @@ Title matching normalises case/punctuation (CJK-aware) and falls back to token J
 ## Output
 
 - Report: `summary` counts per status + a flagged list (everything not `verified`).
-- `--out <tsv>` writes `key, title, doi, verification_status, verification_source, note`.
+- `--out <tsv>` writes `key, title, doi, verification_status, verification_source, locator, note`.
+- `locator` is a resolvable link to the matched authoritative record (DOI URL or OpenAlex id), emitted **only for a verified entry** — a flagged reference is never handed a misleading "source" link.
 - Exit `1` when any `not_found` or `mismatch` exists, else `0`.
 
 ## Boundary

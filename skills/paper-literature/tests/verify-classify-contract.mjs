@@ -42,6 +42,12 @@ if (Array.isArray(results)) {
     if (got !== testCase.expectStatus) {
       fail(`${testCase.name}: expected ${testCase.expectStatus}, got ${got}`);
     }
+    if (testCase.expectLocator !== undefined) {
+      const loc = results[index]?.locator;
+      if (loc !== testCase.expectLocator) {
+        fail(`${testCase.name}: expected locator ${JSON.stringify(testCase.expectLocator)}, got ${JSON.stringify(loc)}`);
+      }
+    }
   });
 }
 
