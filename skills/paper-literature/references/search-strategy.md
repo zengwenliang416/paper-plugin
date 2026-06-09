@@ -61,18 +61,25 @@ Citation wording: [how to phrase the manuscript sentence if using this citation]
   `resistance` vs `sensitivity`, `risk` vs `protective`.
 - Use recent limits for fast-moving areas, but remove them if no direct CNS/Nature-series paper appears.
 
-## Multi-source search (via MCP)
+## Multi-source search (external skill / MCP)
 
 `scripts/ref-search.ts` has built-in CrossRef + DBLP search. For wider coverage —
-arXiv, PubMed, bioRxiv/medRxiv, Semantic Scholar, Google Scholar, CORE, Europe PMC,
-etc. — attach an external multi-source MCP rather than re-implementing connectors.
-Recommended: **paper-search-mcp** (MIT; usable as an MCP server *or* a Claude Code
-skill/CLI), which exposes 20+ academic sources behind one search interface.
+arXiv, PubMed, bioRxiv/medRxiv, Semantic Scholar, Google Scholar, CNKI, Europe PMC,
+etc. — attach an external retriever rather than re-implementing connectors. Two good
+attach points, by form:
 
-- Use it for discovery breadth; pipe the merged results through `scripts/dedup.ts`
-  (`references/dedup-engine.md`) before ranking or presenting.
-- Verification of what you keep still goes through `scripts/verify-refs.ts` — an
-  external search result is a *candidate*, not a verified citation.
+- **academic-search** (`ustc-ai4science/academic-search`, MIT, Claude Code skill) —
+  **preferred for Chinese or cross-discipline work**: native **CNKI/知网** support,
+  discipline routing, CCF venue tagging, recency-first ranking, query expansion, and
+  two-pass search. Same skill form as this plugin, so it drops in directly.
+- **paper-search-mcp** (MIT, MCP server or CLI) — preferred as a pure breadth
+  backend: 20+ sources behind one MCP interface.
+
+Boundary: the external retriever does **discovery** only. This plugin still owns
+**verification** (`scripts/verify-refs.ts` — a search hit is a candidate, not a
+verified citation), **dedup** (`scripts/dedup.ts`), and **citation formatting**
+(GB/T 7714, `references/gbt7714.md`). Pipe external results through dedup → verify
+before they enter the bibliography.
 
 ## Finding missed key references
 
