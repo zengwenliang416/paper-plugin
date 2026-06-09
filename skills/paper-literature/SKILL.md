@@ -25,3 +25,4 @@ Use this skill for literature search, citation verification, reference export, a
 - `references/thesis-reference-audit.md`
 - `references/citation-verification-contract.md`
 - `references/zotero-workflow.md`
+- `references/obsidian-workflow.md`
