@@ -26,3 +26,4 @@ Use this skill to transform a paper PDF, article page, or extracted paper text i
 
 - `references/grounding-rules.md`
 - `references/output-spec.md`
+- `references/pdf-ingest.md`
