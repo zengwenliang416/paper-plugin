@@ -1,0 +1,97 @@
+[
+  {
+    "name": "all-clean-ready",
+    "expectReadiness": "ready_to_submit",
+    "comments": [
+      { "comment_id": "R1.1", "action": "ACCEPT_TEXT", "risk_level": "low", "manuscript_location": "Introduction, para 2", "has_response": true },
+      { "comment_id": "R1.2", "action": "CLARIFY_EXISTING", "risk_level": "low", "manuscript_location": "Results 3.1", "has_response": true }
+    ]
+  },
+  {
+    "name": "disagree-needs-no-location",
+    "expectReadiness": "ready_to_submit",
+    "comments": [
+      { "comment_id": "R2.1", "action": "DISAGREE", "risk_level": "medium", "has_response": true },
+      { "comment_id": "R2.2", "action": "OUT_OF_SCOPE", "risk_level": "low", "has_response": true }
+    ]
+  },
+  {
+    "name": "claimed-change-without-location",
+    "expectReadiness": "draft_with_placeholders",
+    "expectIssue": "CLAIMED_CHANGE_NO_LOCATION",
+    "comments": [
+      { "comment_id": "R1.1", "action": "ACCEPT_ANALYSIS", "risk_level": "high", "has_response": true }
+    ]
+  },
+  {
+    "name": "comment-without-response",
+    "expectReadiness": "draft_with_placeholders",
+    "expectIssue": "NO_RESPONSE",
+    "comments": [
+      { "comment_id": "R3.1", "action": "ACCEPT_TEXT", "manuscript_location": "Discussion", "has_response": false }
+    ]
+  },
+  {
+    "name": "explicit-unresolved",
+    "expectReadiness": "draft_with_placeholders",
+    "expectIssue": "UNRESOLVED",
+    "comments": [
+      { "comment_id": "R3.2", "action": "PARTIAL", "manuscript_location": "Limitations", "has_response": true, "unresolved": true }
+    ]
+  },
+  {
+    "name": "author-input-needed",
+    "expectReadiness": "needs_author_input",
+    "expectIssue": "AUTHOR_INPUT_NEEDED",
+    "comments": [
+      { "comment_id": "R2.3", "action": "AUTHOR_INPUT_NEEDED", "risk_level": "high", "has_response": true }
+    ]
+  },
+  {
+    "name": "blocking-action",
+    "expectReadiness": "blocked",
+    "expectIssue": "BLOCKING_ITEM",
+    "comments": [
+      { "comment_id": "R1.4", "action": "BLOCKING", "risk_level": "blocking", "has_response": true }
+    ]
+  },
+  {
+    "name": "blocking-risk-only",
+    "expectReadiness": "blocked",
+    "expectIssue": "BLOCKING_ITEM",
+    "comments": [
+      { "comment_id": "R4.1", "action": "ACCEPT_EXPERIMENT", "risk_level": "blocking", "manuscript_location": "Methods 2.3", "has_response": true }
+    ]
+  },
+  {
+    "name": "missing-comment-id",
+    "expectReadiness": "blocked",
+    "expectIssue": "MISSING_COMMENT_ID",
+    "comments": [
+      { "comment_id": "", "action": "ACCEPT_TEXT", "manuscript_location": "Abstract", "has_response": true }
+    ]
+  },
+  {
+    "name": "declared-ready-downgraded-by-evidence",
+    "expectReadiness": "draft_with_placeholders",
+    "expectIssue": "CLAIMED_CHANGE_NO_LOCATION",
+    "comments": [
+      { "comment_id": "R5.1", "action": "ACCEPT_FIGURE", "readiness": "ready_to_submit", "has_response": true }
+    ]
+  },
+  {
+    "name": "worst-comment-wins",
+    "expectReadiness": "blocked",
+    "expectIssue": "BLOCKING_ITEM",
+    "comments": [
+      { "comment_id": "R6.1", "action": "ACCEPT_TEXT", "risk_level": "low", "manuscript_location": "Intro", "has_response": true },
+      { "comment_id": "R6.2", "action": "AUTHOR_INPUT_NEEDED", "has_response": true },
+      { "comment_id": "R6.3", "action": "BLOCKING", "has_response": true }
+    ]
+  },
+  {
+    "name": "empty-package-not-submittable",
+    "expectReadiness": "draft_with_placeholders",
+    "comments": []
+  }
+]

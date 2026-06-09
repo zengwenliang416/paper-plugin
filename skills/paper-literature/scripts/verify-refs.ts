@@ -42,6 +42,8 @@ interface Candidate {
   year: string;
   firstAuthor: string;
   source: string;
+  id?: string; // DOI or OpenAlex work id
+  url?: string; // resolvable locator for the matched record
 }
 
 interface Evidence {
@@ -59,6 +61,7 @@ interface VerifyResult {
   status: Status;
   matched_source: string;
   note: string;
+  locator: string;
 }
 
 // --------------------------------------------------------------------------
@@ -89,45 +92,49 @@ function titleSimilar(a: string, b: string): boolean {
   return jaccard >= 0.6;
 }
 
-function classify(entry: BibRef, evidence: Evidence): { status: Status; matched_source: string; note: string } {
+function classify(entry: BibRef, evidence: Evidence): { status: Status; matched_source: string; note: string; locator: string } {
+  const loc = (c?: Candidate): string => (c ? c.url || c.id || "" : "");
+
   if (evidence.error) {
-    return { status: "manual_needed", matched_source: "", note: `all sources failed: ${evidence.error}` };
+    return { status: "manual_needed", matched_source: "", note: `all sources failed: ${evidence.error}`, locator: "" };
   }
 
   // DOI path: a declared DOI that does not resolve is a strong red flag.
   if (entry.doi) {
     if (evidence.doi_resolved === false) {
-      return { status: "suspicious", matched_source: "crossref-doi", note: "declared DOI did not resolve" };
+      return { status: "suspicious", matched_source: "crossref-doi", note: "declared DOI did not resolve", locator: "" };
     }
     if (evidence.doi_resolved && evidence.doi_title) {
       if (titleSimilar(evidence.doi_title, entry.title)) {
-        return { status: "verified", matched_source: "crossref-doi", note: "DOI resolves, title matches" };
+        return { status: "verified", matched_source: "crossref-doi", note: "DOI resolves, title matches", locator: `https://doi.org/${entry.doi}` };
       }
-      return { status: "mismatch", matched_source: "crossref-doi", note: "DOI resolves but title differs" };
+      return { status: "mismatch", matched_source: "crossref-doi", note: "DOI resolves but title differs", locator: "" };
     }
   }
 
   // Title path: search candidates across indexes. A reference is "found" when
   // a candidate title matches; year is noisy metadata (reprint/preprint/variant),
   // so a title-exact match with a differing year stays verified with a note.
+  // The locator is only emitted for a verified match — never for a suspicious one,
+  // so a flagged reference is not handed a misleading "source" link.
   const matches = evidence.candidates.filter((c) => titleSimilar(c.title, entry.title));
   if (matches.length > 0) {
     const sources = [...new Set(matches.map((m) => m.source))].join("+");
     const yearMatch = matches.find((m) => !entry.year || !m.year || entry.year === m.year);
     if (yearMatch) {
-      return { status: "verified", matched_source: sources, note: `title (and year) match across ${sources}` };
+      return { status: "verified", matched_source: sources, note: `title (and year) match across ${sources}`, locator: loc(yearMatch) };
     }
     const exact = matches.find((m) => titleExact(m.title, entry.title));
     if (exact) {
-      return { status: "verified", matched_source: sources, note: `found, but year differs (${entry.year} vs ${exact.year}) — verify edition/preprint` };
+      return { status: "verified", matched_source: sources, note: `found, but year differs (${entry.year} vs ${exact.year}) — verify edition/preprint`, locator: loc(exact) };
     }
-    return { status: "suspicious", matched_source: sources, note: "title only loosely matches and year differs; verify manually" };
+    return { status: "suspicious", matched_source: sources, note: "title only loosely matches and year differs; verify manually", locator: "" };
   }
 
   if (evidence.candidates.length === 0) {
-    return { status: "not_found", matched_source: "", note: "no index returned a matching record (possible fabrication)" };
+    return { status: "not_found", matched_source: "", note: "no index returned a matching record (possible fabrication)", locator: "" };
   }
-  return { status: "suspicious", matched_source: "", note: "indexes returned records but none matched the title" };
+  return { status: "suspicious", matched_source: "", note: "indexes returned records but none matched the title", locator: "" };
 }
 
 // --------------------------------------------------------------------------
@@ -213,6 +220,8 @@ async function crossRefByTitle(title: string): Promise<Candidate[]> {
     year: String(it.published?.["date-parts"]?.[0]?.[0] ?? it.created?.["date-parts"]?.[0]?.[0] ?? ""),
     firstAuthor: (it.author?.[0]?.family ?? "").toLowerCase(),
     source: "crossref",
+    id: it.DOI ?? "",
+    url: it.DOI ? `https://doi.org/${it.DOI}` : (it.URL ?? ""),
   }));
 }
 
@@ -227,6 +236,8 @@ async function openAlexByTitle(title: string): Promise<Candidate[]> {
     year: String(w.publication_year ?? ""),
     firstAuthor: (w.authorships?.[0]?.author?.display_name ?? "").split(/\s+/).pop()?.toLowerCase() ?? "",
     source: "openalex",
+    id: w.id ?? "",
+    url: w.doi ?? w.id ?? "",
   }));
 }
 
@@ -330,8 +341,8 @@ async function main(): Promise<number> {
   const concurrency = parseInt(values.concurrency ?? "4", 10);
   const results: VerifyResult[] = await mapLimit(refs, concurrency, async (entry) => {
     const evidence = await gatherEvidence(entry);
-    const { status, matched_source, note } = classify(entry, evidence);
-    return { key: entry.key, title: entry.title, doi: entry.doi, status, matched_source, note };
+    const { status, matched_source, note, locator } = classify(entry, evidence);
+    return { key: entry.key, title: entry.title, doi: entry.doi, status, matched_source, note, locator };
   });
 
   const summary: Record<Status, number> = {
@@ -361,9 +372,9 @@ async function main(): Promise<number> {
   }
 
   if (values.out) {
-    const header = "key\ttitle\tdoi\tverification_status\tverification_source\tnote";
+    const header = "key\ttitle\tdoi\tverification_status\tverification_source\tlocator\tnote";
     const rows = results.map((r) =>
-      [r.key, r.title, r.doi, r.status, r.matched_source, r.note].map((c) => String(c).replace(/\t/g, " ")).join("\t")
+      [r.key, r.title, r.doi, r.status, r.matched_source, r.locator, r.note].map((c) => String(c).replace(/\t/g, " ")).join("\t")
     );
     writeFileSync(resolve(values.out), [header, ...rows, ""].join("\n"), "utf8");
     console.log(`\nWrote ${values.out}`);

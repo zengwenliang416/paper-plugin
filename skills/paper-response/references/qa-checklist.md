@@ -62,3 +62,9 @@ Use these labels consistently:
 - `draft_with_placeholders`: draft text exists, but visible placeholders or missing locations remain.
 - `needs_author_input`: the author must provide facts before final response wording is credible.
 - `blocked`: a compliance, integrity, central-evidence, or appeal-like issue prevents normal final response drafting.
+
+**Enforcement:** this gate is not advisory. `scripts/response-gate.ts` computes the
+package label deterministically from a response tracker and exits non-zero unless
+`ready_to_submit`. It only ever downgrades a declared label, so it cannot be talked
+past: an unanswered or untraceable comment, a claimed change without a manuscript
+location, or a blocking item forces `draft_with_placeholders` / `blocked`.

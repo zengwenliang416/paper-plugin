@@ -4,8 +4,8 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const verifyScript = join(here, "..", "scripts", "verify-refs.ts");
-const casesPath = join(here, "verify-classify-cases.json");
+const script = join(here, "..", "scripts", "response-gate.ts");
+const casesPath = join(here, "response-gate-cases.json");
 
 let failed = false;
 function fail(message) {
@@ -13,14 +13,14 @@ function fail(message) {
   failed = true;
 }
 
-if (!existsSync(verifyScript)) fail("missing verify-refs.ts");
+if (!existsSync(script)) fail("missing response-gate.ts");
 
 const cases = JSON.parse(readFileSync(casesPath, "utf8"));
 
-// --classify reads only entry/evidence; extra fields (name/expectStatus) are ignored.
+// --classify reads only name/comments; extra fields (expectReadiness/expectIssue) are ignored.
 let stdout = "";
 try {
-  stdout = execFileSync("npx", ["tsx", verifyScript, "--classify", casesPath], {
+  stdout = execFileSync("npx", ["tsx", script, "--classify", casesPath], {
     encoding: "utf8",
     stdio: ["ignore", "pipe", "pipe"],
     timeout: 120_000,
@@ -38,14 +38,14 @@ try {
 
 if (Array.isArray(results)) {
   cases.forEach((testCase, index) => {
-    const got = results[index]?.status;
-    if (got !== testCase.expectStatus) {
-      fail(`${testCase.name}: expected ${testCase.expectStatus}, got ${got}`);
+    const got = results[index]?.readiness;
+    if (got !== testCase.expectReadiness) {
+      fail(`${testCase.name}: expected package ${testCase.expectReadiness}, got ${got}`);
     }
-    if (testCase.expectLocator !== undefined) {
-      const loc = results[index]?.locator;
-      if (loc !== testCase.expectLocator) {
-        fail(`${testCase.name}: expected locator ${JSON.stringify(testCase.expectLocator)}, got ${JSON.stringify(loc)}`);
+    if (testCase.expectIssue) {
+      const issues = (results[index]?.comments ?? []).flatMap((c) => c.issues);
+      if (!issues.includes(testCase.expectIssue)) {
+        fail(`${testCase.name}: expected issue ${testCase.expectIssue}, got [${issues.join(", ")}]`);
       }
     }
   });
@@ -55,4 +55,4 @@ if (failed) {
   process.exit(1);
 }
 
-console.log(`Citation verify classify contract passed (${cases.length} cases).`);
+console.log(`Response gate classify contract passed (${cases.length} cases).`);
