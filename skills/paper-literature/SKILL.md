@@ -12,6 +12,7 @@ Use this skill for literature search, citation verification, reference export, a
 - search literature across supported academic sources
 - verify candidate references against specific claims
 - run batch authenticity verification of a bibliography against CrossRef/OpenAlex (`scripts/verify-refs.ts`)
+- deduplicate merged multi-source result lists (`scripts/dedup.ts`, implements `references/dedup-engine.md`)
 - export usable citation files
 - support Chinese thesis citation rules and high-impact manuscript citation workflows
 
@@ -19,6 +20,7 @@ Use this skill for literature search, citation verification, reference export, a
 
 - `references/source-tiers.md`
 - `references/search-strategy.md`
+- `references/dedup-engine.md`
 - `references/gbt7714.md`
 - `references/citation-rules.md`
 - `references/thesis-reference-integrity.md`
