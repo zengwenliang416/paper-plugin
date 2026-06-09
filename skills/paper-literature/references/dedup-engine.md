@@ -41,3 +41,14 @@ When a duplicate pair spans sources, prefer the record with (in order):
 - **Workflow 1 (Multi-source search):** After parallel MCP search, run dedup on merged result list before ranking/presentation.
 - **Workflow 2 (Citation verification):** When a document reference resolves to multiple candidate matches, use dedup to collapse identical candidates before classification.
 - **Workflow 5a (Related papers):** When related-paper results overlap with the source search, dedup before presenting.
+
+## Implementation
+
+`scripts/dedup.ts` implements this spec deterministically: DOI primary key (pattern `10.\d{4,}/…`, `https://doi.org/` prefix stripped, lowercased) → title (stopword-stripped) + first-author surname with Jaccard ≥ 0.90 fallback → merge preference (metadata completeness, then publisher over preprint, then citation count).
+
+```bash
+npx tsx skills/paper-literature/scripts/dedup.ts records.json        # dedup a merged result list
+npx tsx skills/paper-literature/scripts/dedup.ts --classify cases.json # unit-tested core
+```
+
+The pure core is contract-tested in `tests/dedup-contract.mjs` (11 cases). A record carries `{ id?, doi?, title?, firstAuthor?, source?, year?, citationCount?, volume?, pages? }`.

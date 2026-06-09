@@ -6,7 +6,7 @@
   "scripts": {
     "context": "tsx skills/paper-manuscript-writing/scripts/context.ts",
     "docx:render": "tsx skills/paper-docx-repair/scripts/render-docx.ts",
-    "validate": "node scripts/validate-plugin.mjs && node scripts/validate-context.mjs && node skills/paper-workflow-router/scripts/validate-routing-contract.mjs && node skills/paper-review-panel/tests/validate-review-panel-contract.mjs && node skills/paper-review-panel/tests/review-aggregate-contract.mjs && node skills/paper-literature/tests/verify-classify-contract.mjs && node skills/paper-research/tests/review-outline-contract.mjs && node skills/paper-latex/tests/latex-diagnose-contract.mjs && node skills/paper-response/tests/response-gate-contract.mjs",
+    "validate": "node scripts/validate-plugin.mjs && node scripts/validate-context.mjs && node skills/paper-workflow-router/scripts/validate-routing-contract.mjs && node skills/paper-review-panel/tests/validate-review-panel-contract.mjs && node skills/paper-review-panel/tests/review-aggregate-contract.mjs && node skills/paper-literature/tests/verify-classify-contract.mjs && node skills/paper-research/tests/review-outline-contract.mjs && node skills/paper-latex/tests/latex-diagnose-contract.mjs && node skills/paper-response/tests/response-gate-contract.mjs && node skills/paper-literature/tests/dedup-contract.mjs",
     "validate:context": "node scripts/validate-context.mjs",
     "validate:router": "node skills/paper-workflow-router/scripts/validate-routing-contract.mjs",
     "validate:review-panel": "node skills/paper-review-panel/tests/validate-review-panel-contract.mjs"

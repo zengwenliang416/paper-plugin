@@ -1,0 +1,96 @@
+[
+  {
+    "name": "doi-exact-duplicate",
+    "expectKeptCount": 1,
+    "records": [
+      { "id": "a", "doi": "10.1145/3292500.3330701", "title": "Some Paper", "firstAuthor": "Smith" },
+      { "id": "b", "doi": "10.1145/3292500.3330701", "title": "Some Paper (reprint)", "firstAuthor": "Smith" }
+    ]
+  },
+  {
+    "name": "doi-normalization-prefix-and-case",
+    "expectKeptCount": 1,
+    "records": [
+      { "id": "a", "doi": "https://doi.org/10.1109/CVPR.2016.90" },
+      { "id": "b", "doi": "10.1109/cvpr.2016.90" }
+    ]
+  },
+  {
+    "name": "different-doi-not-duplicate",
+    "expectKeptCount": 2,
+    "records": [
+      { "id": "a", "doi": "10.1234/aaa" },
+      { "id": "b", "doi": "10.1234/bbb" }
+    ]
+  },
+  {
+    "name": "title-author-fallback-duplicate",
+    "expectKeptCount": 1,
+    "records": [
+      { "id": "a", "title": "Attention Is All You Need", "firstAuthor": "Vaswani" },
+      { "id": "b", "title": "Attention is all you need!", "firstAuthor": "Vaswani, Ashish" }
+    ]
+  },
+  {
+    "name": "below-jaccard-threshold-kept-separate",
+    "expectKeptCount": 2,
+    "records": [
+      { "id": "a", "title": "Deep learning for cats", "firstAuthor": "Smith" },
+      { "id": "b", "title": "Deep learning for dogs and birds", "firstAuthor": "Smith" }
+    ]
+  },
+  {
+    "name": "same-title-different-author-not-duplicate",
+    "expectKeptCount": 2,
+    "records": [
+      { "id": "a", "title": "Common Title Here More Words", "firstAuthor": "Smith" },
+      { "id": "b", "title": "Common Title Here More Words", "firstAuthor": "Jones" }
+    ]
+  },
+  {
+    "name": "merge-prefers-more-complete-metadata",
+    "expectKeptCount": 1,
+    "expectKeptIds": ["b"],
+    "records": [
+      { "id": "a", "doi": "10.1234/x" },
+      { "id": "b", "doi": "10.1234/x", "volume": "5", "pages": "1-9" }
+    ]
+  },
+  {
+    "name": "merge-prefers-publisher-over-preprint",
+    "expectKeptCount": 1,
+    "expectKeptIds": ["b"],
+    "records": [
+      { "id": "a", "doi": "10.2222/y", "source": "arxiv" },
+      { "id": "b", "doi": "10.2222/y", "source": "ieee" }
+    ]
+  },
+  {
+    "name": "merge-citation-count-tiebreak",
+    "expectKeptCount": 1,
+    "expectKeptIds": ["b"],
+    "records": [
+      { "id": "a", "doi": "10.3333/z", "citationCount": 5 },
+      { "id": "b", "doi": "10.3333/z", "citationCount": 50 }
+    ]
+  },
+  {
+    "name": "no-duplicates",
+    "expectKeptCount": 3,
+    "records": [
+      { "id": "a", "doi": "10.4444/p" },
+      { "id": "b", "title": "Totally Different Subject Matter", "firstAuthor": "Zhang" },
+      { "id": "c", "title": "Another Unrelated Work Entirely", "firstAuthor": "Lee" }
+    ]
+  },
+  {
+    "name": "three-way-merge-keeps-one",
+    "expectKeptCount": 1,
+    "expectKeptIds": ["c"],
+    "records": [
+      { "id": "a", "doi": "10.5555/m", "source": "arxiv" },
+      { "id": "b", "doi": "10.5555/m", "source": "biorxiv" },
+      { "id": "c", "doi": "10.5555/m", "source": "nature", "volume": "601", "pages": "100-110" }
+    ]
+  }
+]

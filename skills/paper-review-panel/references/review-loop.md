@@ -20,6 +20,21 @@ How to use the review engine across rounds — 评 → 改 → 再评. `review.t
 
 For each non-pass reviewer, pass its `lens` + `excerpt` (the findings) to revision. **Veto-block findings** (e.g. `citation` integrity) must be *resolved*, not merely softened — a `block` from a `veto` reviewer is non-negotiable.
 
+## Structured remediation
+
+Don't hand revision a bare finding — hand a **remediation directive** the revision step can act on and the next round can check for closure. For each non-pass finding, structure:
+
+- `finding_id` — stable id, carried across rounds (so round N+1 can confirm closure, not re-litigate).
+- `lens` + `locator` — which reviewer, and where (section / excerpt anchor).
+- `problem` — what fails, in one line.
+- `required_change` — the concrete edit the manuscript skill must make.
+- `acceptance` — how the next round decides it is resolved (not merely "softened").
+- `veto` — true for integrity/citation blocks: must be *resolved*, non-negotiable.
+
+The loop automates **review → stop-control → remediation-directive generation → next-round acceptance check**. It does **not** automate the edit: the manuscript skill (human-in-the-loop) makes the change, exactly as in "Why not auto-rewrite" below. This keeps the borrowed "structured feedback + bounded retries + escalate" shape **without** crossing into auto-rewriting a manuscript — the bounded retries are `max_rounds`, and escalation hands a human the **open directives**, not just raw findings.
+
+Record each directive's round and closure state in the review ledger alongside the `gate = round-N` entry, so the round history shows what was asked and whether it was met.
+
 ## Stop conditions (never loop forever)
 
 The loop ends on exactly one of: `pass`, `round == max_rounds` (escalate), or `result == error` (fix infrastructure first).
