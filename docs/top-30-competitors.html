@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paper Plugin 竞品 Top 30 详细对比表</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Noto+Sans+SC:wght@400;500;700&amp;display=swap');
+        
+        :root {
+            --primary: #0f766e;
+        }
+        
+        body {
+            font-family: 'Inter', 'Noto Sans SC', system-ui, -apple-system, sans-serif;
+        }
+        
+        .table-container {
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+        }
+        
+        .data-table th {
+            background: linear-gradient(to bottom, #f8fafc, #f1e7ff);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .data-table th:hover {
+            background: #e0e7ff;
+        }
+        
+        .data-table tr:hover {
+            background-color: #f8fafc;
+        }
+        
+        .feature-cell {
+            max-width: 420px;
+            line-height: 1.35;
+        }
+        
+        .repo-link {
+            color: #0f766e;
+            font-weight: 600;
+        }
+        
+        .repo-link:hover {
+            text-decoration: underline;
+        }
+        
+        .star-badge {
+            background: linear-gradient(135deg, #fefce8, #fef08c);
+            color: #713f12;
+            font-weight: 700;
+            padding: 1px 8px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+        }
+        
+        .value-tag {
+            font-size: 0.7rem;
+            padding: 2px 9px;
+            border-radius: 9999px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        
+        .value-极高 { background: #166534; color: white; }
+        .value-高 { background: #166534; color: white; }
+        .value-中高 { background: #4ade80; color: #14532d; }
+        .value-中 { background: #fde047; color: #713f12; }
+        
+        .type-badge {
+            font-size: 0.65rem;
+            padding: 1px 7px;
+            border-radius: 4px;
+            background: #e0e7ff;
+            color: #3730a3;
+            font-weight: 600;
+        }
+        
+        .section-header {
+            background: linear-gradient(to right, #0f766e, #134e4b);
+            color: white;
+        }
+        
+        .sortable::after {
+            content: ' ↕';
+            opacity: 0.4;
+            font-size: 0.7rem;
+        }
+        
+        .search-input {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .search-input:focus {
+            box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.2);
+        }
+        
+        .metric {
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .compact-table td, .compact-table th {
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+        
+        .long-text {
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="bg-slate-50">
+    <div class="max-w-[1280px] mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
+            <div>
+                <div class="flex items-center gap-x-3">
+                    <div class="w-12 h-12 bg-teal-800 rounded-2xl flex items-center justify-center shadow-inner">
+                        <i class="fa-solid fa-book text-white text-3xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-4xl font-bold tracking-tight text-slate-900">Paper Plugin</h1>
+                        <p class="text-xl text-teal-700 font-semibold">竞品 Top 30 详细对比表</p>
+                    </div>
+                </div>
+                <p class="mt-2 text-slate-600 max-w-xl">
+                    由智能体团队（Deep Explorer + Claude Skills Hunter + Broader Scout）+ 多轮工具搜索整理<br>
+                    聚焦学术论文写作 / 研究流程相关的 GitHub 仓库（Claude Code / Codex Skills、Obsidian 插件、AI 论文工具等）
+                </p>
+            </div>
+            
+            <div class="flex flex-col items-end">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-white border border-slate-200 rounded-3xl text-sm shadow-sm">
+                    <div class="flex items-center gap-1.5">
+                        <div class="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse"></div>
+                        <span class="font-medium text-slate-700">数据快照</span>
+                    </div>
+                    <span class="font-mono text-xs text-slate-500">2026-06</span>
+                </div>
+                <a href="https://github.com/zengwenliang416/paper-plugin" target="_blank"
+                   class="mt-2 inline-flex items-center gap-x-1.5 text-xs text-teal-700 hover:text-teal-800 font-medium">
+                    <i class="fa-brands fa-github"></i>
+                    <span>返回 paper-plugin 主仓库</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
+            <div class="bg-white border border-slate-200 rounded-3xl p-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <div class="text-xs font-semibold tracking-widest text-teal-600">TOP 1</div>
+                        <div class="font-bold text-xl leading-none mt-1">Imbad0202<br>academic-research-skills</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="star-badge text-base px-3 py-0.5"><i class="fa-solid fa-star"></i> <span class="font-bold">28.6k</span></div>
+                        <div class="text-[10px] text-emerald-700 mt-1 font-medium">极高相关度</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white border border-slate-200 rounded-3xl p-4">
+                <div class="text-xs uppercase font-semibold text-slate-500 tracking-widest mb-1">核心洞察</div>
+                <div class="text-sm leading-snug text-slate-700">
+                    最高星项目几乎都是 <strong class="text-teal-700">Claude Code / Codex Skills</strong> 形态。<br>
+                    共同强项：多代理（multi-agent）、严格完整性门禁（gates）、引用验证、LaTeX 支持、持久记忆。
+                </div>
+            </div>
+            
+            <div class="bg-white border border-slate-200 rounded-3xl p-4 text-sm">
+                <div class="font-semibold text-slate-700 mb-1.5">当前 paper-plugin 优势</div>
+                <ul class="text-xs space-y-0.5 text-slate-600">
+                    <li class="flex gap-1.5"><span class="text-emerald-600">✓</span> 模块化 skills + workflow-router</li>
+                    <li class="flex gap-1.5"><span class="text-emerald-600">✓</span> .paper-context + ledgers + 强 gates</li>
+                    <li class="flex gap-1.5"><span class="text-emerald-600">✓</span> DOCX 视觉渲染 QA（独特）</li>
+                    <li class="flex gap-1.5"><span class="text-emerald-600">✓</span> Thesis 特化（中英、GB/T 7714）</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="bg-white border border-slate-200 shadow-sm rounded-3xl p-4 mb-4">
+            <div class="flex flex-wrap items-center gap-3">
+                <div class="flex-1 min-w-[240px]">
+                    <div class="relative">
+                        <i class="fa-solid fa-search absolute left-3 top-3 text-slate-400"></i>
+                        <input id="search-input" 
+                               type="text" 
+                               placeholder="搜索仓库名称、类型或特性关键词..." 
+                               class="search-input w-full pl-9 pr-4 py-2 border border-slate-300 rounded-2xl text-sm focus:outline-none focus:border-teal-400">
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-2">
+                    <select id="type-filter" class="border border-slate-300 rounded-2xl text-sm px-3 py-2 bg-white focus:outline-none focus:border-teal-400">
+                        <option value="">全部类型</option>
+                        <option value="Claude Code Skills">Claude Code Skills</option>
+                        <option value="Codex Skills">Codex Skills</option>
+                        <option value="Obsidian Plugin">Obsidian Plugin</option>
+                        <option value="Paper Manager">Paper Manager</option>
+                        <option value="Standalone AI Writer">Standalone AI Writer</option>
+                        <option value="Prompt Pack">Prompt Pack</option>
+                        <option value="Awesome List">Awesome List</option>
+                        <option value="LaTeX Agent">LaTeX Agent</option>
+                        <option value="Zotero Plugin">Zotero Plugin</option>
+                    </select>
+                    
+                    <select id="value-filter" class="border border-slate-300 rounded-2xl text-sm px-3 py-2 bg-white focus:outline-none focus:border-teal-400">
+                        <option value="">全部补足价值</option>
+                        <option value="极高">极高</option>
+                        <option value="高">高</option>
+                        <option value="中高">中高</option>
+                    </select>
+                    
+                    <button onclick="resetFilters()" 
+                            class="px-4 py-2 text-sm bg-slate-100 hover:bg-slate-200 active:bg-slate-300 rounded-2xl font-medium text-slate-700 flex items-center gap-x-1.5 transition-colors">
+                        <i class="fa-solid fa-undo text-xs"></i>
+                        <span>重置</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="bg-white border border-slate-200 rounded-3xl overflow-hidden table-container">
+            <div class="overflow-x-auto">
+                <table id="competitor-table" class="data-table w-full text-sm compact-table">
+                    <thead>
+                        <tr class="text-left text-slate-700">
+                            <th class="px-4 py-3 w-10 sortable" data-sort="rank">排名</th>
+                            <th class="px-4 py-3 min-w-[240px] sortable" data-sort="repo">仓库</th>
+                            <th class="px-4 py-3 w-24 sortable text-right" data-sort="stars">Stars</th>
+                            <th class="px-4 py-3 w-32 sortable" data-sort="type">类型</th>
+                            <th class="px-4 py-3 min-w-[380px]">关键特性</th>
+                            <th class="px-4 py-3 w-28 sortable" data-sort="value">补足价值</th>
+                            <th class="px-4 py-3 w-16 text-center">链接</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body" class="divide-y divide-slate-100 text-slate-800"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="mt-3 text-[10px] text-slate-500 flex items-center justify-between px-1">
+            <div>共 <span id="result-count" class="font-semibold text-slate-700">30</span> 个仓库（数据来源于公开 GitHub 页面抓取）</div>
+            <div class="flex items-center gap-2">
+                <span class="px-2 py-px bg-amber-100 text-amber-800 rounded text-[9px]">点击表头可排序</span>
+                <span class="px-2 py-px bg-teal-100 text-teal-800 rounded text-[9px]">支持实时搜索与筛选</span>
+            </div>
+        </div>
+
+        <!-- Recommendations -->
+        <div class="mt-8 bg-white border border-slate-200 rounded-3xl p-6">
+            <h3 class="font-semibold text-lg mb-3 flex items-center gap-x-2">
+                <i class="fa-solid fa-lightbulb text-amber-500"></i>
+                <span>高优先级补足方向（来自智能体分析）</span>
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 text-sm">
+                <div>
+                    <div class="font-medium text-teal-800 mb-1">1. 多代理评审与 Orchestrator</div>
+                    <div class="text-slate-600">参考 Imbad0202（12+7 agent + 10-stage pipeline）、ARIS（70+ skills + cross-model jury）、PaperDebugger。</div>
+                </div>
+                <div>
+                    <div class="font-medium text-teal-800 mb-1">2. 深度引用验证 + Claim Audit</div>
+                    <div class="text-slate-600">Imbad 的 locator + multi-index triangulation + 不可跳过 gates；ARIS 的 citation-audit。</div>
+                </div>
+                <div>
+                    <div class="font-medium text-teal-800 mb-1">3. Zotero / Obsidian 集成 + PDF 高级处理</div>
+                    <div class="text-slate-600">obsidian-zotero-integration、zotero-better-notes、PDFMathTranslate（布局保留翻译）。</div>
+                </div>
+                <div>
+                    <div class="font-medium text-teal-800 mb-1">4. LaTeX 原生路径 + Research Wiki</div>
+                    <div class="text-slate-600">PaperFit、Calix-L/awesome-latex-skills、ARIS Research Wiki、PaperForge 模板迁移。</div>
+                </div>
+                <div>
+                    <div class="font-medium text-teal-800 mb-1">5. 模板与 Prompt 库复用</div>
+                    <div class="text-slate-600">Master-cai（Peng Sida 笔记）、ahmetbersoz、alfonso0512 的 30+ 模板直接可迁移进 references/。</div>
+                </div>
+                <div>
+                    <div class="font-medium text-teal-800 mb-1">6. 持久化记忆与实验桥接</div>
+                    <div class="text-slate-600">ARIS Research Wiki + experiment queue；Imbad Material Passport。</div>
+                </div>
+            </div>
+            <div class="mt-4 pt-4 border-t text-xs text-slate-500">
+                当前 paper-plugin 在「模块化 + 上下文持久 + 交付视觉 QA + 严格合约」方面已有明显优势，建议优先补「agent 层能力 + 外部工具集成 + 验证深度」。
+            </div>
+        </div>
+
+        <div class="text-center mt-8 text-xs text-slate-400">
+            本 HTML 为静态自包含文件，可直接在浏览器打开或提交到仓库 docs/ 目录供团队参考。<br>
+            建议结合 paper-plugin 现有 skills/paper-workflow-router + .paper-context 系统进行扩展。
+        </div>
+    </div>
+
+    <script>
+        // Tailwind script
+        function initializeTailwind() {
+            document.documentElement.style.setProperty('--accent', '#0f766e');
+        }
+
+        // Data - Top 30
+        const competitors = [
+            { rank: 1, repo: "Imbad0202/academic-research-skills", stars: 28600, type: "Claude Code Skills", value: "极高", 
+              features: "13-agent deep research (Socratic/PRISMA) + 12-agent paper writing (style calibration, LaTeX, VLM figure) + 7-agent reviewer + 10-stage orchestrator + Material Passport + multi-index citation verification + 不可跳过 integrity gates", 
+              link: "https://github.com/Imbad0202/academic-research-skills" },
+            
+            { rank: 2, repo: "alirezarezvani/claude-skills", stars: 17400, type: "Broad Claude Skills Library", value: "高", 
+              features: "338+ skills / 30+ agents；dedicated 8-skill academic research stack（litreview orchestrator + grants 等）；跨多平台支持", 
+              link: "https://github.com/alirezarezvani/claude-skills" },
+            
+            { rank: 3, repo: "wanshuiyin/Auto-claude-code-research-in-sleep (ARIS)", stars: 11600, type: "Claude Code / Codex Skills", value: "极高", 
+              features: "70+ Markdown skills；cross-model review loops + jury；experiment automation；rebuttal safety gates；Research Wiki；overleaf-sync；citation-audit", 
+              link: "https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep" },
+            
+            { rank: 4, repo: "ahmetbersoz/chatgpt-prompts-for-academic-writing", stars: 4700, type: "Prompt Pack", value: "高", 
+              features: "全流程 prompt 集合：选题、abstract/intro/lit/method、polish、PDF/figure 总结、规划；高质量写作模板库", 
+              link: "https://github.com/ahmetbersoz/chatgpt-prompts-for-academic-writing" },
+            
+            { rank: 5, repo: "Galaxy-Dawn/claude-scholar", stars: 4200, type: "Research Assistant", value: "高", 
+              features: "ideation → publication 全流程；Zotero MCP + Obsidian KB 集成；citation-verification；nature-style writing；LaTeX 支持", 
+              link: "https://github.com/Galaxy-Dawn/claude-scholar" },
+            
+            { rank: 6, repo: "Master-cai/Research-Paper-Writing-Skills", stars: 3500, type: "Focused Skills Package", value: "极高", 
+              features: "ML/CV/NLP 专用（Abstract/Intro/Method/Experiments/Conclusion）；claim-evidence alignment；reviewer mindset self-review；直接来自彭思达笔记", 
+              link: "https://github.com/Master-cai/Research-Paper-Writing-Skills" },
+            
+            { rank: 7, repo: "Imbad0202/academic-research-skills-codex", stars: 3200, type: "Codex Skills", value: "高", 
+              features: "#1 的 Codex 原生版本；完整学术研究 skills 套件", 
+              link: "https://github.com/Imbad0202/academic-research-skills-codex" },
+            
+            { rank: 8, repo: "windingwind/zotero-better-notes", stars: 7800, type: "Zotero Plugin", value: "高", 
+              features: "论文笔记全功能 + AI 助手；模板化笔记；Obsidian 双向同步；导出 LaTeX/MD/DOCX；关系图", 
+              link: "https://github.com/windingwind/zotero-better-notes" },
+            
+            { rank: 9, repo: "Future-Scholars/paperlib", stars: 2200, type: "Paper Manager", value: "高", 
+              features: "学术 paper 管理（会议论文元数据强）；AI extensions（summarize/tag/semantic search/chat）；MD notes；引用复制插件", 
+              link: "https://github.com/Future-Scholars/paperlib" },
+            
+            { rank: 10, repo: "K-Dense-AI/claude-scientific-writer", stars: 1900, type: "Standalone AI Writer", value: "高", 
+              features: "scientific writer；real-time lit search + verified citations；data/figure 集成；19+ skills；templates；PDF 输出", 
+              link: "https://github.com/K-Dense-AI/claude-scientific-writer" },
+            
+            { rank: 11, repo: "obsidian-community/obsidian-zotero-integration", stars: 1700, type: "Obsidian Plugin", value: "高", 
+              features: "Zotero 集成：citations / bibliographies / notes / PDF annotations 直接导入；Better BibTeX 支持", 
+              link: "https://github.com/obsidian-community/obsidian-zotero-integration" },
+            
+            { rank: 12, repo: "PaperDebugger/paperdebugger", stars: 1500, type: "Standalone AI Writer", value: "高", 
+              features: "plugin-based multi-agent in-editor 写作助手；review/editing/debugging；Overleaf 集成；publication-readiness 检查", 
+              link: "https://github.com/PaperDebugger/paperdebugger" },
+            
+            { rank: 13, repo: "hans/obsidian-citation-plugin", stars: 1300, type: "Obsidian Plugin", value: "高", 
+              features: "经典 citation 插件；BibTeX 集成；自动创建 literature notes（丰富模板）；Pandoc 风格 citations", 
+              link: "https://github.com/hans/obsidian-citation-plugin" },
+            
+            { rank: 14, repo: "bohyy/academic-ai-prompt", stars: 1200, type: "Prompt Pack", value: "中高", 
+              features: "完整中文 Prompt 库：选题（5维度）、文献查找（8方案）、综述、论证模板、投稿回复、基金申请", 
+              link: "https://github.com/bohyy/academic-ai-prompt" },
+            
+            { rank: 15, repo: "aipoch/medical-research-skills", stars: 1000, type: "Agent Skills", value: "中高", 
+              features: "数百 agent skills：protocol design、data analysis、evidence insights、academic writing", 
+              link: "https://github.com/aipoch/medical-research-skills" },
+            
+            { rank: 16, repo: "aidenlx/zotlit", stars: 950, type: "Obsidian Plugin", value: "高", 
+              features: "增强 Zotero-Obsidian 集成；refs、notes、streamlined 学术工作流", 
+              link: "https://github.com/aidenlx/zotlit" },
+            
+            { rank: 17, repo: "writing-resources/awesome-scientific-writing", stars: 950, type: "Awesome List", value: "中", 
+              features: "科学写作工具集合（LaTeX 之外：Markdown、Pandoc、Jupyter 等）", 
+              link: "https://github.com/writing-resources/awesome-scientific-writing" },
+            
+            { rank: 18, repo: "lishix520/academic-paper-skills", stars: 838, type: "Claude Code Skills", value: "极高", 
+              features: "strategist（venue style + gap + reviewer sim outline）+ composer（section writing + quality checkpoints）", 
+              link: "https://github.com/lishix520/academic-paper-skills" },
+            
+            { rank: 19, repo: "andrehuang/research-companion", stars: 673, type: "Claude Code Plugin", value: "高", 
+              features: "战略研究伴侣；决定写什么论文 + lit tracking + writing 支持（与 academic-writing-agents 搭配）", 
+              link: "https://github.com/andrehuang/research-companion" },
+            
+            { rank: 20, repo: "WantongC/journal-adapt-writing-skill", stars: 653, type: "Claude Skill", value: "高", 
+              features: "学习目标期刊 convention，section-by-section 修订；LaTeX 重点", 
+              link: "https://github.com/WantongC/journal-adapt-writing-skill" },
+            
+            { rank: 21, repo: "awesome-thesis/awesome-thesis", stars: 637, type: "Awesome List", value: "中", 
+              features: "CS Master thesis 实用 tips & tricks", 
+              link: "https://github.com/awesome-thesis/awesome-thesis" },
+            
+            { rank: 22, repo: "QJHWC/PaperForge", stars: 564, type: "End-to-end AI System", value: "高", 
+              features: "idea + lit + exp + write + LaTeX 完整系统；multi-LLM；browser UI；template migration；anti-AI style", 
+              link: "https://github.com/QJHWC/PaperForge" },
+            
+            { rank: 23, repo: "OpenRaiser/PaperFit", stars: 306, type: "LaTeX Agent", value: "高", 
+              features: "Vision-in-the-loop LaTeX typesetting；auto-compile、diagnose、fix layouts", 
+              link: "https://github.com/OpenRaiser/PaperFit" },
+            
+            { rank: 24, repo: "alfonso0512/research-writing-skill", stars: 230, type: "AI Writing Assistant", value: "高", 
+              features: "30+ Prompt 模板：lit 综述、outline、分节、CN/EN 翻译/润色/de-AI、rebuttal、grants、slides", 
+              link: "https://github.com/alfonso0512/research-writing-skill" },
+            
+            { rank: 25, repo: "Calix-L/awesome-latex-skills", stars: 171, type: "LaTeX Skills", value: "高", 
+              features: "让 AI agent 成为 LaTeX 专家：fix errors、polish、venue format (NeurIPS 等)、paper read、pdf2tex", 
+              link: "https://github.com/Calix-L/awesome-latex-skills" },
+            
+            { rank: 26, repo: "federicodeponte/opendraft", stars: 133, type: "Multi-agent Thesis Writer", value: "高", 
+              features: "19 specialized agents；20k+ word drafts；verified citations (500M+ papers)；PDF/Word/LaTeX export", 
+              link: "https://github.com/federicodeponte/opendraft" },
+            
+            { rank: 27, repo: "PDFMathTranslate/PDFMathTranslate", stars: 34600, type: "PDF Tool", value: "极高", 
+              features: "布局保留科学 PDF 翻译（公式/图表/TOC/annotations）；多引擎支持；Zotero & Obsidian 集成；MCP 支持", 
+              link: "https://github.com/PDFMathTranslate/PDFMathTranslate" },
+            
+            { rank: 28, repo: "argenos/zotero-mdnotes", stars: 1400, type: "Zotero Plugin", value: "高", 
+              features: "Zotero item metadata + notes 导出为 Markdown（Obsidian 友好）", 
+              link: "https://github.com/argenos/zotero-mdnotes" },
+            
+            { rank: 29, repo: "andrehuang/academic-writing-agents", stars: 93, type: "Claude Code Plugin", value: "高", 
+              features: "10 specialist agents multi-agent orchestrator；academic writing review/research/drafting/polishing", 
+              link: "https://github.com/andrehuang/academic-writing-agents" },
+            
+            { rank: 30, repo: "emptymalei/awesome-research", stars: 2700, type: "Awesome List", value: "中高", 
+              features: "广泛研究工具 awesome list（写作、LaTeX、note-taking、publishing）", 
+              link: "https://github.com/emptymalei/awesome-research" }
+        ];
+
+        let currentSort = { column: 'rank', direction: 'asc' };
+
+        function renderTable(filteredData) {
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = '';
+            
+            filteredData.forEach(item => {
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-slate-50 transition-colors';
+                
+                const valueClass = item.value === '极高' ? 'value-极高' : 
+                                   item.value === '高' ? 'value-高' : 
+                                   item.value === '中高' ? 'value-中高' : 'value-中';
+                
+                row.innerHTML = `
+                    <td class="px-4 py-3 font-mono text-xs text-slate-500 font-medium">${item.rank}</td>
+                    
+                    <td class="px-4 py-3">
+                        <a href="${item.link}" target="_blank" class="repo-link hover:underline flex items-center gap-x-1.5 group">
+                            <span class="font-semibold text-slate-800 group-hover:text-teal-700">${item.repo}</span>
+                            <i class="fa-solid fa-external-link-alt text-[10px] opacity-40 group-hover:opacity-70"></i>
+                        </a>
+                    </td>
+                    
+                    <td class="px-4 py-3 text-right">
+                        <span class="star-badge">
+                            <i class="fa-solid fa-star text-amber-500"></i> 
+                            <span class="metric font-bold">${(item.stars / 1000).toFixed(item.stars >= 10000 ? 1 : 0)}k</span>
+                        </span>
+                    </td>
+                    
+                    <td class="px-4 py-3">
+                        <span class="type-badge px-2 py-px">${item.type}</span>
+                    </td>
+                    
+                    <td class="px-4 py-3 feature-cell">
+                        <div class="text-xs leading-snug text-slate-600 long-text">${item.features}</div>
+                    </td>
+                    
+                    <td class="px-4 py-3">
+                        <span class="value-tag ${valueClass}">${item.value}</span>
+                    </td>
+                    
+                    <td class="px-4 py-3 text-center">
+                        <a href="${item.link}" target="_blank" 
+                           class="inline-flex items-center justify-center w-8 h-8 text-teal-700 hover:bg-teal-50 rounded-xl transition-colors">
+                            <i class="fa-solid fa-arrow-up-right-from-square text-sm"></i>
+                        </a>
+                    </td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+            
+            document.getElementById('result-count').textContent = filteredData.length;
+        }
+
+        function filterAndSort() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase().trim();
+            const typeFilter = document.getElementById('type-filter').value;
+            const valueFilter = document.getElementById('value-filter').value;
+            
+            let filtered = competitors.filter(item => {
+                const matchesSearch = !searchTerm || 
+                    item.repo.toLowerCase().includes(searchTerm) || 
+                    item.features.toLowerCase().includes(searchTerm) ||
+                    item.type.toLowerCase().includes(searchTerm);
+                
+                const matchesType = !typeFilter || item.type === typeFilter;
+                const matchesValue = !valueFilter || item.value === valueFilter;
+                
+                return matchesSearch && matchesType && matchesValue;
+            });
+            
+            // Apply sorting
+            filtered.sort((a, b) => {
+                let valA, valB;
+                
+                if (currentSort.column === 'rank') {
+                    valA = a.rank;
+                    valB = b.rank;
+                } else if (currentSort.column === 'repo') {
+                    valA = a.repo.toLowerCase();
+                    valB = b.repo.toLowerCase();
+                } else if (currentSort.column === 'stars') {
+                    valA = a.stars;
+                    valB = b.stars;
+                } else if (currentSort.column === 'type') {
+                    valA = a.type.toLowerCase();
+                    valB = b.type.toLowerCase();
+                } else if (currentSort.column === 'value') {
+                    const order = { '极高': 4, '高': 3, '中高': 2, '中': 1 };
+                    valA = order[a.value] || 0;
+                    valB = order[b.value] || 0;
+                }
+                
+                if (valA < valB) return currentSort.direction === 'asc' ? -1 : 1;
+                if (valA > valB) return currentSort.direction === 'asc' ? 1 : -1;
+                return 0;
+            });
+            
+            renderTable(filtered);
+        }
+
+        function setupSorting() {
+            const headers = document.querySelectorAll('#competitor-table th.sortable');
+            
+            headers.forEach(header => {
+                header.addEventListener('click', () => {
+                    const column = header.dataset.sort;
+                    
+                    if (currentSort.column === column) {
+                        currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+                    } else {
+                        currentSort.column = column;
+                        currentSort.direction = (column === 'rank' || column === 'stars') ? 'desc' : 'asc';
+                    }
+                    
+                    // Update visual indicator
+                    headers.forEach(h => h.classList.remove('text-teal-700'));
+                    header.classList.add('text-teal-700');
+                    
+                    filterAndSort();
+                });
+            });
+        }
+
+        function setupFilters() {
+            const searchInput = document.getElementById('search-input');
+            const typeFilter = document.getElementById('type-filter');
+            const valueFilter = document.getElementById('value-filter');
+            
+            searchInput.addEventListener('input', filterAndSort);
+            typeFilter.addEventListener('change', filterAndSort);
+            valueFilter.addEventListener('change', filterAndSort);
+            
+            // Keyboard shortcut hint
+            searchInput.addEventListener('focus', () => {
+                if (!searchInput.placeholder.includes('⌘K')) {
+                    searchInput.placeholder = '搜索仓库名称、类型或特性关键词... (按 / 聚焦)';
+                }
+            });
+        }
+
+        function resetFilters() {
+            document.getElementById('search-input').value = '';
+            document.getElementById('type-filter').value = '';
+            document.getElementById('value-filter').value = '';
+            currentSort = { column: 'rank', direction: 'asc' };
+            filterAndSort();
+        }
+
+        function setupKeyboardShortcuts() {
+            document.addEventListener('keydown', function(e) {
+                if (e.key === '/' && document.activeElement.tagName === 'BODY') {
+                    e.preventDefault();
+                    document.getElementById('search-input').focus();
+                }
+                
+                if (e.key === 'Escape' && document.activeElement.id === 'search-input') {
+                    document.getElementById('search-input').blur();
+                }
+            });
+            
+            // Initial sort indicator
+            const rankHeader = document.querySelector('th[data-sort="rank"]');
+            if (rankHeader) rankHeader.classList.add('text-teal-700');
+        }
+
+        function initializeTable() {
+            // Initial render sorted by rank asc
+            const sorted = [...competitors].sort((a, b) => a.rank - b.rank);
+            renderTable(sorted);
+            
+            setupSorting();
+            setupFilters();
+            setupKeyboardShortcuts();
+            
+            // Show initial count
+            document.getElementById('result-count').textContent = competitors.length;
+        }
+
+        // Boot
+        function init() {
+            initializeTailwind();
+            initializeTable();
+            
+            // Optional: auto-focus search after load on desktop
+            setTimeout(() => {
+                const search = document.getElementById('search-input');
+                if (window.innerWidth > 768 && document.activeElement.tagName === 'BODY') {
+                    // Do not auto-focus to avoid mobile keyboard issues
+                }
+            }, 800);
+            
+            console.log('%c[Paper Plugin Competitors] Top 30 HTML table initialized.', 'color:#14b8a6');
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
