@@ -98,6 +98,13 @@
     "outOfScope": []
   },
   {
+    "name": "latex submission and compile",
+    "input": "把论文导出成 IEEE LaTeX 投稿模板，并诊断 LaTeX 编译错误",
+    "primary": "paper-latex",
+    "supporting": [],
+    "outOfScope": []
+  },
+  {
     "name": "pure software bug",
     "input": "修一下后端登录 bug，MySQL 也启动不起来",
     "primary": "out-of-scope",

@@ -10,6 +10,7 @@ Use this matrix to select the minimal Paper Plugin skill set for a request.
 | topic / research question, systematic literature review synthesis, research gap, 选题, 研究空白, 综述梳理 | `paper-research` | `skills/paper-research/SKILL.md` |
 | draft, rewrite, opening report, literature review prose, de-AI, polish, quality gate, thesis folder intake, project context, source-of-truth selection, evidence ledger, claim ledger, continue previous thesis | `paper-manuscript-writing` | `skills/paper-manuscript-writing/SKILL.md` |
 | DOCX, Word, WPS, page numbers, TOC, three-line tables, formula layout, OOXML, rendered format, final Word delivery | `paper-docx-repair` | `skills/paper-docx-repair/SKILL.md` |
+| LaTeX export, .tex, IEEE/ACM/NeurIPS submission template, compile error, latex 编译, 投稿 | `paper-latex` | `skills/paper-latex/SKILL.md` |
 | references, citations, DOI, Crossref, CNKI, GB/T 7714, citation numbering, bibliography authenticity | `paper-literature` | `skills/paper-literature/SKILL.md` |
 | figures, screenshots, photos, CAD, DWG, DXF, simulation images, charts, AI image boundary | `paper-figure` | `skills/paper-figure/SKILL.md` |
 | data availability, FAIR, repository, accession, identifier, data statement | `paper-data` | `skills/paper-data/SKILL.md` |
