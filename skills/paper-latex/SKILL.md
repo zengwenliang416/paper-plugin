@@ -20,6 +20,10 @@ Reuse the existing **Pandoc** pipeline (Markdown → LaTeX); see `references/lat
 
 `scripts/latex-diagnose.ts` parses a build log (pdflatex/latexmk) and classifies common errors (undefined command/citation/reference, missing package/file, math-mode, runaway brace) with fixes — see `references/compile-diagnostics.md`. It **only parses the log**; building requires a local TeX install.
 
+## C. Render QA (vision-in-loop)
+
+Compile → rasterize → inspect every page. `scripts/render-latex.ts` turns a `.tex` (or ready `.pdf`) into `page-<N>.png` for visual review — the LaTeX parallel to `paper-docx-repair`'s DOCX render QA. A build that compiles is not the same as one that *looks* right. Needs a local TeX + poppler/ImageMagick. See `references/render-qa.md`.
+
 ## Boundary
 
 - Two tracks coexist: **DOCX = Chinese thesis** (manuscript / docx-repair), **LaTeX = English submission** (this skill). LaTeX never replaces DOCX.
@@ -31,3 +35,4 @@ Reuse the existing **Pandoc** pipeline (Markdown → LaTeX); see `references/lat
 - `references/latex-export.md`
 - `references/venue-templates.md`
 - `references/compile-diagnostics.md`
+- `references/render-qa.md`
