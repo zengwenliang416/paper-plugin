@@ -8,11 +8,7 @@
   "plugins": [
     {
       "name": "paper-plugin",
-      "source": {
-        "source": "github",
-        "repo": "zengwenliang416/paper-plugin",
-        "ref": "main"
-      },
+      "source": "./",
       "description": "Academic paper routing, reading, manuscript writing, citation verification, multi-model review panel, LaTeX, and strict DOCX render-QA workflows.",
       "version": "0.2.0",
       "category": "productivity"
