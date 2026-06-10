@@ -34,28 +34,33 @@ Additional release-audit commands are tracked in [docs/migration-notes.md](docs/
 
 ## Install From GitHub
 
-This repository also exposes a single-plugin marketplace manifest so Codex can add it directly from GitHub.
+The repository ships marketplace manifests for **both Codex and Claude Code** — the same `skills/` power both runtimes.
 
-Example commands:
+### Codex
 
 ```bash
 codex plugin marketplace add zengwenliang416/paper-plugin
-```
-
-or
-
-```bash
-codex plugin marketplace add https://github.com/zengwenliang416/paper-plugin.git
+# or: codex plugin marketplace add https://github.com/zengwenliang416/paper-plugin.git
 ```
 
 After Codex adds the marketplace, open the plugin directory, choose `Paper Plugin Marketplace`, and install `paper-plugin`.
 
+### Claude Code
+
+```bash
+/plugin marketplace add zengwenliang416/paper-plugin
+/plugin install paper-plugin@paper-plugin-marketplace
+```
+
+Skills auto-load after install (no manifest wiring needed). Validate the plugin locally with `claude plugin validate .`.
+
 ## Repository Layout
 
 - `.agents/plugins/marketplace.json` - Codex marketplace manifest for Git-backed installation
-- `.claude-plugin/marketplace.json` - legacy-compatible marketplace manifest
-- `.codex-plugin/plugin.json` - plugin manifest
-- `skills/` - public Codex skill packages
+- `.codex-plugin/plugin.json` - Codex plugin manifest
+- `.claude-plugin/marketplace.json` - Claude Code marketplace manifest
+- `.claude-plugin/plugin.json` - Claude Code plugin manifest
+- `skills/` - skill packages (shared by Codex and Claude Code)
 - `docs/` - design, plans, migration notes
 - `scripts/` - plugin validation and maintenance tooling
 - `assets/` - plugin-level visual assets
