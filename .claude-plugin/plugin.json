@@ -1,0 +1,21 @@
+{
+  "name": "paper-plugin",
+  "version": "0.2.0",
+  "description": "Academic paper plugin: task routing, paper reading, manuscript writing, citation verification, multi-model review panel, figures, data statements, LaTeX, and strict DOCX render-QA workflows.",
+  "author": {
+    "name": "Zengwenliang0416",
+    "url": "https://github.com/zengwenliang416"
+  },
+  "homepage": "https://github.com/zengwenliang416/paper-plugin",
+  "license": "MIT",
+  "keywords": [
+    "paper",
+    "research",
+    "academic-writing",
+    "citation",
+    "review",
+    "docx",
+    "latex",
+    "skills"
+  ]
+}
